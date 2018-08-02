@@ -1,0 +1,12 @@
+{
+  "name": "dex-zksnarks",
+  "version": "1.0.0",
+  "description": "A library to generate zk snark proofs for decentralized exchanges",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Felix Leupold",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
