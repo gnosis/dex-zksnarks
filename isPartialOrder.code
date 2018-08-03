@@ -1,0 +1,3 @@
+def main(utxoAmount, volume):
+  partial = if volume * (volume - utxoAmount) == 0 then 0 else 1 fi
+  return partial

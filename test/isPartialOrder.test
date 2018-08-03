@@ -1,0 +1,7 @@
+import "./../isPartialOrder.code"
+
+def main():
+  0 == isPartialOrder(1, 1)
+  0 == isPartialOrder(1, 0)
+  1 == isPartialOrder(2, 1)
+  return 0

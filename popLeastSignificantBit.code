@@ -1,0 +1,6 @@
+def main(number):
+  bitModuloN = number / 2
+  // If number was even, bitModuloN < number
+  bit = if number < bitModuloN then 1 else 0 fi
+  remainder = if bit == 0 then number / 2 else (number - 1) / 2 fi
+  return bit, remainder

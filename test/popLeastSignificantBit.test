@@ -1,0 +1,31 @@
+import "./../popLeastSignificantBit.code"
+
+def main():
+  bit, remainder = popLeastSignificantBit(21)
+  bit == 1
+  remainder == 10
+  bit, remainder = popLeastSignificantBit(remainder)
+  bit == 0
+  remainder == 5
+  bit, remainder = popLeastSignificantBit(remainder)
+  bit == 1
+  remainder == 2
+  bit, remainder = popLeastSignificantBit(remainder)
+  bit == 0
+  remainder == 1
+  bit, remainder = popLeastSignificantBit(remainder)
+  bit == 1
+  remainder == 0
+  bit, remainder = popLeastSignificantBit(remainder)
+  bit == 0
+  remainder == 0
+
+  // 253 * '1'
+  number = 14474011154664524427946373126085988481658748083205070504932198000989141204991
+  for i in 0..253 do
+    b, number = popLeastSignificantBit(number)
+    1 == b
+  endfor
+  b, number = popLeastSignificantBit(number)
+  b == 0
+  return 1
