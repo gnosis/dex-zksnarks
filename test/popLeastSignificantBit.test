@@ -1,6 +1,7 @@
 import "./../popLeastSignificantBit.code"
 
 def main():
+  //bitwise popping of 10101
   bit, remainder = popLeastSignificantBit(21)
   bit == 1
   remainder == 10

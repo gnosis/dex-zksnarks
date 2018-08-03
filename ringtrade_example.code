@@ -80,6 +80,12 @@ def checkConstraints(utxoAmount1, utxoToken1, targetToken1, limitPrice1, utxoAmo
   return 1 // Could return total volume to maximize for
 
 def main(order1, order2, order3, bitmapOrder1, bitmapOrder2, bitmapOrder3, volume1, volume2, volume3, price1, price2):
+  // Remove orders that are not double signed
+  order1 = if bitmapOrder1 == 1 then order1 else 0 fi
+  order2 = if bitmapOrder2 == 1 then order2 else 0 fi
+  order3 = if bitmapOrder3 == 1 then order3 else 0 fi
+
+  // Decode orders
   amount1, sourceToken1, targetToken1, limit1 = decodeOrder(order1)
   amount2, sourceToken2, targetToken2, limit2 = decodeOrder(order2)
   amount3, sourceToken3, targetToken3, limit3 = decodeOrder(order3)
