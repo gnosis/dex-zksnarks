@@ -3,8 +3,11 @@ import "./decodeOrder.code"
 import "./emptyOrder.code"
 
 
-def zeroTupleForTokens():
-  return 0, 0, 0
+def tupleForTokensWithValue(value):
+  return value, value, value
+
+def tupleForTokenPairsWithValue(value):
+  return value, value, value, value, value, value
 
 def priceFromTo(sourceToken, targetToken, priceToken1, priceToken2):
   refTokenPriceToUtxo = if sourceToken == 0 then 1000000000000000000 else 0 fi
@@ -38,21 +41,49 @@ def addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sou
   txBuyVolumeToken3 = buyVolumeToken3 + if targetToken == 2 then buyVolume else 0 fi
   return txBuyVolumeToken1, txBuyVolumeToken2, txBuyVolumeToken3
 
-def checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, utxoAmount, sourceToken, limit, volume):
-  // if this is a partial order we need to have either no lowestPartialOrder for this token yet, or one at the same price
-  updatedPartialLimitPriceToken1 = if sourceToken == 0 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken1 fi else lowestPartialLimitPriceToken1 fi
-  updatedPartialLimitPriceToken2 = if sourceToken == 1 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken2 fi else lowestPartialLimitPriceToken2 fi
-  updatedPartialLimitPriceToken3 = if sourceToken == 2 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken3 fi else lowestPartialLimitPriceToken3 fi
+def updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken, limit, volume):
 
-  // If updatedPartialLimitPriceTokenPrice != lowestPartialLimitPriceTokenPrice, lowestPartialLimitPriceTokenPrice must have been 0 before
-  invalid = if lowestPartialLimitPriceToken1 - updatedPartialLimitPriceToken1 == 0 then 0 else lowestPartialLimitPriceToken1 fi
-  invalid == 0
-  invalid = if lowestPartialLimitPriceToken2 - updatedPartialLimitPriceToken2 == 0 then 0 else lowestPartialLimitPriceToken2 fi
-  invalid == 0
-  invalid = if lowestPartialLimitPriceToken3 - updatedPartialLimitPriceToken3 == 0 then 0 else lowestPartialLimitPriceToken3 fi
-  invalid == 0
+  highestTouchedOrder = 0
+  highestTouchedOrder = if sourceToken == 0 then if targetToken == 1 then highestTouchedOrderToken0Token1 else highestTouchedOrder fi else highestTouchedOrder fi
+  highestTouchedOrder = if sourceToken == 0 then if targetToken == 2 then highestTouchedOrderToken0Token2 else highestTouchedOrder fi else highestTouchedOrder fi
+  highestTouchedOrder = if sourceToken == 1 then if targetToken == 0 then highestTouchedOrderToken1Token0 else highestTouchedOrder fi else highestTouchedOrder fi
+  highestTouchedOrder = if sourceToken == 1 then if targetToken == 2 then highestTouchedOrderToken1Token2 else highestTouchedOrder fi else highestTouchedOrder fi
+  highestTouchedOrder = if sourceToken == 2 then if targetToken == 0 then highestTouchedOrderToken2Token0 else highestTouchedOrder fi else highestTouchedOrder fi
+  highestTouchedOrder = if sourceToken == 2 then if targetToken == 1 then highestTouchedOrderToken2Token1 else highestTouchedOrder fi else highestTouchedOrder fi
 
-  return updatedPartialLimitPriceToken1, updatedPartialLimitPriceToken2, updatedPartialLimitPriceToken3
+  shouldUpdate = if 0 < volume then 1 else 0 fi
+  shouldUpdate = if highestTouchedOrder < limit then shouldUpdate else 0 fi
+
+  highestTouchedOrderToken0Token1 = if shouldUpdate == 1 then if sourceToken == 0 then if targetToken == 1 then limit else highestTouchedOrderToken0Token1 fi else highestTouchedOrderToken0Token1 fi else highestTouchedOrderToken0Token1 fi
+  highestTouchedOrderToken0Token2 = if shouldUpdate == 1 then if sourceToken == 0 then if targetToken == 2 then limit else highestTouchedOrderToken0Token2 fi else highestTouchedOrderToken0Token2 fi else highestTouchedOrderToken0Token2 fi
+  highestTouchedOrderToken1Token0 = if shouldUpdate == 1 then if sourceToken == 1 then if targetToken == 0 then limit else highestTouchedOrderToken1Token0 fi else highestTouchedOrderToken1Token0 fi else highestTouchedOrderToken1Token0 fi
+  highestTouchedOrderToken1Token2 = if shouldUpdate == 1 then if sourceToken == 1 then if targetToken == 2 then limit else highestTouchedOrderToken1Token2 fi else highestTouchedOrderToken1Token2 fi else highestTouchedOrderToken1Token2 fi
+  highestTouchedOrderToken2Token0 = if shouldUpdate == 1 then if sourceToken == 2 then if targetToken == 0 then limit else highestTouchedOrderToken2Token0 fi else highestTouchedOrderToken2Token0 fi else highestTouchedOrderToken2Token0 fi
+  highestTouchedOrderToken2Token1 = if shouldUpdate == 1 then if sourceToken == 2 then if targetToken == 1 then limit else highestTouchedOrderToken2Token1 fi else highestTouchedOrderToken2Token1 fi else highestTouchedOrderToken2Token1 fi
+
+  return highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1
+
+def updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1, sourceAmount, sourceToken, targetToken, limit, volume):
+
+  lowestIncompleteOrder = 0
+  lowestIncompleteOrder = if sourceToken == 0 then if targetToken == 1 then lowestIncompleteOrderToken0Token1 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
+  lowestIncompleteOrder = if sourceToken == 0 then if targetToken == 2 then lowestIncompleteOrderToken0Token2 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
+  lowestIncompleteOrder = if sourceToken == 1 then if targetToken == 0 then lowestIncompleteOrderToken1Token0 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
+  lowestIncompleteOrder = if sourceToken == 1 then if targetToken == 2 then lowestIncompleteOrderToken1Token2 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
+  lowestIncompleteOrder = if sourceToken == 2 then if targetToken == 0 then lowestIncompleteOrderToken2Token0 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
+  lowestIncompleteOrder = if sourceToken == 2 then if targetToken == 1 then lowestIncompleteOrderToken2Token1 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
+
+  shouldUpdate = if 0 == (sourceAmount - volume) then 0 else 1 fi
+  shouldUpdate = if lowestIncompleteOrder == 0-1 then shouldUpdate else if limit < lowestIncompleteOrder then shouldUpdate else 0 fi fi
+
+  lowestIncompleteOrderToken0Token1 = if shouldUpdate == 1 then if sourceToken == 0 then if targetToken == 1 then limit else lowestIncompleteOrderToken0Token1 fi else lowestIncompleteOrderToken0Token1 fi else lowestIncompleteOrderToken0Token1 fi
+  lowestIncompleteOrderToken0Token2 = if shouldUpdate == 1 then if sourceToken == 0 then if targetToken == 2 then limit else lowestIncompleteOrderToken0Token2 fi else lowestIncompleteOrderToken0Token2 fi else lowestIncompleteOrderToken0Token2 fi
+  lowestIncompleteOrderToken1Token0 = if shouldUpdate == 1 then if sourceToken == 1 then if targetToken == 0 then limit else lowestIncompleteOrderToken1Token0 fi else lowestIncompleteOrderToken1Token0 fi else lowestIncompleteOrderToken1Token0 fi
+  lowestIncompleteOrderToken1Token2 = if shouldUpdate == 1 then if sourceToken == 1 then if targetToken == 2 then limit else lowestIncompleteOrderToken1Token2 fi else lowestIncompleteOrderToken1Token2 fi else lowestIncompleteOrderToken1Token2 fi
+  lowestIncompleteOrderToken2Token0 = if shouldUpdate == 1 then if sourceToken == 2 then if targetToken == 0 then limit else lowestIncompleteOrderToken2Token0 fi else lowestIncompleteOrderToken2Token0 fi else lowestIncompleteOrderToken2Token0 fi
+  lowestIncompleteOrderToken2Token1 = if shouldUpdate == 1 then if sourceToken == 2 then if targetToken == 1 then limit else lowestIncompleteOrderToken2Token1 fi else lowestIncompleteOrderToken2Token1 fi else lowestIncompleteOrderToken2Token1 fi
+
+  return lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1
 
 def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourceToken2, targetToken2, limit2, amount3, sourceToken3, targetToken3, limit3, volume1, volume2, volume3, priceToken1, priceToken2):
   // orders are only touched, if the limit price is below the calculated price:
@@ -64,8 +95,8 @@ def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourc
   valid == 1
 
   // the amount of sell volume for a token equals its buy volume:
-  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = zeroTupleForTokens()
-  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = zeroTupleForTokens()
+  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = tupleForTokensWithValue(0)
+  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = tupleForTokensWithValue(0)
 
   buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken1, volume1, targetToken1, priceToken1, priceToken2)
   sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken1, volume1)
@@ -81,10 +112,47 @@ def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourc
   buyVolumeToken3 == sellVolumeToken3
 
   // If an order σ ∈ Oi→j with a limit price p has a positive trading volume, then every order in Oi→j with a lower limit price should be completely fulfilled.
-  lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3 = zeroTupleForTokens()
-  lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3 = checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, amount1, sourceToken1, limit1, volume1)
-  lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3 = checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, amount2, sourceToken2, limit2, volume2)
-  lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3 = checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, amount3, sourceToken3, limit3, volume3)
+  // In other words the limitPrice of the highestTouchedOrder should be smaller or equal to the limitPrice of the lowestIncompleteOrder.
+  highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1 = tupleForTokenPairsWithValue(0)
+  highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1 = updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken1, targetToken1, limit1, volume1)
+  highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1 = updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken2, targetToken2, limit2, volume2)
+  highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1 = updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken3, targetToken3, limit3, volume3)
+
+  lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1 = tupleForTokenPairsWithValue(0-1)
+  lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1 = updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1, amount1, sourceToken1, targetToken1, limit1, volume1)
+  lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1 = updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1, amount2, sourceToken2, targetToken2, limit2, volume2)
+  lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1 = updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1, amount3, sourceToken3, targetToken3, limit3, volume3)
+
+  //If there was a touched and incomplete order for the token pair, the price of the incomplete order cannot have a lower price than the touched order
+  valid01 = if lowestIncompleteOrderToken0Token1 + 1 == 0 then 1 else 0 fi
+  valid01 = if highestTouchedOrderToken0Token1 == 0 then 1 else valid01 fi
+  valid01 = if lowestIncompleteOrderToken0Token1 < highestTouchedOrderToken0Token1 then valid01 else 1 fi
+  valid01 == 1
+
+  valid02 = if lowestIncompleteOrderToken0Token2 + 1 == 0 then 1 else 0 fi
+  valid02 = if highestTouchedOrderToken0Token2 == 0 then 1 else valid02 fi
+  valid02 = if lowestIncompleteOrderToken0Token2 < highestTouchedOrderToken0Token2 then valid02 else 1 fi
+  valid02 == 1
+
+  valid10 = if lowestIncompleteOrderToken1Token0 + 1 == 0 then 1 else 0 fi
+  valid10 = if highestTouchedOrderToken1Token0 == 0 then 1 else valid10 fi
+  valid10 = if lowestIncompleteOrderToken1Token0 < highestTouchedOrderToken1Token0 then valid10 else 1 fi
+  valid10 == 1
+
+  valid12 = if lowestIncompleteOrderToken1Token2 + 1 == 0 then 1 else 0 fi
+  valid12 = if highestTouchedOrderToken1Token2 == 0 then 1 else valid12 fi
+  valid12 = if lowestIncompleteOrderToken1Token2 < highestTouchedOrderToken1Token2 then valid12 else 1 fi
+  valid12 == 1
+
+  valid20 = if lowestIncompleteOrderToken2Token0 + 1 == 0 then 1 else 0 fi
+  valid20 = if highestTouchedOrderToken2Token0 == 0 then 1 else valid20 fi
+  valid20 = if lowestIncompleteOrderToken2Token0 < highestTouchedOrderToken2Token0 then valid20 else 1 fi
+  valid20 == 1
+
+  valid21 = if lowestIncompleteOrderToken2Token1 + 1 == 0 then 1 else 0 fi
+  valid21 = if highestTouchedOrderToken2Token1 == 0 then 1 else valid21 fi
+  valid21 = if lowestIncompleteOrderToken2Token1 < highestTouchedOrderToken2Token1 then valid21 else 1 fi
+  valid21 == 1
 
   return 1 // Could return total volume to maximize for
 
