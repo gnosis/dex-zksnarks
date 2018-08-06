@@ -86,6 +86,14 @@ def updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompl
   return lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1
 
 def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourceToken2, targetToken2, limit2, amount3, sourceToken3, targetToken3, limit3, volume1, volume2, volume3, priceToken1, priceToken2):
+  // volumes are not larger than in original offer
+  valid = if amount1 < volume1 then 0 else 1 fi
+  valid == 1
+  valid = if amount2 < volume2 then 0 else 1 fi
+  valid == 1
+  valid = if amount3 < volume3 then 0 else 1 fi
+  valid == 1
+
   // orders are only touched, if the limit price is below the calculated price:
   valid = if volume1 == 0 then 1 else limitLessThanPrice(sourceToken1, targetToken1, limit1, priceToken1, priceToken2) fi
   valid == 1
