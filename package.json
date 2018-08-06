@@ -8,5 +8,10 @@
   "author": "Felix Leupold",
   "devDependencies": {
     "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "command-line-args": "^5.0.2",
+    "ejs": "^2.6.1",
+    "fs": "0.0.1-security"
   }
 }

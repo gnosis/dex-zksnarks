@@ -2,45 +2,49 @@ import "./isPartialOrder.code"
 import "./decodeOrder.code"
 import "./emptyOrder.code"
 
-def priceFromTo(sourceToken, targetToken, price1, price2):
+
+def zeroTupleForTokens():
+  return 0, 0, 0
+
+def priceFromTo(sourceToken, targetToken, priceToken1, priceToken2):
   refTokenPriceToUtxo = if sourceToken == 0 then 1000000000000000000 else 0 fi
-  refTokenPriceToUtxo = refTokenPriceToUtxo + if sourceToken == 1 then price1 else 0 fi
-  refTokenPriceToUtxo = refTokenPriceToUtxo + if sourceToken == 2 then price2 else 0 fi
+  refTokenPriceToUtxo = refTokenPriceToUtxo + if sourceToken == 1 then priceToken1 else 0 fi
+  refTokenPriceToUtxo = refTokenPriceToUtxo + if sourceToken == 2 then priceToken2 else 0 fi
 
   refTokenPriceToTarget = if targetToken == 0 then 1000000000000000000 else 0 fi
-  refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == 1 then price1 else 0 fi
-  refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == 2 then price2 else 0 fi
+  refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == 1 then priceToken1 else 0 fi
+  refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == 2 then priceToken2 else 0 fi
   return 1000000000000000000 * (refTokenPriceToTarget/refTokenPriceToUtxo)
 
-def limitLessThanPrice(utxoToken, targetToken, limit, price1, price2):
-  // Assuming limit is in utxoToken->targetToken and price_i in refToken->token_i
+def limitLessThanPrice(sourceToken, targetToken, limit, priceToken1, priceToken2):
+  // Assuming limit is in sourceToken->targetToken and price_i in refToken->token_i
   // Because of arbitrage freeness the following statement should hold:
-  // utxoToken->targetToken = utxoToken->refToken * refToken->targetToken = refToken->targetToken / refToken->utxoToken
+  // sourceToken->targetToken = sourceToken->refToken * refToken->targetToken = refToken->targetToken / refToken->sourceToken
   // Therefore we have to check that:
-  // limit <= refToken->targetToken / refToken->utxoToken <==> refToken->targetToken / refToken->utxoToken > limit
-  limitIsLessOrEqual = if priceFromTo(utxoToken, targetToken, price1, price2) < limit then 0 else 1 fi
+  // limit <= refToken->targetToken / refToken->sourceToken <==> refToken->targetToken / refToken->sourceToken > limit
+  limitIsLessOrEqual = if priceFromTo(sourceToken, targetToken, priceToken1, priceToken2) < limit then 0 else 1 fi
   return limitIsLessOrEqual
 
-def addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, utxoToken, utxoAmount, volume):
-  updatedVolumeToken1 = if utxoToken == 0 then sellVolumeToken1 + volume else sellVolumeToken1 fi
-  updatedVolumeToken2 = if utxoToken == 1 then sellVolumeToken2 + volume else sellVolumeToken2 fi
-  updatedVolumeToken3 = if utxoToken == 2 then sellVolumeToken3 + volume else sellVolumeToken3 fi
+def addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken, volume):
+  updatedVolumeToken1 = sellVolumeToken1 + if sourceToken == 0 then volume else 0 fi
+  updatedVolumeToken2 = sellVolumeToken2 + if sourceToken == 1 then volume else 0 fi
+  updatedVolumeToken3 = sellVolumeToken3 + if sourceToken == 2 then volume else 0 fi
   return updatedVolumeToken1, updatedVolumeToken2, updatedVolumeToken3
 
-def addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, utxoToken, utxoAmount, volume, targetToken, price1, price2):
-  buyVolume = volume * priceFromTo(utxoToken, targetToken, price1, price2) / 1000000000000000000
-  txBuyVolumeToken1 = if targetToken == 0 then buyVolume else 0 fi
-  txBuyVolumeToken2 = if targetToken == 1 then buyVolume else 0 fi
-  txBuyVolumeToken3 = if targetToken == 2 then buyVolume else 0 fi
-  return buyVolumeToken1 + txBuyVolumeToken1, buyVolumeToken2 + txBuyVolumeToken2, buyVolumeToken3 + txBuyVolumeToken3  
+def addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken, volume, targetToken, priceToken1, priceToken2):
+  buyVolume = volume * priceFromTo(sourceToken, targetToken, priceToken1, priceToken2) / 1000000000000000000 
+  txBuyVolumeToken1 = buyVolumeToken1 + if targetToken == 0 then buyVolume else 0 fi
+  txBuyVolumeToken2 = buyVolumeToken2 + if targetToken == 1 then buyVolume else 0 fi
+  txBuyVolumeToken3 = buyVolumeToken3 + if targetToken == 2 then buyVolume else 0 fi
+  return txBuyVolumeToken1, txBuyVolumeToken2, txBuyVolumeToken3
 
-def checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, utxoAmount, utxoToken, limit, volume):
+def checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, utxoAmount, sourceToken, limit, volume):
   // if this is a partial order we need to have either no lowestPartialOrder for this token yet, or one at the same price
-  updatedPartialLimitPriceToken1 = if utxoToken == 0 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken1 fi else lowestPartialLimitPriceToken1 fi
-  updatedPartialLimitPriceToken2 = if utxoToken == 1 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken2 fi else lowestPartialLimitPriceToken2 fi
-  updatedPartialLimitPriceToken3 = if utxoToken == 2 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken3 fi else lowestPartialLimitPriceToken3 fi
+  updatedPartialLimitPriceToken1 = if sourceToken == 0 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken1 fi else lowestPartialLimitPriceToken1 fi
+  updatedPartialLimitPriceToken2 = if sourceToken == 1 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken2 fi else lowestPartialLimitPriceToken2 fi
+  updatedPartialLimitPriceToken3 = if sourceToken == 2 then if isPartialOrder(utxoAmount, volume) == 1 then limit else lowestPartialLimitPriceToken3 fi else lowestPartialLimitPriceToken3 fi
 
-  // If updatedPartialLimitPrice != lowestPartialLimitPrice, lowestPartialLimitPrice must have been 0 before
+  // If updatedPartialLimitPriceTokenPrice != lowestPartialLimitPriceTokenPrice, lowestPartialLimitPriceTokenPrice must have been 0 before
   invalid = if lowestPartialLimitPriceToken1 - updatedPartialLimitPriceToken1 == 0 then 0 else lowestPartialLimitPriceToken1 fi
   invalid == 0
   invalid = if lowestPartialLimitPriceToken2 - updatedPartialLimitPriceToken2 == 0 then 0 else lowestPartialLimitPriceToken2 fi
@@ -50,44 +54,49 @@ def checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitP
 
   return updatedPartialLimitPriceToken1, updatedPartialLimitPriceToken2, updatedPartialLimitPriceToken3
 
-def checkConstraints(utxoAmount1, utxoToken1, targetToken1, limitPrice1, utxoAmount2, utxoToken2, targetToken2, limitPrice2, utxoAmount3, utxoToken3, targetToken3, limitPrice3, volume1, volume2, volume3, price1, price2):
+def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourceToken2, targetToken2, limit2, amount3, sourceToken3, targetToken3, limit3, volume1, volume2, volume3, priceToken1, priceToken2):
   // orders are only touched, if the limit price is below the calculated price:
-  valid = if volume1 == 0 then 1 else limitLessThanPrice(utxoToken1, targetToken1, limitPrice1, price1, price2) fi
+  valid = if volume1 == 0 then 1 else limitLessThanPrice(sourceToken1, targetToken1, limit1, priceToken1, priceToken2) fi
   valid == 1
-  valid = if volume2 == 0 then 1 else limitLessThanPrice(utxoToken2, targetToken2, limitPrice2, price1, price2) fi
+  valid = if volume2 == 0 then 1 else limitLessThanPrice(sourceToken2, targetToken2, limit2, priceToken1, priceToken2) fi
   valid == 1
-  valid = if volume2 == 0 then 1 else limitLessThanPrice(utxoToken3, targetToken3, limitPrice3, price1, price2) fi
+  valid = if volume3 == 0 then 1 else limitLessThanPrice(sourceToken3, targetToken3, limit3, priceToken1, priceToken2) fi
   valid == 1
 
   // the amount of sell volume for a token equals its buy volume:
-  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(0, 0, 0, utxoToken1, utxoAmount1, volume1)
-  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, utxoToken2, utxoAmount2, volume2)
-  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, utxoToken3, utxoAmount3, volume3)
+  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = zeroTupleForTokens()
+  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = zeroTupleForTokens()
 
-  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(0, 0, 0, utxoToken1, utxoAmount1, volume1, targetToken1, price1, price2)
-  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, utxoToken2, utxoAmount2, volume2, targetToken2, price1, price2)
-  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 , utxoToken3, utxoAmount3, volume3, targetToken3, price1, price2)
+  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken1, volume1, targetToken1, priceToken1, priceToken2)
+  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken1, volume1)
+
+  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken2, volume2, targetToken2, priceToken1, priceToken2)
+  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken2, volume2)
+
+  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken3, volume3, targetToken3, priceToken1, priceToken2)
+  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken3, volume3)
 
   buyVolumeToken1 == sellVolumeToken1
   buyVolumeToken2 == sellVolumeToken2
   buyVolumeToken3 == sellVolumeToken3
 
   // If an order σ ∈ Oi→j with a limit price p has a positive trading volume, then every order in Oi→j with a lower limit price should be completely fulfilled.
-  lowestPartialLimitPrice1, lowestPartialLimitPrice2, lowestPartialLimitPrice3 = checkPartialLimitForOrder(0, 0, 0, utxoAmount1,utxoToken1, limitPrice1, volume1)
-  lowestPartialLimitPrice1, lowestPartialLimitPrice2, lowestPartialLimitPrice3 = checkPartialLimitForOrder(lowestPartialLimitPrice1, lowestPartialLimitPrice2, lowestPartialLimitPrice3, utxoAmount1, utxoToken2, limitPrice2, volume2)
-  lowestPartialLimitPrice1, lowestPartialLimitPrice2, lowestPartialLimitPrice3 = checkPartialLimitForOrder(lowestPartialLimitPrice1, lowestPartialLimitPrice2, lowestPartialLimitPrice3, utxoAmount1, utxoToken3, limitPrice3, volume3)
+  lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3 = zeroTupleForTokens()
+  lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3 = checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, amount1, sourceToken1, limit1, volume1)
+  lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3 = checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, amount2, sourceToken2, limit2, volume2)
+  lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3 = checkPartialLimitForOrder(lowestPartialLimitPriceToken1, lowestPartialLimitPriceToken2, lowestPartialLimitPriceToken3, amount3, sourceToken3, limit3, volume3)
 
   return 1 // Could return total volume to maximize for
 
-def main(order1, order2, order3, bitmapOrder1, bitmapOrder2, bitmapOrder3, volume1, volume2, volume3, price1, price2):
+def main(encodedOrder1, encodedOrder2, encodedOrder3, bitmapOrder1, bitmapOrder2, bitmapOrder3, volume1, volume2, volume3, priceToken1, priceToken2):
   // Remove orders that are not double signed
-  order1 = if bitmapOrder1 == 1 then order1 else 0 fi
-  order2 = if bitmapOrder2 == 1 then order2 else 0 fi
-  order3 = if bitmapOrder3 == 1 then order3 else 0 fi
+  encodedOrder1 = if bitmapOrder1 == 1 then encodedOrder1 else 0 fi
+  encodedOrder2 = if bitmapOrder2 == 1 then encodedOrder2 else 0 fi
+  encodedOrder3 = if bitmapOrder3 == 1 then encodedOrder3 else 0 fi
 
   // Decode orders
-  amount1, sourceToken1, targetToken1, limit1 = decodeOrder(order1)
-  amount2, sourceToken2, targetToken2, limit2 = decodeOrder(order2)
-  amount3, sourceToken3, targetToken3, limit3 = decodeOrder(order3)
+  amount1, sourceToken1, targetToken1, limit1 = decodeOrder(encodedOrder1)
+  amount2, sourceToken2, targetToken2, limit2 = decodeOrder(encodedOrder2)
+  amount3, sourceToken3, targetToken3, limit3 = decodeOrder(encodedOrder3)
 
-  return checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourceToken2, targetToken2, limit2, amount3, sourceToken3, targetToken3, limit3, volume1, volume2, volume3, price1, price2)
+  return checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourceToken2, targetToken2, limit2, amount3, sourceToken3, targetToken3, limit3, volume1, volume2, volume3, priceToken1, priceToken2)
