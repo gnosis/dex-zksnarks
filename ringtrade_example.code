@@ -9,7 +9,7 @@ def tupleForTokensWithValue(value):
 def tupleForTokenPairsWithValue(value):
   return value, value, value, value, value, value
 
-def findValueInTokenPairs(pairToken0Token1, pairToken0Token2, pairToken1Token0, pairToken1Token2, pairToken2Token0, pairToken2Token1, sourceToken, targetToken):
+def findPairInTokenPairList(pairToken0Token1, pairToken0Token2, pairToken1Token0, pairToken1Token2, pairToken2Token0, pairToken2Token1, sourceToken, targetToken):
   pair = 0
   pair = if sourceToken == 0 then if targetToken == 1 then pairToken0Token1 else pair fi else pair fi
   pair = if sourceToken == 0 then if targetToken == 2 then pairToken0Token2 else pair fi else pair fi
@@ -54,7 +54,7 @@ def addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sou
 
 def updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken, limit, volume):
 
-  highestTouchedOrder = findValueInTokenPairs(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken)
+  highestTouchedOrder = findPairInTokenPairList(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken)
 
   shouldUpdate = if 0 < volume then 1 else 0 fi
   shouldUpdate = if highestTouchedOrder < limit then shouldUpdate else 0 fi
@@ -70,7 +70,7 @@ def updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrd
 
 def verifyCompletelyFulfilledIfLimitLowerHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceAmount, sourceToken, targetToken, limit, volume):
 
-  highestTouchedOrder = findValueInTokenPairs(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken)
+  highestTouchedOrder = findPairInTokenPairList(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken)
 
   valid = if limit < highestTouchedOrder then 1 - (sourceAmount - volume) else 1 fi
   return valid

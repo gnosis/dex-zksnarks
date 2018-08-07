@@ -6,8 +6,20 @@ import "./emptyOrder.code"
 <% const prices = generateVariableNames('priceToken', tokens-1) -%>
 <% const decodedOrderTuples = generateDecodedOrderTuples(orders) -%>
 
-def zeroTupleForTokens():
-  return <%= generateVariableNames('', tokens).map(function(i) {return '0'}).join(', ') %>
+def tupleForTokensWithValue(value):
+  return <%= generateVariableNames('', tokens).map(function(i) {return 'value'}).join(', ') %>
+
+def tupleForTokenPairsWithValue(value):
+  return <%= generateTokenPairs('', tokens).map(function(i) {return 'value'}).join(', ') %>
+
+<% const pairs = generateTokenPairs('pair', tokens) -%>
+def findPairInTokenPairList(<%= pairs.map(function(pair) {return pair.name}).join(', ') %>, sourceToken, targetToken):
+  pair = 0
+  <%_ for(var i=0; i < pairs.length; i++) { _%>
+  <%_ let pair = pairs[i]; _%>
+  pair = if sourceToken == <%= pair.source %> then if targetToken == <%= pair.target %> then <%= pair.name %> else pair fi else pair fi
+  <%_ } _%>
+  return pair
 
 def priceFromTo(sourceToken, targetToken, <%- prices.join(", ") %>):
   refTokenPriceToUtxo = if sourceToken == 0 then 1000000000000000000 else 0 fi
@@ -19,6 +31,7 @@ def priceFromTo(sourceToken, targetToken, <%- prices.join(", ") %>):
   <%_ for(var i=0; i < prices.length; i++) { _%>
   refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == <%= i+1 %> then <%= prices[i] %> else 0 fi
   <%_ } _%>
+
   return 1000000000000000000 * (refTokenPriceToTarget/refTokenPriceToUtxo)
 
 def limitLessThanPrice(sourceToken, targetToken, limit, <%- prices.join(", ") %>):
@@ -47,23 +60,36 @@ def addBuyVolumesForOrder(<%- buyVolumeToken.join(", ") %>, sourceToken, volume,
   <%_ } _%>
   return <%- txBuyVolumeToken.join(", ") %>
 
-<% const lowestPartialLimitPriceToken = generateVariableNames('lowestPartialLimitPriceToken', tokens) -%>
-<% const updatedPartialLimitPriceToken = generateVariableNames('updatedPartialLimitPriceToken', tokens) -%>
-def checkPartialLimitForOrder(<%- lowestPartialLimitPriceToken.join(", ") %>, utxoAmount, sourceToken, limit, volume):
-  // if this is a partial order we need to have either no lowestPartialOrder for this token yet, or one at the same price
-  <%_ for(var i=0; i < lowestPartialLimitPriceToken.length; i++) { _%>
-  <%= updatedPartialLimitPriceToken[i] %> = if sourceToken == <%= i %> then if isPartialOrder(utxoAmount, volume) == 1 then limit else <%= lowestPartialLimitPriceToken[i] %> fi else <%= lowestPartialLimitPriceToken[i] %> fi
+<% const highestTouchedOrderPairs = generateTokenPairs('highestTouchedOrder', tokens) -%>
+<% const highestTouchedOrderPairsArgument = highestTouchedOrderPairs.map(function(pair) {return pair.name}).join(', ') -%>
+def updateHighestTouchedOrder(<%= highestTouchedOrderPairsArgument %>, sourceToken, targetToken, limit, volume):
+
+  highestTouchedOrder = findPairInTokenPairList(<%= highestTouchedOrderPairsArgument %>, sourceToken, targetToken)
+
+  shouldUpdate = if 0 < volume then 1 else 0 fi
+  shouldUpdate = if highestTouchedOrder < limit then shouldUpdate else 0 fi
+
+  <%_ for(var i=0; i < highestTouchedOrderPairs.length; i++) { _%>
+  <%_ let pair = highestTouchedOrderPairs[i]; _%>
+  <%= pair.name %> = if shouldUpdate == 1 then if sourceToken == <%= pair.source %> then if targetToken == <%= pair.target %> then limit else <%= pair.name %> fi else <%= pair.name %> fi else <%= pair.name %> fi
   <%_ } _%>
 
-  // If updatedPartialLimitPriceTokenPrice != lowestPartialLimitPriceTokenPrice, lowestPartialLimitPriceTokenPrice must have been 0 before
-  <%_ for(var i=0; i < lowestPartialLimitPriceToken.length; i++) { _%>
-  invalid = if <%= lowestPartialLimitPriceToken[i] %> - <%= updatedPartialLimitPriceToken[i] %> == 0 then 0 else <%= lowestPartialLimitPriceToken[i] %> fi
-  invalid == 0
-  <%_ } _%>
+  return <%= highestTouchedOrderPairsArgument %>
 
-  return <%- updatedPartialLimitPriceToken.join(", ") %>
+def verifyCompletelyFulfilledIfLimitLowerHighestTouchedOrder(<%= highestTouchedOrderPairsArgument %>, sourceAmount, sourceToken, targetToken, limit, volume):
+
+  highestTouchedOrder = findPairInTokenPairList(<%= highestTouchedOrderPairsArgument %>, sourceToken, targetToken)
+
+  valid = if limit < highestTouchedOrder then 1 - (sourceAmount - volume) else 1 fi
+  return valid
 
 def checkConstraints(<%- decodedOrderTuples.join(", ") %>, <%- volumes.join(", ") %>, <%- prices.join(", ") %>):
+  // volumes are not larger than in original offer
+  <%_ for(var i=0; i < volumes.length; i++) { _%>
+  valid = if <%- decodedOrderTuples[i].split(", ")[0] %> < <%- volumes[i] %> then 0 else 1 fi
+  valid == 1
+  <%_ } _%>
+
   // orders are only touched, if the limit price is below the calculated price:
   <%_ for(var i=0; i < volumes.length; i++) { _%>
   valid = if <%- volumes[i] %> == 0 then 1 else limitLessThanPrice(<%- decodedOrderTuples[i].split(", ").slice(1).join(', ') %>, <%- prices.join(", ") %>) fi
@@ -71,8 +97,8 @@ def checkConstraints(<%- decodedOrderTuples.join(", ") %>, <%- volumes.join(", "
   <%_ } _%>
 
   // the amount of sell volume for a token equals its buy volume:
-  <%= buyVolumeToken.join(', ') %> = zeroTupleForTokens()
-  <%= sellVolumeToken.join(', ') %> = zeroTupleForTokens()
+  <%= buyVolumeToken.join(', ') %> = tupleForTokensWithValue(0)
+  <%= sellVolumeToken.join(', ') %> = tupleForTokensWithValue(0)
   <%_ for(var i=0; i < volumes.length; i++) { %>
   <%_ let orderParts = decodedOrderTuples[i].split(", ") _%>
   <%= buyVolumeToken.join(', ') %> = addBuyVolumesForOrder(<%= buyVolumeToken.join(', ') %>, <%= orderParts[1] %>, <%= volumes[i] %>, <%= orderParts[2] %>, <%- prices.join(", ") %>)
@@ -84,10 +110,15 @@ def checkConstraints(<%- decodedOrderTuples.join(", ") %>, <%- volumes.join(", "
   <%_ } _%>
 
   // If an order σ ∈ Oi→j with a limit price p has a positive trading volume, then every order in Oi→j with a lower limit price should be completely fulfilled.
-  <%= lowestPartialLimitPriceToken.join(', ') %> = zeroTupleForTokens()
+  <%= highestTouchedOrderPairsArgument %> = tupleForTokenPairsWithValue(0)
   <%_ for(var i=0; i < decodedOrderTuples.length; i++) { _%>
   <%_ let orderParts = decodedOrderTuples[i].split(", ") _%>
-  <%= lowestPartialLimitPriceToken.join(', ')  %> = checkPartialLimitForOrder(<%= lowestPartialLimitPriceToken.join(', ') %>, <%= orderParts[0] %>, <%= orderParts[1] %>, <%= orderParts[3] %>, <%= volumes[i] %>)
+  <%= highestTouchedOrderPairsArgument  %> = updateHighestTouchedOrder(<%= highestTouchedOrderPairsArgument %>, <%= orderParts[1] %>, <%= orderParts[2] %>, <%= orderParts[3] %>, <%= volumes[i] %>)
+  <%_ } _%>
+
+  <%_ for(var i=0; i < decodedOrderTuples.length; i++) { _%>
+  valid = verifyCompletelyFulfilledIfLimitLowerHighestTouchedOrder(<%= highestTouchedOrderPairsArgument %>, <%= decodedOrderTuples[i] %>, <%= volumes[i] %>)
+  valid == 1
   <%_ } _%>
 
   return 1 // Could return total volume to maximize for
@@ -103,5 +134,6 @@ def main(<%- encodedOrders.join(", ") %>, <%- bitmap.join(", ") %>, <%- volumes.
   // Decode orders
   <%_ for(var i=0; i < encodedOrders.length; i++) { _%>
   <%= decodedOrderTuples[i] %> = decodeOrder(<%= encodedOrders[i] %>)
-  <%_ } _%>  
+  <%_ } _%>
+
   return checkConstraints(<%- decodedOrderTuples.join(", ") %>, <%- volumes.join(", ") %>, <%- prices.join(", ") %>)
