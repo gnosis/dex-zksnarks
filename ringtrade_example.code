@@ -9,6 +9,16 @@ def tupleForTokensWithValue(value):
 def tupleForTokenPairsWithValue(value):
   return value, value, value, value, value, value
 
+def findValueInTokenPairs(pairToken0Token1, pairToken0Token2, pairToken1Token0, pairToken1Token2, pairToken2Token0, pairToken2Token1, sourceToken, targetToken):
+  pair = 0
+  pair = if sourceToken == 0 then if targetToken == 1 then pairToken0Token1 else pair fi else pair fi
+  pair = if sourceToken == 0 then if targetToken == 2 then pairToken0Token2 else pair fi else pair fi
+  pair = if sourceToken == 1 then if targetToken == 0 then pairToken1Token0 else pair fi else pair fi
+  pair = if sourceToken == 1 then if targetToken == 2 then pairToken1Token2 else pair fi else pair fi
+  pair = if sourceToken == 2 then if targetToken == 0 then pairToken2Token0 else pair fi else pair fi
+  pair = if sourceToken == 2 then if targetToken == 1 then pairToken2Token1 else pair fi else pair fi
+  return pair
+
 def priceFromTo(sourceToken, targetToken, priceToken1, priceToken2):
   refTokenPriceToUtxo = if sourceToken == 0 then 1000000000000000000 else 0 fi
   refTokenPriceToUtxo = refTokenPriceToUtxo + if sourceToken == 1 then priceToken1 else 0 fi
@@ -17,6 +27,7 @@ def priceFromTo(sourceToken, targetToken, priceToken1, priceToken2):
   refTokenPriceToTarget = if targetToken == 0 then 1000000000000000000 else 0 fi
   refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == 1 then priceToken1 else 0 fi
   refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == 2 then priceToken2 else 0 fi
+
   return 1000000000000000000 * (refTokenPriceToTarget/refTokenPriceToUtxo)
 
 def limitLessThanPrice(sourceToken, targetToken, limit, priceToken1, priceToken2):
@@ -43,13 +54,7 @@ def addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sou
 
 def updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken, limit, volume):
 
-  highestTouchedOrder = 0
-  highestTouchedOrder = if sourceToken == 0 then if targetToken == 1 then highestTouchedOrderToken0Token1 else highestTouchedOrder fi else highestTouchedOrder fi
-  highestTouchedOrder = if sourceToken == 0 then if targetToken == 2 then highestTouchedOrderToken0Token2 else highestTouchedOrder fi else highestTouchedOrder fi
-  highestTouchedOrder = if sourceToken == 1 then if targetToken == 0 then highestTouchedOrderToken1Token0 else highestTouchedOrder fi else highestTouchedOrder fi
-  highestTouchedOrder = if sourceToken == 1 then if targetToken == 2 then highestTouchedOrderToken1Token2 else highestTouchedOrder fi else highestTouchedOrder fi
-  highestTouchedOrder = if sourceToken == 2 then if targetToken == 0 then highestTouchedOrderToken2Token0 else highestTouchedOrder fi else highestTouchedOrder fi
-  highestTouchedOrder = if sourceToken == 2 then if targetToken == 1 then highestTouchedOrderToken2Token1 else highestTouchedOrder fi else highestTouchedOrder fi
+  highestTouchedOrder = findValueInTokenPairs(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken)
 
   shouldUpdate = if 0 < volume then 1 else 0 fi
   shouldUpdate = if highestTouchedOrder < limit then shouldUpdate else 0 fi
@@ -63,27 +68,12 @@ def updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrd
 
   return highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1
 
-def updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1, sourceAmount, sourceToken, targetToken, limit, volume):
+def verifyCompletelyFulfilledIfLimitLowerHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceAmount, sourceToken, targetToken, limit, volume):
 
-  lowestIncompleteOrder = 0
-  lowestIncompleteOrder = if sourceToken == 0 then if targetToken == 1 then lowestIncompleteOrderToken0Token1 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
-  lowestIncompleteOrder = if sourceToken == 0 then if targetToken == 2 then lowestIncompleteOrderToken0Token2 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
-  lowestIncompleteOrder = if sourceToken == 1 then if targetToken == 0 then lowestIncompleteOrderToken1Token0 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
-  lowestIncompleteOrder = if sourceToken == 1 then if targetToken == 2 then lowestIncompleteOrderToken1Token2 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
-  lowestIncompleteOrder = if sourceToken == 2 then if targetToken == 0 then lowestIncompleteOrderToken2Token0 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
-  lowestIncompleteOrder = if sourceToken == 2 then if targetToken == 1 then lowestIncompleteOrderToken2Token1 else lowestIncompleteOrder fi else lowestIncompleteOrder fi
+  highestTouchedOrder = findValueInTokenPairs(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken)
 
-  shouldUpdate = if 0 == (sourceAmount - volume) then 0 else 1 fi
-  shouldUpdate = if lowestIncompleteOrder == 0-1 then shouldUpdate else if limit < lowestIncompleteOrder then shouldUpdate else 0 fi fi
-
-  lowestIncompleteOrderToken0Token1 = if shouldUpdate == 1 then if sourceToken == 0 then if targetToken == 1 then limit else lowestIncompleteOrderToken0Token1 fi else lowestIncompleteOrderToken0Token1 fi else lowestIncompleteOrderToken0Token1 fi
-  lowestIncompleteOrderToken0Token2 = if shouldUpdate == 1 then if sourceToken == 0 then if targetToken == 2 then limit else lowestIncompleteOrderToken0Token2 fi else lowestIncompleteOrderToken0Token2 fi else lowestIncompleteOrderToken0Token2 fi
-  lowestIncompleteOrderToken1Token0 = if shouldUpdate == 1 then if sourceToken == 1 then if targetToken == 0 then limit else lowestIncompleteOrderToken1Token0 fi else lowestIncompleteOrderToken1Token0 fi else lowestIncompleteOrderToken1Token0 fi
-  lowestIncompleteOrderToken1Token2 = if shouldUpdate == 1 then if sourceToken == 1 then if targetToken == 2 then limit else lowestIncompleteOrderToken1Token2 fi else lowestIncompleteOrderToken1Token2 fi else lowestIncompleteOrderToken1Token2 fi
-  lowestIncompleteOrderToken2Token0 = if shouldUpdate == 1 then if sourceToken == 2 then if targetToken == 0 then limit else lowestIncompleteOrderToken2Token0 fi else lowestIncompleteOrderToken2Token0 fi else lowestIncompleteOrderToken2Token0 fi
-  lowestIncompleteOrderToken2Token1 = if shouldUpdate == 1 then if sourceToken == 2 then if targetToken == 1 then limit else lowestIncompleteOrderToken2Token1 fi else lowestIncompleteOrderToken2Token1 fi else lowestIncompleteOrderToken2Token1 fi
-
-  return lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1
+  valid = if limit < highestTouchedOrder then 1 - (sourceAmount - volume) else 1 fi
+  return valid
 
 def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourceToken2, targetToken2, limit2, amount3, sourceToken3, targetToken3, limit3, volume1, volume2, volume3, priceToken1, priceToken2):
   // volumes are not larger than in original offer
@@ -120,47 +110,17 @@ def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourc
   buyVolumeToken3 == sellVolumeToken3
 
   // If an order σ ∈ Oi→j with a limit price p has a positive trading volume, then every order in Oi→j with a lower limit price should be completely fulfilled.
-  // In other words the limitPrice of the highestTouchedOrder should be smaller or equal to the limitPrice of the lowestIncompleteOrder.
   highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1 = tupleForTokenPairsWithValue(0)
   highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1 = updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken1, targetToken1, limit1, volume1)
   highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1 = updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken2, targetToken2, limit2, volume2)
   highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1 = updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken3, targetToken3, limit3, volume3)
 
-  lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1 = tupleForTokenPairsWithValue(0-1)
-  lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1 = updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1, amount1, sourceToken1, targetToken1, limit1, volume1)
-  lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1 = updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1, amount2, sourceToken2, targetToken2, limit2, volume2)
-  lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1 = updatelowestIncompleteOrder(lowestIncompleteOrderToken0Token1, lowestIncompleteOrderToken0Token2, lowestIncompleteOrderToken1Token0, lowestIncompleteOrderToken1Token2, lowestIncompleteOrderToken2Token0, lowestIncompleteOrderToken2Token1, amount3, sourceToken3, targetToken3, limit3, volume3)
-
-  //If there was a touched and incomplete order for the token pair, the price of the incomplete order cannot have a lower price than the touched order
-  valid01 = if lowestIncompleteOrderToken0Token1 + 1 == 0 then 1 else 0 fi
-  valid01 = if highestTouchedOrderToken0Token1 == 0 then 1 else valid01 fi
-  valid01 = if lowestIncompleteOrderToken0Token1 < highestTouchedOrderToken0Token1 then valid01 else 1 fi
-  valid01 == 1
-
-  valid02 = if lowestIncompleteOrderToken0Token2 + 1 == 0 then 1 else 0 fi
-  valid02 = if highestTouchedOrderToken0Token2 == 0 then 1 else valid02 fi
-  valid02 = if lowestIncompleteOrderToken0Token2 < highestTouchedOrderToken0Token2 then valid02 else 1 fi
-  valid02 == 1
-
-  valid10 = if lowestIncompleteOrderToken1Token0 + 1 == 0 then 1 else 0 fi
-  valid10 = if highestTouchedOrderToken1Token0 == 0 then 1 else valid10 fi
-  valid10 = if lowestIncompleteOrderToken1Token0 < highestTouchedOrderToken1Token0 then valid10 else 1 fi
-  valid10 == 1
-
-  valid12 = if lowestIncompleteOrderToken1Token2 + 1 == 0 then 1 else 0 fi
-  valid12 = if highestTouchedOrderToken1Token2 == 0 then 1 else valid12 fi
-  valid12 = if lowestIncompleteOrderToken1Token2 < highestTouchedOrderToken1Token2 then valid12 else 1 fi
-  valid12 == 1
-
-  valid20 = if lowestIncompleteOrderToken2Token0 + 1 == 0 then 1 else 0 fi
-  valid20 = if highestTouchedOrderToken2Token0 == 0 then 1 else valid20 fi
-  valid20 = if lowestIncompleteOrderToken2Token0 < highestTouchedOrderToken2Token0 then valid20 else 1 fi
-  valid20 == 1
-
-  valid21 = if lowestIncompleteOrderToken2Token1 + 1 == 0 then 1 else 0 fi
-  valid21 = if highestTouchedOrderToken2Token1 == 0 then 1 else valid21 fi
-  valid21 = if lowestIncompleteOrderToken2Token1 < highestTouchedOrderToken2Token1 then valid21 else 1 fi
-  valid21 == 1
+  valid = verifyCompletelyFulfilledIfLimitLowerHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, amount1, sourceToken1, targetToken1, limit1, volume1)
+  valid == 1
+  valid = verifyCompletelyFulfilledIfLimitLowerHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, amount2, sourceToken2, targetToken2, limit2, volume2)
+  valid == 1
+  valid = verifyCompletelyFulfilledIfLimitLowerHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, amount3, sourceToken3, targetToken3, limit3, volume3)
+  valid == 1
 
   return 1 // Could return total volume to maximize for
 
