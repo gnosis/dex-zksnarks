@@ -1,4 +1,4 @@
-import "./decodeOrder.code"
+import "./decodeOrderBitwise.code"
 
 <% const volumes = generateVariableNames('volume', orders) -%>
 <% const prices = generateVariableNames('priceToken', tokens-1) -%>
@@ -121,17 +121,20 @@ def checkConstraints(<%- decodedOrderTuples.join(", ") %>, <%- volumes.join(", "
 
   return 1 // Could return total volume to maximize for
 
-<% const encodedOrders = generateVariableNames('encodedOrder', orders) -%>
+<% const bitwiseOrders = generateBitwiseVariables('order', 253, orders) -%>
 <% const bitmap = generateVariableNames('bitmapOrder', orders) -%>
-def main(<%- encodedOrders.join(", ") %>, <%- bitmap.join(", ") %>, <%- volumes.join(", ") %>, <%- prices.join(", ") %>):
-  // Remove orders that are not double signed
-  <%_ for(var i=0; i < encodedOrders.length; i++) { _%>
-  <%= encodedOrders[i] %> = if <%= bitmap[i] %> == 1 then <%= encodedOrders[i] %> else 0 fi
-  <%_ } _%>
-
+def main(<%- bitwiseOrders.join(", ") %>, <%- bitmap.join(", ") %>, <%- volumes.join(", ") %>, <%- prices.join(", ") %>):
   // Decode orders
-  <%_ for(var i=0; i < encodedOrders.length; i++) { _%>
-  <%= decodedOrderTuples[i] %> = decodeOrder(<%= encodedOrders[i] %>)
+  <%_ for(var i=0; i < bitmap.length; i++) { _%>
+  <%= decodedOrderTuples[i] %> = decodeOrderBitwise(<%= bitwiseOrders.slice(i*253, (i+1)*253).join(", ") %>)
   <%_ } _%>
 
+  // check double signatures
+  <%_ for(var i=0; i < bitmap.length; i++) { _%>
+    <%_ let orderParts = decodedOrderTuples[i].split(", ") _%>
+    <%_ for(var part=0; part < orderParts.length; part++) { _%>
+  <%= orderParts[part] %> = if <%= bitmap[i] %> == 1 then <%= orderParts[part] %> else 0 fi
+    <%_ } _%>  
+
+  <%_ } _%>
   return checkConstraints(<%- decodedOrderTuples.join(", ") %>, <%- volumes.join(", ") %>, <%- prices.join(", ") %>)

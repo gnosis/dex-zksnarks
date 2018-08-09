@@ -1,6 +1,4 @@
-import "./isPartialOrder.code"
 import "./decodeOrder.code"
-import "./emptyOrder.code"
 
 
 def tupleForTokensWithValue(value):

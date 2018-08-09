@@ -14,7 +14,8 @@ const templateData = {
 	tokens: options.tokens,
 	generateVariableNames,
 	generateDecodedOrderTuples,
-  generateTokenPairs
+  generateTokenPairs,
+  generateBitwiseVariables
 }
 
 ejs.renderFile(options.template, templateData).then(function(code, err) {
@@ -33,18 +34,27 @@ function generateDecodedOrderTuples(n) {
 }
 
 function generateTokenPairs(prefix, n) {
-  var pairs = []
-    for(i=0; i < n; i++) {
-      for(j=0; j < n; j++) {
-        if (i == j) { 
-          continue;
-        }
-        pairs.push({
-          source: i, 
-          target: j, 
-          name: `${prefix}Token${i}Token${j}`});
+  var pairs = [];
+  for(i=0; i < n; i++) {
+    for(j=0; j < n; j++) {
+      if (i == j) { 
+        continue;
       }
+      pairs.push({
+        source: i, 
+        target: j, 
+        name: `${prefix}Token${i}Token${j}`});
     }
-    return pairs;
+  }
+  return pairs;
+}
 
+function generateBitwiseVariables(prefix, bits, n) {
+  var result = [];
+  for(i=0; i < n; i++) {
+    for(bit=0; bit < bits; bit++) {
+      result.push(`${prefix}${i+1}Bit${bit}`);
+    }
+  }
+  return result;
 }
