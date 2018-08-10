@@ -123,7 +123,7 @@ def checkConstraints(<%- decodedOrderTuples.join(", ") %>, <%- volumes.join(", "
 
 <% const bitwiseOrders = generateBitwiseVariables('order', 253, orders) -%>
 <% const bitmap = generateVariableNames('bitmapOrder', orders) -%>
-def main(<%- bitwiseOrders.join(", ") %>, <%- bitmap.join(", ") %>, <%- volumes.join(", ") %>, <%- prices.join(", ") %>):
+def main(private <%- bitwiseOrders.join(", private ") %>, private <%- bitmap.join(", private ") %>, private <%- volumes.join(", private ") %>, private <%- prices.join(", private ") %>):
   // Decode orders
   <%_ for(var i=0; i < bitmap.length; i++) { _%>
   <%= decodedOrderTuples[i] %> = decodeOrderBitwise(<%= bitwiseOrders.slice(i*253, (i+1)*253).join(", ") %>)

@@ -122,7 +122,7 @@ def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourc
 
   return 1 // Could return total volume to maximize for
 
-def main(encodedOrder1, encodedOrder2, encodedOrder3, bitmapOrder1, bitmapOrder2, bitmapOrder3, volume1, volume2, volume3, priceToken1, priceToken2):
+def main(private encodedOrder1, private encodedOrder2, private encodedOrder3, private bitmapOrder1, private bitmapOrder2, private bitmapOrder3, private volume1, private volume2, private volume3, private priceToken1, private priceToken2):
   // Remove orders that are not double signed
   encodedOrder1 = if bitmapOrder1 == 1 then encodedOrder1 else 0 fi
   encodedOrder2 = if bitmapOrder2 == 1 then encodedOrder2 else 0 fi
