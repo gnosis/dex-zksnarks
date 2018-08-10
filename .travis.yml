@@ -7,7 +7,7 @@ services:
 install:
 - docker build -t dex-zksnarks .
 script:
-- docker run --mount -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID /bin/sh -c
+- docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID /bin/sh -c
   "cd ZoKrates/target/release/ && ~/dex-snark/test/ringtrade_counterexamples.sh"
 after_success:
 - |-
