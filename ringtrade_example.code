@@ -1,6 +1,5 @@
 import "./decodeOrder.code"
 
-
 def tupleForTokensWithValue(value):
   return value, value, value
 
@@ -75,20 +74,20 @@ def verifyCompletelyFulfilledIfLimitLowerHighestTouchedOrder(highestTouchedOrder
 
 def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourceToken2, targetToken2, limit2, amount3, sourceToken3, targetToken3, limit3, volume1, volume2, volume3, priceToken1, priceToken2):
   // volumes are not larger than in original offer
-  valid = if amount1 < volume1 then 0 else 1 fi
-  valid == 1
-  valid = if amount2 < volume2 then 0 else 1 fi
-  valid == 1
-  valid = if amount3 < volume3 then 0 else 1 fi
-  valid == 1
+  validVolumesLowerAmount1 = if amount1 < volume1 then 0 else 1 fi
+  validVolumesLowerAmount1 == 1
+  validVolumesLowerAmount2 = if amount2 < volume2 then 0 else 1 fi
+  validVolumesLowerAmount2 == 1
+  validVolumesLowerAmount3 = if amount3 < volume3 then 0 else 1 fi
+  validVolumesLowerAmount3 == 1
 
   // orders are only touched, if the limit price is below the calculated price:
-  valid = if volume1 == 0 then 1 else limitLessThanPrice(sourceToken1, targetToken1, limit1, priceToken1, priceToken2) fi
-  valid == 1
-  valid = if volume2 == 0 then 1 else limitLessThanPrice(sourceToken2, targetToken2, limit2, priceToken1, priceToken2) fi
-  valid == 1
-  valid = if volume3 == 0 then 1 else limitLessThanPrice(sourceToken3, targetToken3, limit3, priceToken1, priceToken2) fi
-  valid == 1
+  validLimitLessThanPrice1 = if volume1 == 0 then 1 else limitLessThanPrice(sourceToken1, targetToken1, limit1, priceToken1, priceToken2) fi
+  validLimitLessThanPrice1 == 1
+  validLimitLessThanPrice2 = if volume2 == 0 then 1 else limitLessThanPrice(sourceToken2, targetToken2, limit2, priceToken1, priceToken2) fi
+  validLimitLessThanPrice2 == 1
+  validLimitLessThanPrice3 = if volume3 == 0 then 1 else limitLessThanPrice(sourceToken3, targetToken3, limit3, priceToken1, priceToken2) fi
+  validLimitLessThanPrice3 == 1
 
   // the amount of sell volume for a token equals its buy volume:
   buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = tupleForTokensWithValue(0)
