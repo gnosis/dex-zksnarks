@@ -1,0 +1,41 @@
+sudo: required
+language: node_js
+node_js:
+- '7'
+services:
+- docker
+install:
+- docker build -t dex-zksnarks .
+script:
+- docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID /bin/sh -c
+  "cd ZoKrates/target/release/ && ~/dex-snark/test/ringtrade_counterexamples.sh"
+after_success:
+- |-
+  # Create Docker image if branch master or develop and not on pull requests
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+
+    PACKAGE_VERSION=$(node -p -e "require('./package.json').version");
+    echo "Pushing to Docker-hub version $PACKAGE_VERSION, generated from branch $TRAVIS_BRANCH";
+
+    if [ "$TRAVIS_BRANCH" == "master" ]; then
+      echo "Pushing image staging...";
+      docker tag dex-zksnarks gnosispm/dex-zksnarks:staging;
+      docker push gnosispm/dex-zksnarks:staging;
+    elif [ "$TRAVIS_BRANCH" == "develop" ]; then
+      echo "Pushing image develop...";
+      docker tag dx-services gnosispm/dex-zksnarks:develop;
+      docker push gnosispm/dex-zksnarks:develop;
+    elif [[ $TRAVIS_TAG = $TRAVIS_BRANCH ]]; then
+      echo "Pushing image tag $TRAVIS_TAG...";
+      docker tag dx-services gnosispm/dex-zksnarks:$TRAVIS_TAG;
+      docker push gnosispm/dex-zksnarks:$TRAVIS_TAG;
+    fi
+    echo "The image has been pushed";
+  else
+    echo "There's no need to push the image to Docker-hub";
+  fi
+env:
+  global:
+  - secure: ZvVejLRUxXM9r+EXFIurQmWAmkQC7In21eoiSRnfGYD9zhHs/J8fjBeVMFSPeg4BxrmpwShVgyER5eu2458QWNuVQHSxFMe8x1MNctiwacx8SOMRT15ELN/LLzrGVp4P3KEknQO5ZSKKawDS7VRbk3QBVSJO9FNUlx1rNHi8ALMtc0vg3xC8liNIjQyo6TN5ANZnEOv8ZKnDtR/zXwxuwXBUKwzekCOF6nbrOBb2nP4LE0nDX9VXn1/Osi+W1GD35EXoRIQhZ7DIpXTzumbBvv21Jr7Hn3+OS06j7sz2SOUSfSpkNGhXJms0WPYEm5ePyc5LtUNWjJKYveo0uaelXxfZFBOAEOUkq1/VoWeSckOSm/qZlsJtkoYbOHnsvINpBH9rk4UBYV5l9NGUR5InSjbR5lFGNmgjK8jTpBGdpS1ehaH8dNrkIBAPYxmI5NYV/agkuj+gyWHmmbOmkQZEZ8SL5VmaKUqDFx1Cz0Uign8lSwxO94k4eGlzwu9hIltvXIH7x4EXwyDMnR7QjMnbHCkUOuJqIREu0cw5RicujnM8kkhNTeaxjHMckj7kGa7hdYN3qCmVpSRnqH/thI3TE4krMEaEIBxXNmRFTQm8qF1pESsgEbN/qqTGglQOpE40WkCJuk/W/204FO058bESCn1MmFq1ueuP6ivH0UcdM1Y=
+  - secure: s6nZfKOrg3+zS3XHsJskd0OuDrpiB+5lu+KbmJtFNnuAryztTNmXPdtkF9aYlEPHQjWG4d2tubhrVGwykbgxHIWSZW0nactesVNc6BPRkeAHxwg/PLpsuCd1AacB+mfueRDC5kxeaDe/EIwB+h7WAipn6oGl6Pamx2WwzHDgiOLDAu2tjoSkoQuXEJDNH94NfWNN/r5xlr6phzCYLNUfE2CtasHmr/GAj28B38aWzsC2B2wl3DlfNMO8RAypuvX7VctzVegpGe/nHpMXB5sEZ3JKOw80W5s4yu+hVfsa9Wd4DKxmPvy4rbdhQGD0L5fiuvwoTy22QSTJIq8cb5fHMJfeceB1asmVIoyR4g+JvIq76Y3MaX7UZOoqVstwInlyrZPTMoNNMrpm/oAQCmrfFDp1BGGCT7xLOFpPbBTsB0abuJaCwswR3meQ70RgAJjaV4KEwkM/p1TIQBji6bXl2iaAfB3gIpchtW6SkFipvlYaOfJdhEOkduCgR1AGVxaGB2+DoVWkOI+5+3PKU5plmnC670rPep2sphIe+erJTmBsi5DirxJa22pLPGbZBbf6MXAbrgbneqQ2CvM1DOfjgl573rTplAmHzcLbCoYactidugApBu9vzY4F36sSXqqyk2XwC1cUHHT5Z3Iv/LSXOgva3d3BRTpFzaGmAZaJFXI=
