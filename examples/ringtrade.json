@@ -1,0 +1,63 @@
+{
+    "tokens": [
+        "ETH", 
+        "GNO", 
+        "RDN"
+    ],
+    "pricesNew": {
+        "ETH": 500.0, 
+        "GNO": 50.0, 
+        "RDN": 1.0
+    }, 
+    "refToken": "ETH",
+    "sellOrders": [
+        {
+            "sellAmount": 10.0, 
+            "sellToken": "ETH", 
+            "buyToken": "GNO", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    10.0, 
+                    "GNO"
+                ]
+            ],  
+            "execSellAmount": 1.0
+        }, 
+        {
+            "sellAmount": 10.0, 
+            "sellToken": "GNO", 
+            "buyToken": "RDN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "GNO"
+                ], 
+                [
+                    50.0, 
+                    "RDN"
+                ]
+            ], 
+            "execSellAmount": 10.0
+        }, 
+        {
+            "sellAmount": 1000.0, 
+            "sellToken": "RDN", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "RDN"
+                ], 
+                [
+                    0.001, 
+                    "ETH"
+                ]
+            ], 
+            "execSellAmount": 500.0
+        }
+    ]
+}
