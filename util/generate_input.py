@@ -1,11 +1,8 @@
 #!/usr/bin/python
 
 import sys
-<<<<<<< HEAD
-=======
 import json
 from encode import encodeOrder, encodeNumber
->>>>>>> 8581bdf... Generating input from the json files the solver outputs
 
 def main():
     if len(sys.argv) > 2:
@@ -30,7 +27,7 @@ def main():
 
 def parseJsonData(data, maxOrders, maxTokens):
     if not data:
-        return [0] * maxOrders, [0] * maxOrders, [0] * maxOrders
+        return [0] * maxOrders, [0] * maxOrders, [0] * maxOrders, [0] * (maxTokens-1)
 
     refToken = data["refToken"]
     refTokenPrice = data["pricesNew"][refToken]
