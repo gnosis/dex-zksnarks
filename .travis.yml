@@ -8,7 +8,7 @@ install:
 - docker build -t dex-zksnarks .
 script:
 - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti dex-zksnarks /bin/sh -c
-  "cd ZoKrates/target/release/ && ~/dex-snark/test/ringtrade_counterexamples.sh"
+  "cd ZoKrates/target/release/ && ~/dex-snark/test/ringtrade_counterexamples.sh && ~/dex-snark/test/run_tests.sh"
 after_success:
 - |-
   # Create Docker image if branch master or develop and not on pull requests
