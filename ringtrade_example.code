@@ -1,4 +1,5 @@
 import "./decodeOrder.code"
+import "./limitLessThanPrice.code"
 
 def tupleForTokensWithValue(value):
   return value, value, value
@@ -16,38 +17,17 @@ def findPairInTokenPairList(pairToken0Token1, pairToken0Token2, pairToken1Token0
   pair = if sourceToken == 2 then if targetToken == 1 then pairToken2Token1 else pair fi else pair fi
   return pair
 
-def priceFromTo(sourceToken, targetToken, priceToken1, priceToken2):
-  refTokenPriceToUtxo = if sourceToken == 0 then 1000000000000000000 else 0 fi
-  refTokenPriceToUtxo = refTokenPriceToUtxo + if sourceToken == 1 then priceToken1 else 0 fi
-  refTokenPriceToUtxo = refTokenPriceToUtxo + if sourceToken == 2 then priceToken2 else 0 fi
+def lookupPrice(sourceToken, priceToken1, priceToken2):
+  price = if sourceToken == 0 then 1000000000000000000 else 0 fi
+  price = price + if sourceToken == 1 then priceToken1 else 0 fi
+  price = price + if sourceToken == 2 then priceToken2 else 0 fi
+  return price
 
-  refTokenPriceToTarget = if targetToken == 0 then 1000000000000000000 else 0 fi
-  refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == 1 then priceToken1 else 0 fi
-  refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == 2 then priceToken2 else 0 fi
-
-  return 1000000000000000000 * (refTokenPriceToTarget/refTokenPriceToUtxo)
-
-def limitLessThanPrice(sourceToken, targetToken, limit, priceToken1, priceToken2):
-  // Assuming limit is in sourceToken->targetToken and price_i in refToken->token_i
-  // Because of arbitrage freeness the following statement should hold:
-  // sourceToken->targetToken = sourceToken->refToken * refToken->targetToken = refToken->targetToken / refToken->sourceToken
-  // Therefore we have to check that:
-  // limit <= refToken->targetToken / refToken->sourceToken <==> refToken->targetToken / refToken->sourceToken > limit
-  limitIsLessOrEqual = if priceFromTo(sourceToken, targetToken, priceToken1, priceToken2) < limit then 0 else 1 fi
-  return limitIsLessOrEqual
-
-def addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken, volume):
-  updatedVolumeToken1 = sellVolumeToken1 + if sourceToken == 0 then volume else 0 fi
-  updatedVolumeToken2 = sellVolumeToken2 + if sourceToken == 1 then volume else 0 fi
-  updatedVolumeToken3 = sellVolumeToken3 + if sourceToken == 2 then volume else 0 fi
-  return updatedVolumeToken1, updatedVolumeToken2, updatedVolumeToken3
-
-def addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken, volume, targetToken, priceToken1, priceToken2):
-  buyVolume = volume * priceFromTo(sourceToken, targetToken, priceToken1, priceToken2) / 1000000000000000000 
-  txBuyVolumeToken1 = buyVolumeToken1 + if targetToken == 0 then buyVolume else 0 fi
-  txBuyVolumeToken2 = buyVolumeToken2 + if targetToken == 1 then buyVolume else 0 fi
-  txBuyVolumeToken3 = buyVolumeToken3 + if targetToken == 2 then buyVolume else 0 fi
-  return txBuyVolumeToken1, txBuyVolumeToken2, txBuyVolumeToken3
+def addVolumesForOrder(volumeToken1, volumeToken2, volumeToken3, token, volume):
+  txVolumeToken1 = volumeToken1 + if token == 0 then volume else 0 fi
+  txVolumeToken2 = volumeToken2 + if token == 1 then volume else 0 fi
+  txVolumeToken3 = volumeToken3 + if token == 2 then volume else 0 fi
+  return txVolumeToken1, txVolumeToken2, txVolumeToken3
 
 def updateHighestTouchedOrder(highestTouchedOrderToken0Token1, highestTouchedOrderToken0Token2, highestTouchedOrderToken1Token0, highestTouchedOrderToken1Token2, highestTouchedOrderToken2Token0, highestTouchedOrderToken2Token1, sourceToken, targetToken, limit, volume):
 
@@ -81,26 +61,33 @@ def checkConstraints(amount1, sourceToken1, targetToken1, limit1, amount2, sourc
   validVolumesLowerAmount3 = if amount3 < volume3 then 0 else 1 fi
   validVolumesLowerAmount3 == 1
 
+  sourceTokenPriceOrder1 = lookupPrice(sourceToken1, priceToken1, priceToken2)
+  targetTokenPriceOrder1 = lookupPrice(targetToken1, priceToken1, priceToken2)
+  sourceTokenPriceOrder2 = lookupPrice(sourceToken2, priceToken1, priceToken2)
+  targetTokenPriceOrder2 = lookupPrice(targetToken2, priceToken1, priceToken2)
+  sourceTokenPriceOrder3 = lookupPrice(sourceToken3, priceToken1, priceToken2)
+  targetTokenPriceOrder3 = lookupPrice(targetToken3, priceToken1, priceToken2)
+
   // orders are only touched, if the limit price is below the calculated price:
-  validLimitLessThanPrice1 = if volume1 == 0 then 1 else limitLessThanPrice(sourceToken1, targetToken1, limit1, priceToken1, priceToken2) fi
+  validLimitLessThanPrice1 = if volume1 == 0 then 1 else limitLessThanPrice(sourceTokenPriceOrder1, targetTokenPriceOrder1, limit1) fi
   validLimitLessThanPrice1 == 1
-  validLimitLessThanPrice2 = if volume2 == 0 then 1 else limitLessThanPrice(sourceToken2, targetToken2, limit2, priceToken1, priceToken2) fi
+  validLimitLessThanPrice2 = if volume2 == 0 then 1 else limitLessThanPrice(sourceTokenPriceOrder2, targetTokenPriceOrder2, limit2) fi
   validLimitLessThanPrice2 == 1
-  validLimitLessThanPrice3 = if volume3 == 0 then 1 else limitLessThanPrice(sourceToken3, targetToken3, limit3, priceToken1, priceToken2) fi
+  validLimitLessThanPrice3 = if volume3 == 0 then 1 else limitLessThanPrice(sourceTokenPriceOrder3, targetTokenPriceOrder3, limit3) fi
   validLimitLessThanPrice3 == 1
 
   // the amount of sell volume for a token equals its buy volume:
   buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = tupleForTokensWithValue(0)
   sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = tupleForTokensWithValue(0)
 
-  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken1, volume1, targetToken1, priceToken1, priceToken2)
-  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken1, volume1)
+  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, targetToken1, volume1 * sourceTokenPriceOrder1)
+  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken1, volume1 * sourceTokenPriceOrder1)
 
-  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken2, volume2, targetToken2, priceToken1, priceToken2)
-  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken2, volume2)
+  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, targetToken2, volume2 * sourceTokenPriceOrder2)
+  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken2, volume2 * sourceTokenPriceOrder2)
 
-  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addBuyVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, sourceToken3, volume3, targetToken3, priceToken1, priceToken2)
-  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addSellVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken3, volume3)
+  buyVolumeToken1, buyVolumeToken2, buyVolumeToken3 = addVolumesForOrder(buyVolumeToken1, buyVolumeToken2, buyVolumeToken3, targetToken3, volume3 * sourceTokenPriceOrder3)
+  sellVolumeToken1, sellVolumeToken2, sellVolumeToken3 = addVolumesForOrder(sellVolumeToken1, sellVolumeToken2, sellVolumeToken3, sourceToken3, volume3 * sourceTokenPriceOrder3)
 
   buyVolumeToken1 == sellVolumeToken1
   buyVolumeToken2 == sellVolumeToken2

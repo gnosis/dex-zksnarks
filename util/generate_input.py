@@ -42,7 +42,7 @@ def parseJsonData(data, maxOrders, maxTokens):
         if currency == refToken:
             continue
         index = tokenMapping[currency]
-        priceList[index] = encodeNumber(refTokenPrice/newPrice)
+        priceList[index] = encodeNumber(newPrice/refTokenPrice)
     # We want to ignore the ref token in the price vector
     del priceList[tokenMapping[refToken]]
 
@@ -61,7 +61,7 @@ def parseJsonData(data, maxOrders, maxTokens):
 
         encodedOrders[i] = encodeOrder(amount, sourceToken, targetToken, limit)
         bitmap[i] = 1
-        volume[i] = encodeNumber(order["execSellAmount"])
+        volume[i] = encodeNumber(min(amount, order["execSellAmount"]))
     return encodedOrders, bitmap, volume, priceList
 
 def writeArguments(encodedOrders, bitmap, volumes, prices, variablesPerOrder):

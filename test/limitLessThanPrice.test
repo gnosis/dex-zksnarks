@@ -1,0 +1,12 @@
+import "./../limitLessThanPrice.code"
+
+def main():
+  // limit < price
+  1 == limitLessThanPrice(10, 10, 500000000000000000)
+
+  // limit == price
+  1 == limitLessThanPrice(10, 10, 1000000000000000000)
+
+  // limit > price
+  0 == limitLessThanPrice(10, 10, 1500000000000000000)
+  return 1

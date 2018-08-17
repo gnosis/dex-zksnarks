@@ -13,44 +13,20 @@ def findPairInTokenPairList(<%= pairs.map(function(pair) {return pair.name}).joi
   <%_ } _%>
   return pair
 
-def priceFromTo(sourceToken, targetToken, <%- prices.join(", ") %>):
-  refTokenPriceToUtxo = if sourceToken == 0 then 1000000000000000000 else 0 fi
+def lookupPrice(sourceToken, <%- prices.join(", ") %>):
+  price = if sourceToken == 0 then 1000000000000000000 else 0 fi
   <%_ for(var i=0; i < prices.length; i++) { _%>
-  refTokenPriceToUtxo = refTokenPriceToUtxo + if sourceToken == <%= i+1 %> then <%= prices[i] %> else 0 fi
+  price = price + if sourceToken == <%= i+1 %> then <%= prices[i] %> else 0 fi
   <%_ } _%>
+  return price
 
-  refTokenPriceToTarget = if targetToken == 0 then 1000000000000000000 else 0 fi
-  <%_ for(var i=0; i < prices.length; i++) { _%>
-  refTokenPriceToTarget = refTokenPriceToTarget + if targetToken == <%= i+1 %> then <%= prices[i] %> else 0 fi
-  <%_ } _%>
-
-  return 1000000000000000000 * (refTokenPriceToTarget/refTokenPriceToUtxo)
-
-def limitLessThanPrice(sourceToken, targetToken, limit, <%- prices.join(", ") %>):
-  // Assuming limit is in sourceToken->targetToken and price_i in refToken->token_i
-  // Because of arbitrage freeness the following statement should hold:
-  // sourceToken->targetToken = sourceToken->refToken * refToken->targetToken = refToken->targetToken / refToken->sourceToken
-  // Therefore we have to check that:
-  // limit <= refToken->targetToken / refToken->sourceToken <==> refToken->targetToken / refToken->sourceToken > limit
-  limitIsLessOrEqual = if priceFromTo(sourceToken, targetToken, <%- prices.join(", ") %>) < limit then 0 else 1 fi
-  return limitIsLessOrEqual
-
-<% const updatedVolumeToken = generateVariableNames('updatedVolumeToken', tokens) -%>
-<% const sellVolumeToken = generateVariableNames('sellVolumeToken', tokens) -%>
-def addSellVolumesForOrder(<%- sellVolumeToken.join(", ") %>, sourceToken, volume):
+<% const updatedVolumeToken = generateVariableNames('txVolumeToken', tokens) -%>
+<% const volumeToken = generateVariableNames('volumeToken', tokens) -%>
+def addVolumesForOrder(<%- volumeToken.join(", ") %>, token, volume):
   <%_ for(var i=0; i < updatedVolumeToken.length; i++) { _%>
-  <%= updatedVolumeToken[i] %> = <%= sellVolumeToken[i] %> + if sourceToken == <%= i %> then volume else 0 fi
+  <%= updatedVolumeToken[i] %> = <%= volumeToken[i] %> + if token == <%= i %> then volume else 0 fi
   <%_ } _%>
   return <%- updatedVolumeToken.join(", ") %>
-
-<% const txBuyVolumeToken = generateVariableNames('txBuyVolumeToken', tokens) -%>
-<% const buyVolumeToken = generateVariableNames('buyVolumeToken', tokens) -%>
-def addBuyVolumesForOrder(<%- buyVolumeToken.join(", ") %>, sourceToken, volume, targetToken, <%- prices.join(", ") %>):
-  buyVolume = volume * priceFromTo(sourceToken, targetToken, <%- prices.join(", ") %>) / 1000000000000000000 
-  <%_ for(var i=0; i < updatedVolumeToken.length; i++) { _%>
-  <%= txBuyVolumeToken[i] %> = <%= buyVolumeToken[i] %> + if targetToken == <%= i %> then buyVolume else 0 fi
-  <%_ } _%>
-  return <%- txBuyVolumeToken.join(", ") %>
 
 <% const highestTouchedOrderPairs = generateTokenPairs('highestTouchedOrder', tokens) -%>
 <% const highestTouchedOrderPairsArgument = highestTouchedOrderPairs.map(function(pair) {return pair.name}).join(', ') -%>
@@ -82,19 +58,28 @@ def checkConstraints(<%- decodedOrderTuples.join(", ") %>, <%- volumes.join(", "
   validVolumesLowerAmount<%- i+1 %> == 1
   <%_ } _%>
 
+  <%_ const sourceTokenPrices = generateVariableNames('sourceTokenPriceOrder', orders) _%>
+  <%_ const targetTokenPrices = generateVariableNames('targetTokenPriceOrder', orders) _%>
+  <%_ for(var i=0; i < volumes.length; i++) { _%>
+  <%= sourceTokenPrices[i] %> = lookupPrice(<%- decodedOrderTuples[i].split(", ")[1] %>, <%-  prices.join(', ') _%>)
+  <%= targetTokenPrices[i] %> = lookupPrice(<%- decodedOrderTuples[i].split(", ")[2] %>, <%- prices.join(', ') _%>)
+  <%_ } _%>
+
   // orders are only touched, if the limit price is below the calculated price:
   <%_ for(var i=0; i < volumes.length; i++) { _%>
-  validLimitLessThanPrice<%- i+1 %> = if <%- volumes[i] %> == 0 then 1 else limitLessThanPrice(<%- decodedOrderTuples[i].split(", ").slice(1).join(', ') %>, <%- prices.join(", ") %>) fi
+  validLimitLessThanPrice<%- i+1 %> = if <%- volumes[i] %> == 0 then 1 else limitLessThanPrice(<%- sourceTokenPrices[i] %>, <%- targetTokenPrices[i] %>, <%- decodedOrderTuples[i].split(", ").slice(3).join(', ') %>) fi
   validLimitLessThanPrice<%- i+1 %> == 1
   <%_ } _%>
 
   // the amount of sell volume for a token equals its buy volume:
+  <%_ const buyVolumeToken = generateVariableNames('buyVolumeToken', tokens) _%>
+  <%_ const sellVolumeToken = generateVariableNames('sellVolumeToken', tokens) _%>
   <%= buyVolumeToken.join(', ') %> = tupleForTokensWithValue(0)
   <%= sellVolumeToken.join(', ') %> = tupleForTokensWithValue(0)
   <%_ for(var i=0; i < volumes.length; i++) { %>
   <%_ let orderParts = decodedOrderTuples[i].split(", ") _%>
-  <%= buyVolumeToken.join(', ') %> = addBuyVolumesForOrder(<%= buyVolumeToken.join(', ') %>, <%= orderParts[1] %>, <%= volumes[i] %>, <%= orderParts[2] %>, <%- prices.join(", ") %>)
-  <%= sellVolumeToken.join(', ') %> = addSellVolumesForOrder(<%= sellVolumeToken.join(', ') %>, <%= orderParts[1] %>, <%= volumes[i] %>)
+  <%= buyVolumeToken.join(', ') %> = addVolumesForOrder(<%= buyVolumeToken.join(', ') %>, <%= orderParts[2] %>, <%= volumes[i] %> * <%= sourceTokenPrices[i] %>)
+  <%= sellVolumeToken.join(', ') %> = addVolumesForOrder(<%= sellVolumeToken.join(', ') %>, <%= orderParts[1] %>, <%= volumes[i] %> * <%= sourceTokenPrices[i] %>)
   <%_ } _%>
 
   <%_ for(var i=0; i < buyVolumeToken.length; i++) { _%>
