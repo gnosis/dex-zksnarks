@@ -5,7 +5,7 @@ Given the following input
 1. `n` sell orders where each order is a tuple of `(amount, sell token, buy token, limit price)`, read as a person being willing to sell `amount` units of `sell token` if they get at least `amount * limit price` of `buy token`.
 2. `n` bits where `bit == 1` if the order was double signed in the batch auction. Orders which haven't been double signed are ignored in the constraints below.
 3. `n` volumes, where `volume_i` indicates the `amount` of `order_i` that has been sold, ranging between `0` and `amount`.
-4. `m-1` prices for `m` tokens that are traded in the batch. `token_i` in `1..m-1` denotes the units that traders receive in `token_i` for one unit of the reference token (thought of as token 0). Prices are arbitrage free meaning that `price(a, b) == 1/price(b, a)`
+4. `m-1` prices for `m` tokens that are traded in the batch. `token_i` in `1..m-1` denotes the units that traders receive in the reference token (thought of as `token_0`) for one unit of `token_i`. Prices are arbitrage free meaning that `price(a, b) == 1/price(b, a)`
 
 The solver verifies the following constraints
 1. For each order, `volume <= amount`
@@ -88,7 +88,7 @@ If there are `n` orders the next `n` parameters are either `0` or `1` indicating
 The next `n` parameters are encoded numbers that denote how much of the corresponding order's offered sell volume has been fulfilled. Note, that `volume_i <= amount_i`.
 
 ### Prices
-If there are `m` tokens, `m-1` encoded number, each indicating `price(token_0, token_i)`
+If there are `m` tokens, `m-1` encoded number, each indicating `price(token_i, token_0)`
 
 There is also a utility tool to encode number and orders
 ```
@@ -112,6 +112,8 @@ This generates a `.code` file which serves as an input for the [ZoKrates](https:
 There are two main templates in the `codegen/templates` folder depending on whether you encode each order as a single `uint` or bitwise.
 `<output>` should be in the `~/dex-snark folder` as it imports subprograms located in that folder.
 It is possible to use a snark program with fewer orders/tokens than it has been generated for, by filling non-existent values with 0.
+
+## Generating/Transforming inputs for the prover
 
 To generate inputs for a snark program, we can either set all values (orders, volumes, prices) to `0`:
 
@@ -160,10 +162,18 @@ into inputs using:
 ~/dex-snark/util/generate_input.py <num_orders> <num_tokens> <bits per order> <path to json file>
 ```
 
+We can also check all constraints for a human reasonable json file using a python verifier (much faster than running it with Zokrates).
+
+```
+~/dex-snark/util/verify.py <path to json file>
+
+```
+
 ## Unit Tests
 From docker's `~/ZoKrates/target/release/`, run
 
 ```
 ~/dex-snark/test/ringtrade_counterexamples.sh
-./zokrates compile -i ~/dex-snark/test/<*>.code && ./zokrates compute-witness
+~/dex-snark/test/run_util_tests.sh
+~/dex-snark/test/run_tests.sh
 ```
