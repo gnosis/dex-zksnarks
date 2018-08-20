@@ -32,7 +32,7 @@ def verify(orders, bitmap, volumes, prices):
             if lhs < rhs:
                 failed = True
                 difference = (lhs-rhs)*10**-36
-                print 'Limit price mismatch for order {}: {} should be >= {}, Difference: {} ETH'.format(i+1, lhs, rhs, difference)
+                print 'Limit price mismatch for order {}({}): {} should be >= {}, Difference: {} ETH'.format(i+1, order.id, lhs, rhs, difference)
 
             buyVolumes[order.targetToken] += volume * priceMap[order.sourceToken]
             sellVolumes[order.sourceToken] += volume * priceMap[order.sourceToken]
@@ -53,7 +53,7 @@ def verify(orders, bitmap, volumes, prices):
         highestTouchedLimit = highestTouchedLimits.get(tokenPairKey(order), 0)
         if  highestTouchedLimit > order.limit and (encodeNumber(order.amount) - volumes[i]) != 0:
             failed = True
-            print 'Order {} with limit {} only partially fulfilled although an order with limit {} was touched'.format(i, order.limit, highestTouchedLimit)
+            print 'Order {}({}) with limit {} only partially fulfilled although an order with limit {} was touched'.format(i+1, order.id, order.limit, highestTouchedLimit)
 
     if failed:
         exit(1)
