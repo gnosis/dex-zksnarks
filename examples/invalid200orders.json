@@ -1,0 +1,3842 @@
+{
+    "tokens": [
+        "ETH", 
+        "GNO", 
+        "BNB", 
+        "OMG", 
+        "VEN", 
+        "ZRX", 
+        "ZIL", 
+        "AET", 
+        "MKR", 
+        "BAT"
+    ], 
+    "pricesPrev": {
+        "BAT": 0.0007578947368421052, 
+        "OMG": 0.015578947368421053, 
+        "AET": 0.0037894736842105266, 
+        "ZRX": 0.002336842105263158, 
+        "ZIL": 0.0001473684210526316, 
+        "MKR": 1.2526315789473683, 
+        "VEN": 0.003915789473684211, 
+        "BNB": 0.023157894736842106, 
+        "ETH": 1.0, 
+        "GNO": 0.10947368421052632
+    }, 
+    "pricesNew": {
+        "BAT": 0.0007618498373844569, 
+        "OMG": 0.01515747758876297, 
+        "AET": 0.0038967699999999995, 
+        "ZRX": 0.0024030081666666665, 
+        "GNO": 0.1023394141414141, 
+        "MKR": 1.2850230999999999, 
+        "VEN": 0.0039126935686854885, 
+        "BNB": 0.022592930061180672, 
+        "ZIL": 0.00014488, 
+        "ETH": 1.0
+    }, 
+    "refToken": "ETH", 
+    "buyOrders": [], 
+    "sellOrders": [
+        {
+            "sellAmount": 0.56517734, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    41.65872639, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "6675378d", 
+            "execBuyAmount": 25.015672534262904, 
+            "execSellAmount": 0.56517734, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.07906122, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    48.86423333, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "df9db40e", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.55529073, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    42.85905807, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "c2b9e752", 
+            "execBuyAmount": 24.578075021535362, 
+            "execSellAmount": 0.55529073, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.01804371, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    41.61235607, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "45a92453", 
+            "execBuyAmount": 0.7986440869395168, 
+            "execSellAmount": 0.01804371, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.05182317, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    52.74697707, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "b2e0609d", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.11050537, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    46.7938847, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "09948992", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.16156558, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    44.40278263, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "0b2ae105", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.1143601, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    31.58366845, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "a4d86bc7", 
+            "execBuyAmount": 5.061764883541791, 
+            "execSellAmount": 0.1143601, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.2727787, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    45.79298237, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "4b451bbb", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.54729568, 
+            "sellToken": "ETH", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    44.26163394, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "2bbff616", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 2.26506962, 
+            "sellToken": "BNB", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    0.02139217, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "b1059bfc", 
+            "execBuyAmount": 0.051174559508365074, 
+            "execSellAmount": 2.26506962, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 20.8380728, 
+            "sellToken": "BNB", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    0.0242013, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "3ac9fb75", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 8.8467091, 
+            "sellToken": "BNB", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    0.02307514, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "f3cf1868", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 4.51768675, 
+            "sellToken": "BNB", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    0.02276604, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "3deed913", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 4.77147187, 
+            "sellToken": "BNB", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    0.02588524, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "c5ce8116", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 9.35221793, 
+            "sellToken": "BNB", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    0.01966791, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "7c53f6ca", 
+            "execBuyAmount": 0.2112940056094099, 
+            "execSellAmount": 9.35221793, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 8.3110397, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01450418, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "8e9cc434", 
+            "execBuyAmount": 0.1259743979920693, 
+            "execSellAmount": 8.3110397, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 35.28696636, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01512375, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "e3c56256", 
+            "execBuyAmount": 0.5348614017771328, 
+            "execSellAmount": 35.28696636, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 82.66992475, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01418433, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "ad4321e7", 
+            "execBuyAmount": 1.2530675316628463, 
+            "execSellAmount": 82.66992475, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 4.13238527, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01506492, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "edc59fe3", 
+            "execBuyAmount": 0.06263653711815922, 
+            "execSellAmount": 4.13238527, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 54.3649933, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01507269, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "b71c433b", 
+            "execBuyAmount": 0.824036167557999, 
+            "execSellAmount": 54.3649933, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 8.39769971, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01567252, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "a43dccf2", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 20.46571173, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01637474, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "684d1f23", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 14.18141445, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.0161359, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "c0f033f6", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 3.42639817, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01427643, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "ccb984e2", 
+            "execBuyAmount": 0.05193555347195345, 
+            "execSellAmount": 3.42639817, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 58.27871529, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01443833, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "253ddbe7", 
+            "execBuyAmount": 0.8833583209100727, 
+            "execSellAmount": 58.27871529, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 6.21145597, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01713726, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "4ed98b21", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 5.99165507, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01623317, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "7d0fa3d1", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 1.01413394, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01691804, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "a282770b", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 10.26535852, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01547886, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "3af95e06", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 7.2725632, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01455005, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "66bbc8d3", 
+            "execBuyAmount": 0.1102337137168623, 
+            "execSellAmount": 7.2725632, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 8.166595, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01842657, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "c60a99ef", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 13.64103176, 
+            "sellToken": "OMG", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01605147, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "1e459f68", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.02935481, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    66.76793632, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "c28d4abc", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.54688948, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    71.43756427, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "a925b146", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.06328627, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    60.02905962, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "e0f5a3f1", 
+            "execBuyAmount": 4.175250771732457, 
+            "execSellAmount": 0.06328627, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.18722137, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    75.51867745, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "aec60110", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.16378457, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    65.97403784, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "92024abd", 
+            "execBuyAmount": 10.805529418788126, 
+            "execSellAmount": 0.16378457, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.57521012, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    70.5196442, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "ce2f834f", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.80167056, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    69.88189962, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "a3eb32d2", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 3.31997011, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    68.81953995, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "4af17719", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.31256154, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    69.66204562, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "3653ba15", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.19091688, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    62.29439589, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "1b69400f", 
+            "execBuyAmount": 12.595557465414739, 
+            "execSellAmount": 0.19091688, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.1186226, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    63.68174414, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "8e8c2117", 
+            "execBuyAmount": 7.826011901079183, 
+            "execSellAmount": 0.1186226, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.57795932, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    65.6836035, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "aa3fffed", 
+            "execBuyAmount": 38.13031004766067, 
+            "execSellAmount": 0.57795932, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.10629439, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    75.43551579, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "3795b85c", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.5504948, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    62.77853964, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "e5ea577d", 
+            "execBuyAmount": 36.31836476592323, 
+            "execSellAmount": 0.5504948, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.1794599, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    54.12141556, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "e47a6e3f", 
+            "execBuyAmount": 11.839694233362616, 
+            "execSellAmount": 0.1794599, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.12202845, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    60.30762898, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "f4a7a10b", 
+            "execBuyAmount": 8.050709577856548, 
+            "execSellAmount": 0.12202845, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.62519432, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    69.21934072, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "5d610613", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.04516061, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    73.31166717, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "cb3bc993", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.06843061, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    60.21173922, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "774c7b85", 
+            "execBuyAmount": 4.514643653554281, 
+            "execSellAmount": 0.06843061, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.45635422, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    70.23347353, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "18acd634", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.56480121, 
+            "sellToken": "ETH", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    62.12606811, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "6b76bb55", 
+            "execBuyAmount": 37.26221640061779, 
+            "execSellAmount": 0.56480121, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 238.60766461, 
+            "sellToken": "VEN", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.00402423, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "268e2161", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 45.89860087, 
+            "sellToken": "VEN", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.00403929, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "8d1ce39b", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 14.8951478, 
+            "sellToken": "VEN", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.00399594, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "b51a08a6", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 31.31617732, 
+            "sellToken": "VEN", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.00367058, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "3fb7c4ae", 
+            "execBuyAmount": 0.12253060559577837, 
+            "execSellAmount": 31.31617732, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 121.93485345, 
+            "sellToken": "VEN", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.00387646, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "e54e9662", 
+            "execBuyAmount": 0.4770937168924226, 
+            "execSellAmount": 121.93485345, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.44481715, 
+            "sellToken": "ETH", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    252.23665182, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "53da4e47", 
+            "execBuyAmount": 92.9484986989323, 
+            "execSellAmount": 0.3636789930782839, 
+            "execFraction": 0.817592111901
+        }, 
+        {
+            "sellAmount": 0.07586964, 
+            "sellToken": "ETH", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    223.50958998, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "eb124f9f", 
+            "execBuyAmount": 19.39064193710657, 
+            "execSellAmount": 0.07586964, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.07692796, 
+            "sellToken": "ETH", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    250.73829284, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "eef78542", 
+            "execBuyAmount": 19.66112567967973, 
+            "execSellAmount": 0.07692796, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.44094121, 
+            "sellToken": "ETH", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    191.02781429, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "95e0a38a", 
+            "execBuyAmount": 112.69505323110158, 
+            "execSellAmount": 0.44094121, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 234.72531075, 
+            "sellToken": "ZRX", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZRX"
+                ], 
+                [
+                    0.00233091, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "50f98e30", 
+            "execBuyAmount": 0.5640468386556211, 
+            "execSellAmount": 234.72531075, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 103.16696329, 
+            "sellToken": "ZRX", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZRX"
+                ], 
+                [
+                    0.00266155, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "26f591c8", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.07978584, 
+            "sellToken": "ETH", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    7235.20116152, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "50b92c24", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.14879623, 
+            "sellToken": "ETH", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    5736.77869166, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "7f014e82", 
+            "execBuyAmount": 1027.0308531198234, 
+            "execSellAmount": 0.14879623, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.0813619, 
+            "sellToken": "ETH", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    6846.99223259, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "c61b3581", 
+            "execBuyAmount": 561.5813086692434, 
+            "execSellAmount": 0.0813619, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.17231967, 
+            "sellToken": "ETH", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    5493.74332275, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "9cb5363d", 
+            "execBuyAmount": 1189.3958448371066, 
+            "execSellAmount": 0.17231967, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.10599683, 
+            "sellToken": "ETH", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    7653.95238075, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "60b6717e", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.34197039, 
+            "sellToken": "ETH", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    6904.88104828, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "37bd5b18", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 89.94241972, 
+            "sellToken": "ZIL", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.00015619, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "8267ea2e", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 246.45308305, 
+            "sellToken": "ZIL", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.00015216, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "de428b1f", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 991.33580812, 
+            "sellToken": "ZIL", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.00014488, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "1f15bc08", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 2392.18512148, 
+            "sellToken": "ZIL", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.0001516, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "1014047e", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 264.94776379, 
+            "sellToken": "ZIL", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.00014945, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "28d15cec", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.13073476, 
+            "sellToken": "ETH", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    259.58445369, 
+                    "AET"
+                ]
+            ], 
+            "ID": "50f4f27f", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.09815096, 
+            "sellToken": "ETH", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    247.52898673, 
+                    "AET"
+                ]
+            ], 
+            "ID": "f554564d", 
+            "execBuyAmount": 25.187773463663497, 
+            "execSellAmount": 0.09815096, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.30282817, 
+            "sellToken": "ETH", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    276.61846197, 
+                    "AET"
+                ]
+            ], 
+            "ID": "e1959a37", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 44.08530692, 
+            "sellToken": "AET", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    0.00389677, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "b983b230", 
+            "execBuyAmount": 0.1717903014466484, 
+            "execSellAmount": 44.08530692, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 32.19331196, 
+            "sellToken": "AET", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    0.00401612, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "04092413", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 137.63200419, 
+            "sellToken": "AET", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    0.00343453, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "ac2c5d1a", 
+            "execBuyAmount": 0.5363202649674663, 
+            "execSellAmount": 137.63200419, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 11.62247329, 
+            "sellToken": "AET", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    0.00416124, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "198a8d39", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.03159055, 
+            "sellToken": "MKR", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    1.34610589, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "294382b8", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.14492144, 
+            "sellToken": "MKR", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    1.2850231, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "68f1c4d2", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.07651964, 
+            "sellToken": "MKR", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    1.13053544, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "e196c8ab", 
+            "execBuyAmount": 0.098329505003684, 
+            "execSellAmount": 0.07651964, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.5757012, 
+            "sellToken": "MKR", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    1.06610764, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "3bfdb341", 
+            "execBuyAmount": 0.7397893406977201, 
+            "execSellAmount": 0.5757012, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.15402451, 
+            "sellToken": "MKR", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    1.38405269, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "295c6f99", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.24476592, 
+            "sellToken": "MKR", 
+            "buyToken": "ETH", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    1.23035992, 
+                    "ETH"
+                ]
+            ], 
+            "ID": "a2d5c166", 
+            "execBuyAmount": 0.31452986129275196, 
+            "execSellAmount": 0.24476592, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.59960825, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.86377621, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "48366447", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.79990625, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.73448433, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "ea7d6920", 
+            "execBuyAmount": 0.6224839460084415, 
+            "execSellAmount": 0.79990625, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.09028793, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.78750115, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "bc3d45df", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.48738773, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.8262905, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "a9f1df77", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.04148029, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.62224902, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "ea9d795e", 
+            "execBuyAmount": 0.03227980104015252, 
+            "execSellAmount": 0.04148029, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.09117974, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.82604075, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "c02ab11a", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.08209727, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.77188303, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "db2b898d", 
+            "execBuyAmount": 0.06388777758158588, 
+            "execSellAmount": 0.08209727, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.23785829, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.75872927, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "e215804d", 
+            "execBuyAmount": 0.18510040014066675, 
+            "execSellAmount": 0.23785829, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.03756854, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.65792348, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "385439e2", 
+            "execBuyAmount": 0.02923569233891593, 
+            "execSellAmount": 0.03756854, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.37856012, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.80098566, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "b10ce2dc", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.0604345, 
+            "sellToken": "ETH", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    0.87926825, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "921ffb0a", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.08363002, 
+            "sellToken": "ETH", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    1095.84879213, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "33ceb48a", 
+            "execBuyAmount": 109.77231456413277, 
+            "execSellAmount": 0.08363002, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.14933886, 
+            "sellToken": "ETH", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    1161.74677706, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "849f7bb7", 
+            "execBuyAmount": 196.0213846244325, 
+            "execSellAmount": 0.14933886, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.25632829, 
+            "sellToken": "ETH", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    1055.72036995, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "70d4c352", 
+            "execBuyAmount": 336.4551351484341, 
+            "execSellAmount": 0.25632829, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.17700657, 
+            "sellToken": "ETH", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    1359.34032267, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "5e38b9e7", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.14769648, 
+            "sellToken": "ETH", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    1257.37150153, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "6dcf1ada", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.00990755, 
+            "sellToken": "ETH", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ETH"
+                ], 
+                [
+                    1319.75346759, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "012a1ebd", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 1.32274701, 
+            "sellToken": "GNO", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "GNO"
+                ], 
+                [
+                    4.80954134, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "74baf90a", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 34.46046987, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.71756123, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "46b217b8", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 2.49222923, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.70281395, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "3fa81e9b", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 12.08374274, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.71095125, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "a0912075", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 20.68141953, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.71965221, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "38815e34", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 9.48446108, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.72952937, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "0d011c5b", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 122.64241435, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.77665108, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "840871cd", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 32.96884345, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.65259835, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "54d46800", 
+            "execBuyAmount": 21.28090240832785, 
+            "execSellAmount": 31.720181470471253, 
+            "execFraction": 0.962125999918
+        }, 
+        {
+            "sellAmount": 14.69829117, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.68446703, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "7787132b", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 3.9302212, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.70474926, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "3493642f", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 7.08308465, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.62407742, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "b2e7a2a4", 
+            "execBuyAmount": 4.752004124783957, 
+            "execSellAmount": 7.08308465, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 2.01353873, 
+            "sellToken": "OMG", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.69642793, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "9857a68e", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 43.72314318, 
+            "sellToken": "BNB", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    1.35015961, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "233e1754", 
+            "execBuyAmount": 65.17139214858952, 
+            "execSellAmount": 43.72314318, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 18.08970738, 
+            "sellToken": "BNB", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    1.67881819, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "341a10ef", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 15.18758871, 
+            "sellToken": "BNB", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    1.42221291, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "66d258a0", 
+            "execBuyAmount": 22.63781209727065, 
+            "execSellAmount": 15.18758871, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 6.27274205, 
+            "sellToken": "BNB", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    1.49629574, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "36bdfcbb", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 3.29186241, 
+            "sellToken": "BNB", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    1.87992357, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "02fca0ba", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 7.20783418, 
+            "sellToken": "BNB", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    1.60529541, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "e97b4c12", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 9.07010775, 
+            "sellToken": "BNB", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    1.50014716, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "3990d6c4", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 8.70688962, 
+            "sellToken": "BNB", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    1.46668283, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "10740720", 
+            "execBuyAmount": 12.978026659324533, 
+            "execSellAmount": 8.70688962, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 72.04218646, 
+            "sellToken": "VEN", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.16912757, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "f0b3620a", 
+            "execBuyAmount": 12.47642509726568, 
+            "execSellAmount": 72.04218646, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 6.78844042, 
+            "sellToken": "BNB", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    4.82138656, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "90961821", 
+            "execBuyAmount": 39.19825484444428, 
+            "execSellAmount": 6.78844042, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 14.30484519, 
+            "sellToken": "BNB", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    5.18014347, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "ef3fd219", 
+            "execBuyAmount": 82.59996885528281, 
+            "execSellAmount": 14.30484519, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 24.11900561, 
+            "sellToken": "BNB", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    5.32535116, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "ebbd08ca", 
+            "execBuyAmount": 139.26953320676876, 
+            "execSellAmount": 24.11900561, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 829.72370863, 
+            "sellToken": "ZIL", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.00601783, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "e4468ab7", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 111.57351876, 
+            "sellToken": "AET", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    0.1543389, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "ad876b0f", 
+            "execBuyAmount": 12.205395637101457, 
+            "execSellAmount": 70.76518501170789, 
+            "execFraction": 0.634247138552
+        }, 
+        {
+            "sellAmount": 31.79264809, 
+            "sellToken": "AET", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    0.19512039, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "8c0ca736", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 8.11699352, 
+            "sellToken": "BNB", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    5.67980352, 
+                    "AET"
+                ]
+            ], 
+            "ID": "a883e6bd", 
+            "execBuyAmount": 47.0611986092114, 
+            "execSellAmount": 8.11699352, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 1.4128612, 
+            "sellToken": "BNB", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    0.01847272, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "343367c9", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 4.02838143, 
+            "sellToken": "BNB", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BNB"
+                ], 
+                [
+                    0.01565386, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "47c1be18", 
+            "execBuyAmount": 0.07082591737669851, 
+            "execSellAmount": 4.02838143, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 0.1281405, 
+            "sellToken": "MKR", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    56.55223328, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "22dcd341", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.17386181, 
+            "sellToken": "MKR", 
+            "buyToken": "BNB", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    55.18568077, 
+                    "BNB"
+                ]
+            ], 
+            "ID": "289d413f", 
+            "execBuyAmount": 9.888776774540045, 
+            "execSellAmount": 0.17386181, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 59.85877588, 
+            "sellToken": "VEN", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.23633432, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "1c8c2044", 
+            "execBuyAmount": 15.451716556631657, 
+            "execSellAmount": 59.85877588, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 6.75345539, 
+            "sellToken": "VEN", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.24413286, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "a32346ff", 
+            "execBuyAmount": 1.7433112677301261, 
+            "execSellAmount": 6.75345539, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 16.50101609, 
+            "sellToken": "VEN", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.23469041, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "85f2a6c4", 
+            "execBuyAmount": 4.259509483291798, 
+            "execSellAmount": 16.50101609, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 32.09514299, 
+            "sellToken": "VEN", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.25609435, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "adf3730d", 
+            "execBuyAmount": 8.284918043099205, 
+            "execSellAmount": 32.09514299, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 22.28807318, 
+            "sellToken": "VEN", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    0.24734486, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "cf4748fe", 
+            "execBuyAmount": 5.75335837240018, 
+            "execSellAmount": 22.28807318, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 10.86918325, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    3.93330935, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "f602c815", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 3.85465545, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    4.4280517, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "0f9d7b52", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 11.88443086, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    4.22182073, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "db798a69", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 15.8172417, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    3.86491397, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "3b0957dc", 
+            "execBuyAmount": 61.274792511886766, 
+            "execSellAmount": 15.8172417, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 2.80308675, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    4.47524267, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "e52d6d90", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 13.4165209, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    3.84409022, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "3b2a1151", 
+            "execBuyAmount": 51.97458254550743, 
+            "execSellAmount": 13.4165209, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 2.6579778, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    4.43670307, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "c63e5329", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 50.30737184, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    4.44598338, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "e0591d97", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 4.73517626, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    4.48996799, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "bb26e18e", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 16.9863989, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    4.26197278, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "db7698dd", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 5.25749246, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    3.45563867, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "bf241c75", 
+            "execBuyAmount": 20.36712631250423, 
+            "execSellAmount": 5.25749246, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 4.05213296, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    3.69117677, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "7afd8cac", 
+            "execBuyAmount": 15.697655195758786, 
+            "execSellAmount": 4.05213296, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 74.23068852, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    4.30863347, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "c7e7586a", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 16.1596335, 
+            "sellToken": "OMG", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    3.74778712, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "f56b79b9", 
+            "execBuyAmount": 62.60119232929434, 
+            "execSellAmount": 16.1596335, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 1.49032305, 
+            "sellToken": "OMG", 
+            "buyToken": "ZRX", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    7.21731259, 
+                    "ZRX"
+                ]
+            ], 
+            "ID": "2a273bd9", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 205.98973628, 
+            "sellToken": "ZIL", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.00941209, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "d5808a09", 
+            "execBuyAmount": 1.9689155281595907, 
+            "execSellAmount": 205.98973628, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 554.9487763, 
+            "sellToken": "ZIL", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.01072792, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "7950987c", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 518.73868656, 
+            "sellToken": "ZIL", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.00891345, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "d2b9ad13", 
+            "execBuyAmount": 4.958269637457952, 
+            "execSellAmount": 518.73868656, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 864.36132563, 
+            "sellToken": "ZIL", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.0096474, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "359e8cac", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 3518.76289572, 
+            "sellToken": "ZIL", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.00878141, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "04c4637c", 
+            "execBuyAmount": 33.63345684309992, 
+            "execSellAmount": 3518.76289572, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 485.97231461, 
+            "sellToken": "ZIL", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.01045629, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "48eec02d", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 7.25340073, 
+            "sellToken": "OMG", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    93.52261266, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "57c93d8c", 
+            "execBuyAmount": 758.8573923750135, 
+            "execSellAmount": 7.25340073, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 8.23659563, 
+            "sellToken": "OMG", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    116.83895957, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "23aef237", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 41.26861038, 
+            "sellToken": "OMG", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    108.47207522, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "f0cb1fff", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 4.45492353, 
+            "sellToken": "OMG", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    120.90767322, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "125bdd35", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 59.47702487, 
+            "sellToken": "AET", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    0.25469331, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "87e0f3b1", 
+            "execBuyAmount": 15.290689684046892, 
+            "execSellAmount": 59.47702487, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 117.98338462, 
+            "sellToken": "AET", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    0.21021258, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "dc34f848", 
+            "execBuyAmount": 30.331835293394537, 
+            "execSellAmount": 117.98338462, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 64.63540456, 
+            "sellToken": "OMG", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    3.15809171, 
+                    "AET"
+                ]
+            ], 
+            "ID": "110624cc", 
+            "execBuyAmount": 251.41583826061785, 
+            "execSellAmount": 64.63540456, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 6.22813331, 
+            "sellToken": "OMG", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.00980024, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "ad828fa3", 
+            "execBuyAmount": 0.0734638864205267, 
+            "execSellAmount": 6.22813331, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 21.92459899, 
+            "sellToken": "OMG", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    0.01205212, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "411810eb", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 501.16289661, 
+            "sellToken": "BAT", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BAT"
+                ], 
+                [
+                    0.05026231, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "a3967009", 
+            "execBuyAmount": 25.189604869909772, 
+            "execSellAmount": 501.16289661, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 67.46947301, 
+            "sellToken": "BAT", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BAT"
+                ], 
+                [
+                    0.05093406, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "139b70ac", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 123.25552805, 
+            "sellToken": "BAT", 
+            "buyToken": "OMG", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BAT"
+                ], 
+                [
+                    0.04592965, 
+                    "OMG"
+                ]
+            ], 
+            "ID": "b3d50e8f", 
+            "execBuyAmount": 6.195107560062795, 
+            "execSellAmount": 123.25552805, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 25.87681274, 
+            "sellToken": "OMG", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    22.94271678, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "500929a8", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 20.58864646, 
+            "sellToken": "OMG", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "OMG"
+                ], 
+                [
+                    24.81805805, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "0c77b274", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 295.92325893, 
+            "sellToken": "VEN", 
+            "buyToken": "ZRX", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    1.51537677, 
+                    "ZRX"
+                ]
+            ], 
+            "ID": "50282d48", 
+            "execBuyAmount": 472.9074068598245, 
+            "execSellAmount": 290.4393970067786, 
+            "execFraction": 0.981468635
+        }, 
+        {
+            "sellAmount": 1788.61153118, 
+            "sellToken": "ZIL", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.0370282, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "1cdc552b", 
+            "execBuyAmount": 25.74988402884762, 
+            "execSellAmount": 695.4127942715991, 
+            "execFraction": 0.388800352759
+        }, 
+        {
+            "sellAmount": 1348.25357942, 
+            "sellToken": "ZIL", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.03834838, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "c2402983", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 5237.58563509, 
+            "sellToken": "ZIL", 
+            "buyToken": "VEN", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.03823937, 
+                    "VEN"
+                ]
+            ], 
+            "ID": "658dd7c1", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 26.12368464, 
+            "sellToken": "VEN", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    25.63825886, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "5a10b8d9", 
+            "execBuyAmount": 705.5078194457199, 
+            "execSellAmount": 26.12368464, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 11.09995015, 
+            "sellToken": "VEN", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    27.51943836, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "fb671c33", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 12.46662833, 
+            "sellToken": "VEN", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    30.80926089, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "0be9e4fb", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 20.43830108, 
+            "sellToken": "VEN", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    29.15076607, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "1cc7ee03", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 15.22979055, 
+            "sellToken": "VEN", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    1.08727867, 
+                    "AET"
+                ]
+            ], 
+            "ID": "5cfe49e5", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 85.99426401, 
+            "sellToken": "VEN", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    5.09902094, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "4d14e517", 
+            "execBuyAmount": 125.4585846547101, 
+            "execSellAmount": 24.428338340277012, 
+            "execFraction": 0.284069392552
+        }, 
+        {
+            "sellAmount": 39.64720863, 
+            "sellToken": "VEN", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "VEN"
+                ], 
+                [
+                    4.69657041, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "6761a364", 
+            "execBuyAmount": 203.6193625183514, 
+            "execSellAmount": 39.64720863, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 62.40085292, 
+            "sellToken": "ZRX", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZRX"
+                ], 
+                [
+                    16.08701108, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "f7d472a8", 
+            "execBuyAmount": 1034.992815942335, 
+            "execSellAmount": 62.40085292, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 92.4121567, 
+            "sellToken": "ZRX", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZRX"
+                ], 
+                [
+                    15.9911808, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "29bff8cc", 
+            "execBuyAmount": 1532.7662013347576, 
+            "execSellAmount": 92.4121567, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 663.22037988, 
+            "sellToken": "ZIL", 
+            "buyToken": "ZRX", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.07032133, 
+                    "ZRX"
+                ]
+            ], 
+            "ID": "2b4f7ca6", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 83.36908649, 
+            "sellToken": "ZRX", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZRX"
+                ], 
+                [
+                    0.61256683, 
+                    "AET"
+                ]
+            ], 
+            "ID": "86d3b9de", 
+            "execBuyAmount": 51.41093666883333, 
+            "execSellAmount": 83.36908649, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 105.45498291, 
+            "sellToken": "AET", 
+            "buyToken": "ZRX", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    1.60013817, 
+                    "ZRX"
+                ]
+            ], 
+            "ID": "c602d772", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 60.36397869, 
+            "sellToken": "AET", 
+            "buyToken": "ZIL", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "AET"
+                ], 
+                [
+                    25.58859247, 
+                    "ZIL"
+                ]
+            ], 
+            "ID": "6388c886", 
+            "execBuyAmount": 1623.5818694080017, 
+            "execSellAmount": 60.36397869, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 2503.47418418, 
+            "sellToken": "ZIL", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.03702449, 
+                    "AET"
+                ]
+            ], 
+            "ID": "4042d9b8", 
+            "execBuyAmount": 93.07794399053536, 
+            "execSellAmount": 2503.47418418, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 535.00132232, 
+            "sellToken": "ZIL", 
+            "buyToken": "BAT", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "ZIL"
+                ], 
+                [
+                    0.21134352, 
+                    "BAT"
+                ]
+            ], 
+            "ID": "0e649e7f", 
+            "execBuyAmount": 0.0, 
+            "execSellAmount": 0.0, 
+            "execFraction": 0.0
+        }, 
+        {
+            "sellAmount": 0.1336223, 
+            "sellToken": "MKR", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "MKR"
+                ], 
+                [
+                    319.58209659, 
+                    "AET"
+                ]
+            ], 
+            "ID": "33711142", 
+            "execBuyAmount": 1.1345177777213462, 
+            "execSellAmount": 0.0034403699363001416, 
+            "execFraction": 0.025746974392
+        }, 
+        {
+            "sellAmount": 107.50798941, 
+            "sellToken": "BAT", 
+            "buyToken": "AET", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BAT"
+                ], 
+                [
+                    0.1919835, 
+                    "AET"
+                ]
+            ], 
+            "ID": "2a6d1a91", 
+            "execBuyAmount": 21.018675531154884, 
+            "execSellAmount": 107.50798941, 
+            "execFraction": 1.0
+        }, 
+        {
+            "sellAmount": 239.40036744, 
+            "sellToken": "BAT", 
+            "buyToken": "MKR", 
+            "limitRate": [
+                [
+                    1.0, 
+                    "BAT"
+                ], 
+                [
+                    0.00057443, 
+                    "MKR"
+                ]
+            ], 
+            "ID": "d80d5191", 
+            "execBuyAmount": 0.14193295902925265, 
+            "execSellAmount": 239.40036744, 
+            "execFraction": 1.0
+        }
+    ]
+}

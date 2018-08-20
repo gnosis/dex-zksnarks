@@ -2,7 +2,7 @@
 
 [ -f ${BASH_SOURCE%/*}/util/assert.sh ] && . ${BASH_SOURCE%/*}/util/assert.sh
 
-echo "Bitwise Encodig"
+echo "Bitwise Encoding"
 
 echo -e "  \e[2mGenerating Source\e[22m \c"
 node ${BASH_SOURCE%/*}/../codegen/generate.js --template ${BASH_SOURCE%/*}/../codegen/templates/verify_constraints_bitwise_order_encoding.ejs --out ${BASH_SOURCE%/*}/../verify3orders3tokens_bitwise.code -o 3 -t 3 > /dev/null
@@ -24,7 +24,7 @@ echo -e "  \e[2mRunning with json example\e[22m \c"
 ${BASH_SOURCE%/*}/../util/generate_input.py 3 3 253 ${BASH_SOURCE%/*}/../examples/ringtrade.json | source /dev/stdin > /dev/null 2>&1
 checkResponse
 
-echo "Non-Bitwise Encodig"
+echo "Non-Bitwise Encoding"
 
 echo -e "  \e[2mGenerating Source\e[22m \c"
 node ${BASH_SOURCE%/*}/../codegen/generate.js --template ${BASH_SOURCE%/*}/../codegen/templates/verify_constraints.ejs --out ${BASH_SOURCE%/*}/../verify3orders3tokens.code -o 3 -t 3 > /dev/null
@@ -45,5 +45,13 @@ checkResponse
 echo -e "  \e[2mRunning with json example\e[22m \c"
 ${BASH_SOURCE%/*}/../util/generate_input.py 3 3 1 ${BASH_SOURCE%/*}/../examples/ringtrade.json | source /dev/stdin > /dev/null 2>&1
 checkResponse
+
+echo "Python Verifier"
+echo -e "  \e[2mValid json example\e[22m \c"
+${BASH_SOURCE%/*}/../util/verify.py ${BASH_SOURCE%/*}/../examples/ringtrade.json
+checkResponse
+echo -e "  \e[2mIvalid json example\e[22m \c"
+${BASH_SOURCE%/*}/../util/verify.py ${BASH_SOURCE%/*}/../examples/invalid200orders.json > /dev/null
+checkResponseInverse
 
 assertAllPass

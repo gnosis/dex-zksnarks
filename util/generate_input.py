@@ -2,7 +2,7 @@
 
 import sys
 import json
-from encode import encodeOrder, encodeNumber
+from helper.json_parsing import parseJsonData
 
 def main():
     if len(sys.argv) > 2:
@@ -17,61 +17,23 @@ def main():
         if (len(sys.argv) == 5):
             with open(sys.argv[4]) as f:
                 data = json.load(f)
-        encodedOrders, bitmap, volumes, prices = parseJsonData(data, orders, tokens)
+        orders, bitmap, volumes, prices = parseJsonData(data, orders, tokens)
 
-        writeArguments(encodedOrders, bitmap, volumes, prices, variablesPerOrder)
+        writeArguments(orders, bitmap, volumes, prices, variablesPerOrder)
         
         print "time ./zokrates compute-witness --interactive < data.input > /dev/null"
         exit()
     printUsageAndExit()
 
-def parseJsonData(data, maxOrders, maxTokens):
-    if not data:
-        return [0] * maxOrders, [0] * maxOrders, [0] * maxOrders, [0] * (maxTokens-1)
-
-    refToken = data["refToken"]
-    refTokenPrice = data["pricesNew"][refToken]
-
-    tokenList = data["tokens"]
-    tokenList.remove
-    assert(len(tokenList) <= maxTokens);
-    tokenMapping = dict(zip(tokenList, range(len(tokenList))))
-
-    priceList = [0] * maxTokens
-    for currency, newPrice in data["pricesNew"].iteritems():
-        if currency == refToken:
-            continue
-        index = tokenMapping[currency]
-        priceList[index] = encodeNumber(newPrice/refTokenPrice)
-    # We want to ignore the ref token in the price vector
-    del priceList[tokenMapping[refToken]]
-
-    encodedOrders = [0] * maxOrders
-    bitmap = [0] * maxOrders
-    volume = [0] * maxOrders
-
-    jsonOrders = data["sellOrders"]
-    for i in range(len(jsonOrders)):
-        order = jsonOrders[i]
-
-        amount = order["sellAmount"]
-        sourceToken = tokenMapping[order["sellToken"]]
-        targetToken = tokenMapping[order["buyToken"]]
-        limit = order["limitRate"][1][0]
-
-        encodedOrders[i] = encodeOrder(amount, sourceToken, targetToken, limit)
-        bitmap[i] = 1
-        volume[i] = encodeNumber(min(amount, order["execSellAmount"]))
-    return encodedOrders, bitmap, volume, priceList
-
-def writeArguments(encodedOrders, bitmap, volumes, prices, variablesPerOrder):
+def writeArguments(orders, bitmap, volumes, prices, variablesPerOrder):
     with open('data.input', 'w') as f:
-        for order in encodedOrders:
+        for order in orders:
+            encodedOrder = order.encode()
             if variablesPerOrder > 1:
-                f.write('\n'.join(reversed('{0:0253b}'.format(order))))
+                f.write('\n'.join(reversed('{0:0253b}'.format(encodedOrder))))
                 f.write('\n')
             else:
-                f.write(str(order) + "\n")
+                f.write(str(encodedOrder) + "\n")
 
         for bit in bitmap:
             f.write(str(bit) + "\n")

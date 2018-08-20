@@ -12,6 +12,15 @@ function checkResponse() {
 	fi
 }
 
+function checkResponseInverse() {
+	if [ $? -eq 0 ]; then 
+		echo -e "${FAIL}"
+		FAILED=1
+	else 
+		echo -e "${PASS}"
+	fi
+}
+
 function assertAllPass() {
 	if ((FAILED)); then
 		echo "At least one test Failed"
