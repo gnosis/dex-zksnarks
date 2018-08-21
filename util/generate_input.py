@@ -21,7 +21,7 @@ def main():
 
         writeArguments(orders, bitmap, volumes, prices, variablesPerOrder)
         
-        print "time ./zokrates compute-witness --interactive < data.input > /dev/null"
+        print "/usr/bin/time -v ./zokrates compute-witness --interactive < data.input > /dev/null"
         exit()
     printUsageAndExit()
 

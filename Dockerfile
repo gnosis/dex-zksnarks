@@ -14,13 +14,14 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     curl \
+    git \
     libboost-all-dev \
     libgmp3-dev \
     libprocps3-dev \
     libssl-dev \
     pkg-config \
     python-markdown \
-    git
+    time
 
 USER zokrates
 
