@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "command-line-args": "^5.0.2",
-    "ejs": "^2.6.1",
+    "ejs-promise": "^0.3.3",
     "fs": "0.0.1-security"
   }
 }

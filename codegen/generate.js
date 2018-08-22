@@ -1,4 +1,4 @@
-const ejs = require('ejs');
+const ejs = require('ejs-promise');
 const commandLineArgs = require('command-line-args')
 const fs = require('fs')
 
@@ -18,11 +18,9 @@ const templateData = {
   generateBitwiseVariables
 }
 
-ejs.renderFile(options.template, templateData).then(function(code, err) {
-	fs.writeFile(options.out, code, (err) => {
-  		if (err) throw err;
-  		console.log('Code generated');
-  	});
+ejs.renderFile(options.template, templateData, function(err, resultPromise) {
+  resultPromise.noBuffer();
+  resultPromise.outputStream.pipe(fs.createWriteStream(options.out));
 });
 
 function generateVariableNames(prefix, n) {
@@ -50,11 +48,28 @@ function generateTokenPairs(prefix, n) {
 }
 
 function generateBitwiseVariables(prefix, bits, n) {
-  var result = [];
-  for(i=0; i < n; i++) {
-    for(bit=0; bit < bits; bit++) {
-      result.push(`${prefix}${i+1}Bit${bit}`);
+  return {
+    get: function(index) {
+      let i = Math.floor(index / bits);
+      let bit = index % bits;
+      return `${prefix}${i+1}Bit${bit}`;
+    },
+    join: function(glue) {
+      if (bits * n == 0) {
+        return '';
+      }
+      var result = this.get(0)
+      for (i=1; i < bits * n; i++) {
+        result += glue + this.get(i);
+      }
+      return result;
+    },
+    slice: function(lower, upper) {
+      result = [];
+      for (i = lower; i < upper; i++) {
+        result.push(this.get(i));
+      }
+      return result
     }
   }
-  return result;
 }
