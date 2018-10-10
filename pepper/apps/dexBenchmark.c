@@ -42,6 +42,7 @@ struct BalancePair {
     uint32_t buyingBalance;
 };
 
+
 void compute(struct PublicInput *input, struct Out *output) {
     struct PrivateInput private[1];
     uint32_t exoIn[1] = { 0 };
@@ -51,8 +52,8 @@ void compute(struct PublicInput *input, struct Out *output) {
     // Verify old balance hash
     
     uint32_t prices[NUM_TOKENS][NUM_TOKENS] = private->price;
-    uint32_t volumes[NUM_TOKENS];
-    uint32_t index, j;
+    uint32_t volumes[NUM_TOKENS][NUM_TOKENS];
+    uint32_t index, j, i;
 
     // Verify private price matrix matches public and is arbitrage free
     for (index = 0; index < NUM_TOKENS; index++) {
@@ -78,36 +79,45 @@ void compute(struct PublicInput *input, struct Out *output) {
             balances[order.sourceToken][order.leafIndex],
             balances[order.targetToken][order.leafIndex],
         };
-
+        uint32_t volume = volumes[order.sourceToken][order.leafIndex];
         // TODO write balances back into array
         
         if (prices[order.sourceToken][order.targetToken] < order.limit) {
             // limit too high, don't trade
         } else if (prices[order.sourceToken][order.targetToken] > order.limit) {
             // // limit below market price, trade completely
-            trade(ONE, order, account, &balancePair, sourceToTargetPrice, targetToSourcePrice);
+            trade(ONE, order, account, &balancePair, volume, targetToSourcePrice);
         } else if (private->fractionIsForSeller) {
             // Sell orders at the limit price are not completely fullfilled
             if (order.targetToken == 0) { 
                 // This is a sell order, trade fractionally
-                trade(private->fraction, order, account, &balancePair, sourceToTargetPrice, targetToSourcePrice);
+                trade(private->fraction, order, account, &balancePair, &volume, targetToSourcePrice);
             } else { 
                 // This is a buy order, trade completely
-                trade(ONE, order, account, &balancePair, sourceToTargetPrice, targetToSourcePrice);
+                trade(ONE, order, account, &balancePair, &volume, targetToSourcePrice);
             }
         } else if (!private->fractionIsForSeller) {
             // Buy orders at the limit price are not completely fullfilled
             if (order.targetToken == 1) { 
                 // This is a buy order, trade fractionally
-                trade(private->fraction, order, account, &balancePair, sourceToTargetPrice, targetToSourcePrice);
+                trade(private->fraction, order, account, &balancePair, &volume, targetToSourcePrice);
             } else { 
                 // This is a sell order, trade completely
-                trade(ONE, order, account, &balancePair, sourceToTargetPrice, targetToSourcePrice);
+                trade(ONE, order, account, &balancePair, &volume, targetToSourcePrice);
             }
         }
 
         balances[order.sourceToken][order.leafIndex] = balancePair.sellingBalance;
         balances[order.targetToken][order.leafIndex] = balancePair.buyingBalance;
+
+        volumes[order.sourceToken][order.leafIndex] = volume;
+    }
+
+    // Verify private price matrix matches public and is arbitrage free
+    for (i = 0; i < NUM_TOKENS; i++) {
+        for (j = 0; j < NUM_TOKENS; j++) {
+            assert_zero(volumes[i][j] - volumes[j][i] *prices[j][i]);
+        }
     }
 
     // Assert we worked on the orders committed to in public input
@@ -122,17 +132,18 @@ void trade(
     struct Order order,
     struct Account account,
     struct BalancePair *balancePair,
-    uint32_t sourceToTargetPrice,
-    uint32_t targetToSourcePrice) {
+    uint32_t *volume,
+    uint32_t volumePriceRatio) {
         assert_zero(account.ownerLSB - order.fromLSB);
         assert_zero(account.ownerMSB - order.fromMSB);
 
         if (order.amount > balances[order.sourceToken][order.leafIndex]) {
             assert_zero(targetToSourcePrice); //TODO find a better way
         }
-        balancePair->sellingBalance -= order.amount * targetToSourcePrice;
-        balancePair->buyingBalance += order.amount * targetToSourcePrice;
 
+        balancePair->sellingBalance -= order.amount;
+        balancePair->buyingBalance += order.amount * volumePriceRatio;
+        volume += order.amount;
     }
 
 int128 hashedOrder(struct Order order) {
