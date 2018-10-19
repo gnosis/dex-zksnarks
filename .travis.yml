@@ -5,7 +5,7 @@ node_js:
 services:
 - docker
 install:
-- docker build -t dex-zksnarks .
+- docker build -t dex-zksnarks ZoKrates/
 script:
 - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti dex-zksnarks /bin/sh -c
   "cd ZoKrates/target/release/ ; ~/dex-snark/test/ringtrade_counterexamples.sh ; ~/dex-snark/test/run_tests.sh ; ~/dex-snark/test/run_util_tests.sh"
