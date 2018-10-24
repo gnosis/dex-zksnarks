@@ -1,12 +1,3 @@
-/**
- * This is an example bridge to include external gadgets into pepper programs.
- * In this example, we are using a libsnark protoboard for SHA256, which compiles
- * in ~27k constraints vs >70k constraints if implemented natively in pepper.
- * 
- * To replace with your own gadget, simply provide a different protoboard in the 
- * `_getProtoboard` method. And adjust the input/output sizes accordingly.
- */
-
 #include <iostream>
 
 #include "libsnark/gadgetlib1/gadget.hpp"
@@ -16,7 +7,7 @@
 #include <libsnark/gadgetlib1/gadgets/hashes/sha256/sha256_gadget.hpp>
 #include <libsnark/zk_proof_systems/ppzksnark/r1cs_ppzksnark/r1cs_ppzksnark.hpp>
 
-#include <src/gadgets/sha256_full.cpp>
+#include <gadgets/sha256_full.cpp>
 
 using namespace libsnark;
 using namespace libff;
