@@ -34,6 +34,10 @@ link-exo: check-env
 	ln -sf ~/dex-zksnarks/exo_compute/decompose_bits.py $(PEPPER_BIN)/exo1
 	ln -sf ~/dex-zksnarks/exo_compute/private_input.py $(PEPPER_BIN)/exo0
 
+# Target to run all tests (e.g. used by travis)
+test: check-env
+	test/e2e/hash_transform.sh
+
 # Make sure we have the environment set up
 check-env:
 ifndef PEPPER
