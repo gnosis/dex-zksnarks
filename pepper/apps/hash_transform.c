@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#define ORDERS 10
+#define ORDERS 2
 
 struct In { uint32_t shaHash; };
 struct Out { uint32_t pedersenHash[2]; };

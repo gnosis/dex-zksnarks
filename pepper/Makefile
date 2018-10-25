@@ -13,6 +13,9 @@ LDFLAGS += -lsnark -lff -lgmp -lgmpxx
 change-curve: check-env
 	sed -i 's/DCURVE_BN128/DCURVE_ALT_BN128/g' $(PEPPER)/pepper/Makefile
 
+make-bin: check-env
+	mkdir $(PEPPER_BIN)
+
 # Convenience target to compile gadgets 0..n
 gadgets: gadget0 gadget1
 
@@ -24,12 +27,12 @@ gadget1: ext_gadget/pedersen_bridge.cpp check-env
 
 # Link source code of snark apps
 link-apps: check-env
-	ln -sf ~/pequin/apps/* $(PEPPER)/pepper/apps/
+	ln -sf ~/dex-zksnarks/apps/* $(PEPPER)/pepper/apps/
 
 # Link helper programs 0..n (e.g. for private input, bit decomposition, etc.)
 link-exo: check-env
-	ln -sf ~/pequin/exo_compute/decompose_bits.py $(PEPPER_BIN)/exo1
-	ln -sf ~/pequin/exo_compute/private_input.py $(PEPPER_BIN)/exo0
+	ln -sf ~/dex-zksnarks/exo_compute/decompose_bits.py $(PEPPER_BIN)/exo1
+	ln -sf ~/dex-zksnarks/exo_compute/private_input.py $(PEPPER_BIN)/exo0
 
 # Make sure we have the environment set up
 check-env:
@@ -37,4 +40,6 @@ ifndef PEPPER
   $(error $$PEPPER is undefined)
 endif
 
-all: link-apps link-exo gadgets change-curve
+initial: make-bin change-curve all
+
+all: link-apps link-exo gadgets
