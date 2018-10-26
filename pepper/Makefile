@@ -9,12 +9,17 @@ IFLAGS = -Iext_gadget -I$(LIBSNARK)/ -I$(LIBSNARK)/depends/libff -I$(LIBSNARK)/d
 LDFLAGS = -L$(LIBSNARK)/build/libsnark -L$(LIBSNARK)/build/depends/libff/libff
 LDFLAGS += -lsnark -lff -lgmp -lgmpxx
 
+TEST_LDFLAGS = -lgtest -lpthread
+TEST_IFLAGS = -I./
+TEST_BIN = test/bin/
+
 # We need to use ALT_BN_128 for all ethereum related work
 change-curve: check-env
 	sed -i 's/DCURVE_BN128/DCURVE_ALT_BN128/g' $(PEPPER)/pepper/Makefile
 
 make-bin: check-env
-	mkdir $(PEPPER_BIN)
+	mkdir -p $(PEPPER_BIN)
+	mkdir -p $(TEST_BIN)
 
 # Convenience target to compile gadgets 0..n
 gadgets: gadget0 gadget1
@@ -35,8 +40,14 @@ link-exo: check-env
 	ln -sf ~/dex-zksnarks/exo_compute/private_input.py $(PEPPER_BIN)/exo0
 
 # Target to run all tests (e.g. used by travis)
-test: check-env
+test: unit-tests e2e-tests
+
+e2e-tests: check-env
 	test/e2e/hash_transform.sh
+
+unit-tests: test/apps/hash_transform_test.cpp
+	$(CXX) -DTEST $(TEST_IFLAGS) $< -o $(TEST_BIN)/run_tests $(TEST_LDFLAGS)
+	$(TEST_BIN)/run_tests
 
 # Make sure we have the environment set up
 check-env:

@@ -4,10 +4,12 @@ MAINTAINER Felix Leupold <felix@gnosis.pm>
 ENV PEPPER /home/docker/pequin/
 
 USER root
-RUN apt-get install -y inotify-tools
+RUN apt-get install -y inotify-tools libgtest-dev
+RUN cd /usr/src/gtest && cmake CMakeLists.txt && make && cp *.a /usr/lib
+
 USER docker
 
-COPY . /home/docker/dex-zksnarks
+COPY --chown=docker:docker . /home/docker/dex-zksnarks
 WORKDIR /home/docker/dex-zksnarks
 
 RUN make initial
