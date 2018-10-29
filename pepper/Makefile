@@ -9,6 +9,8 @@ IFLAGS = -Iext_gadget -I$(LIBSNARK)/ -I$(LIBSNARK)/depends/libff -I$(LIBSNARK)/d
 LDFLAGS = -L$(LIBSNARK)/build/libsnark -L$(LIBSNARK)/build/depends/libff/libff
 LDFLAGS += -lsnark -lff -lgmp -lgmpxx
 
+GADGET_SOURCES = ext_gadget/gadgets/common.cpp ext_gadget/gadgets/jubjub/*.cpp
+
 TEST_LDFLAGS = -lgtest -lpthread
 TEST_IFLAGS = -I./
 TEST_BIN = test/bin/
@@ -25,10 +27,10 @@ make-bin: check-env
 gadgets: gadget0 gadget1
 
 gadget0: ext_gadget/sha256_bridge.cpp check-env
-	$(CXX) $(CXXFLAGS) $(IFLAGS) $< ext_gadget/gadgets/common.cpp -o $(PEPPER_BIN)/gadget0 $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(IFLAGS) $<  $(GADGET_SOURCES) ext_gadget/common.cpp -o $(PEPPER_BIN)/gadget0 $(LDFLAGS)
 
 gadget1: ext_gadget/pedersen_bridge.cpp check-env
-	$(CXX) $(CXXFLAGS) $(IFLAGS) $< ext_gadget/gadgets/jubjub/*.cpp -o $(PEPPER_BIN)/gadget1 $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(IFLAGS) $< $(GADGET_SOURCES) ext_gadget/common.cpp -o $(PEPPER_BIN)/gadget1 $(LDFLAGS)
 
 # Link source code of snark apps
 link-apps: check-env
