@@ -8,7 +8,7 @@
 
 TEST(HashTransformTest, TransformWithMatchingSHA) { 
     pepper_overrides::shaCount = 0;
-    struct In input = { 3 };
+    struct In input = { 3 }; /* resulting SHA after two rounds will be 11 */
     struct Out output;
     compute(&input, &output);
     ASSERT_EQ(output.pedersenHash[0], 2);
