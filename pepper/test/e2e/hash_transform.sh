@@ -3,7 +3,7 @@ set -e
 
 cd $PEPPER/pepper
 
-sed -i 's/#define ORDERS [0-9]*/#define ORDERS 2/g' apps/hash_transform.c
+sed -i 's/#define ORDERS [0-9]*/#define ORDERS 2/g' apps/hash_transform.h
 
 ./pepper_compile_and_setup_P.sh hash_transform
 ./pepper_compile_and_setup_V.sh hash_transform transform.vkey transform.pkey
