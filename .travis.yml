@@ -19,21 +19,15 @@ after_success:
   if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
 
-    PACKAGE_VERSION=$(node -p -e "require('./package.json').version");
+    PACKAGE_VERSION=$(node -p -e "require('./ZoKrates/package.json').version");
     echo "Pushing to Docker-hub version $PACKAGE_VERSION, generated from branch $TRAVIS_BRANCH";
 
     if [ "$TRAVIS_BRANCH" == "master" ]; then
       echo "Pushing image staging...";
-      docker tag dex-zksnarks gnosispm/dex-zksnarks:staging;
-      docker push gnosispm/dex-zksnarks:staging;
-    elif [ "$TRAVIS_BRANCH" == "develop" ]; then
-      echo "Pushing image develop...";
-      docker tag dx-services gnosispm/dex-zksnarks:develop;
-      docker push gnosispm/dex-zksnarks:develop;
-    elif [[ $TRAVIS_TAG = $TRAVIS_BRANCH ]]; then
-      echo "Pushing image tag $TRAVIS_TAG...";
-      docker tag dx-services gnosispm/dex-zksnarks:$TRAVIS_TAG;
-      docker push gnosispm/dex-zksnarks:$TRAVIS_TAG;
+      docker tag dex_zokrates gnosispm/dex_zokrates:staging;
+      docker push gnosispm/dex_zokrates:staging;
+      docker tag dex_pepper gnosispm/dex_pepper:staging;
+      docker push gnosispm/dex_pepper:staging;
     fi
     echo "The image has been pushed";
   else
