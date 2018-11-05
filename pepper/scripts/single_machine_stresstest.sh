@@ -19,26 +19,26 @@ echo 621742661305742431197094745301372117986963609455656736978235158226130610231
 # 50M constraints
 COUNT='50M'
 echo '50 million constraints'
-sed -i 's/#define ORDERS [0-9]*/#define ORDERS 725/g' apps/hash_transform.h
+sed -i 's/#define ORDERS [0-9]*/#define ORDERS 2/g' apps/hash_transform.h
 run
 
 # 100M constraints
 COUNT='100M'
 date +%G-%M-%dT%T:000Z
 echo '100 million constraints'
-sed -i 's/#define ORDERS [0-9]*/#define ORDERS 1450/g' apps/hash_transform.h
+sed -i 's/#define ORDERS [0-9]*/#define ORDERS 3/g' apps/hash_transform.h
 run
 
 # 150M constraints
 COUNT='150M'
 date +%G-%M-%dT%T:000Z
 echo '150 million constraints'
-sed -i 's/#define ORDERS [0-9]*/#define ORDERS 2175/g' apps/hash_transform.h
+sed -i 's/#define ORDERS [0-9]*/#define ORDERS 4/g' apps/hash_transform.h
 run
 
 # 200M constraints
 COUNT='200M'
 date +%G-%M-%dT%T:000Z
 echo '200 million constraints'
-sed -i 's/#define ORDERS [0-9]*/#define ORDERS 2900/g' apps/hash_transform.h
+sed -i 's/#define ORDERS [0-9]*/#define ORDERS 5/g' apps/hash_transform.h
 run
