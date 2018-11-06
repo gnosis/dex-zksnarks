@@ -11,8 +11,9 @@ function run {
 	/usr/bin/time -v ./bin/pepper_verifier_hash_transform verify transform.vkey transform.inputs transform.outputs transform.proof
 }
 
-# remove assert
+# remove assert and provide input
 sed -i 's%assert_zero(result - input->shaHash);%//assert_zero(result - input->shaHash);%g' apps/hash_transform.c
+echo 62174266130574243119709474530137211798696360945565673697823515822613061023144 > prover_verifier_shared/transform.inputs
 
 # 50M constraints
 echo '50 million constraints'
