@@ -13,26 +13,16 @@ script:
 - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti --entrypoint /bin/sh dex_pepper -c
   "cd ~/dex-zksnarks && make test"
 
-after_success:
-- |-
-  # Create Docker image if branch master or develop and not on pull requests
-  if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-
-    PACKAGE_VERSION=$(node -p -e "require('./ZoKrates/package.json').version");
-    echo "Pushing to Docker-hub version $PACKAGE_VERSION, generated from branch $TRAVIS_BRANCH";
-
-    if [ "$TRAVIS_BRANCH" == "master" ]; then
-      echo "Pushing image staging...";
-      docker tag dex_zokrates gnosispm/dex_zokrates:staging;
-      docker push gnosispm/dex_zokrates:staging;
-      docker tag dex_pepper gnosispm/dex_pepper:staging;
-      docker push gnosispm/dex_pepper:staging;
-    fi
-    echo "The image has been pushed";
-  else
-    echo "There's no need to push the image to Docker-hub";
-  fi
+deploy:
+  provider: script
+  script: bash docker_push_master.sh
+  on:
+    branch: master
+deploy:
+  provider: script
+  script: bash docker_push_stress.sh
+  on:
+    branch: stresstest
 env:
   global:
   - secure: ZvVejLRUxXM9r+EXFIurQmWAmkQC7In21eoiSRnfGYD9zhHs/J8fjBeVMFSPeg4BxrmpwShVgyER5eu2458QWNuVQHSxFMe8x1MNctiwacx8SOMRT15ELN/LLzrGVp4P3KEknQO5ZSKKawDS7VRbk3QBVSJO9FNUlx1rNHi8ALMtc0vg3xC8liNIjQyo6TN5ANZnEOv8ZKnDtR/zXwxuwXBUKwzekCOF6nbrOBb2nP4LE0nDX9VXn1/Osi+W1GD35EXoRIQhZ7DIpXTzumbBvv21Jr7Hn3+OS06j7sz2SOUSfSpkNGhXJms0WPYEm5ePyc5LtUNWjJKYveo0uaelXxfZFBOAEOUkq1/VoWeSckOSm/qZlsJtkoYbOHnsvINpBH9rk4UBYV5l9NGUR5InSjbR5lFGNmgjK8jTpBGdpS1ehaH8dNrkIBAPYxmI5NYV/agkuj+gyWHmmbOmkQZEZ8SL5VmaKUqDFx1Cz0Uign8lSwxO94k4eGlzwu9hIltvXIH7x4EXwyDMnR7QjMnbHCkUOuJqIREu0cw5RicujnM8kkhNTeaxjHMckj7kGa7hdYN3qCmVpSRnqH/thI3TE4krMEaEIBxXNmRFTQm8qF1pESsgEbN/qqTGglQOpE40WkCJuk/W/204FO058bESCn1MmFq1ueuP6ivH0UcdM1Y=
