@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+  zokrates:
+    build: ./Zokrates/
+  pepper:
+    build: ./pepper/
+    volumes:
+      - type: bind
+        source: ./pepper/
+        target: /home/docker/dex-zksnarks

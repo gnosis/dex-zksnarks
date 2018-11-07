@@ -4,7 +4,7 @@ MAINTAINER Felix Leupold <felix@gnosis.pm>
 ENV PEPPER /home/docker/pequin/
 
 USER root
-RUN apt-get install -y inotify-tools libgtest-dev time
+RUN apt-get install -y inotify-tools libgtest-dev time vim tmux
 RUN cd /usr/src/gtest && cmake CMakeLists.txt && make && cp *.a /usr/lib
 
 USER docker
