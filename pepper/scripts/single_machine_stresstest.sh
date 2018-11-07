@@ -4,11 +4,12 @@ set -e
 cd $PEPPER/pepper
 
 function run {
-	./pepper_compile_and_setup_P.sh hash_transform | sed "s/^/[$COUNT Setup Prover] /"
-	/usr/bin/time -v ./pepper_compile_and_setup_V.sh hash_transform transform.vkey transform.pkey | sed "s/^/[$COUNT Setup Verifier] /"
+	DATE=$(date +%G-%M-%dT%T:000Z)
+	./pepper_compile_and_setup_P.sh hash_transform | sed "s/^/[$DATE] $COUNT Setup Prover /"
+	/usr/bin/time -v ./pepper_compile_and_setup_V.sh hash_transform transform.vkey transform.pkey | sed "s/^/[$DATE] $COUNT Setup Verifier /"
 
-	/usr/bin/time -v ./bin/pepper_prover_hash_transform prove transform.pkey transform.inputs transform.outputs transform.proof | sed "s/^/[$COUNT Prove] /"
-	/usr/bin/time -v ./bin/pepper_verifier_hash_transform verify transform.vkey transform.inputs transform.outputs transform.proof | sed "s/^/[$COUNT Verify] /"
+	/usr/bin/time -v ./bin/pepper_prover_hash_transform prove transform.pkey transform.inputs transform.outputs transform.proof | sed "s/^/[$DATE] $COUNT Prove /"
+	/usr/bin/time -v ./bin/pepper_verifier_hash_transform verify transform.vkey transform.inputs transform.outputs transform.proof | sed "s/^/[$DATE] $COUNT Verify /"
 }
 
 # remove assert and provide input
@@ -23,18 +24,21 @@ run
 
 # 100M constraints
 COUNT='100M'
+date +%G-%M-%dT%T:000Z
 echo '100 million constraints'
 sed -i 's/#define ORDERS [0-9]*/#define ORDERS 1450/g' apps/hash_transform.h
 run
 
 # 150M constraints
 COUNT='150M'
+date +%G-%M-%dT%T:000Z
 echo '150 million constraints'
 sed -i 's/#define ORDERS [0-9]*/#define ORDERS 2175/g' apps/hash_transform.h
 run
 
 # 200M constraints
 COUNT='200M'
+date +%G-%M-%dT%T:000Z
 echo '200 million constraints'
 sed -i 's/#define ORDERS [0-9]*/#define ORDERS 2900/g' apps/hash_transform.h
 run
