@@ -22,6 +22,7 @@
 namespace ethsnarks
 {
 
+using namespace jubjub;
 
 pedersen_commitment::pedersen_commitment(
     ProtoboardT &pb,
@@ -31,7 +32,11 @@ pedersen_commitment::pedersen_commitment(
     GadgetT(pb, " pedersen_commitment"),
     m(left), r(right),
     commitment_x(commitment_x),
-    commitment_y(commitment_y)
+    commitment_y(commitment_y),
+    base_x("17777552123799933955779906779655732241715742912184938656739573121738514868268"),
+    base_y("2626589144620713026669568689430873010625803728049924121243784502389097019475"),
+    H_x("16540640123574156134436876038791482806971768689494387082833631921987005038935"),
+    H_y("20819045374670962167435360035096875258406992893633759881276124905556507972311")
 {
     //Curve parameters
     a.allocate(pb, "a");
@@ -39,42 +44,15 @@ pedersen_commitment::pedersen_commitment(
     pb.val(a) = FieldT("168700");
     pb.val(d) = FieldT("168696");
 
-    // Generator point
-    base_x.allocate(pb, "base x");
-    base_y.allocate(pb, "base y");
-    pb.val(base_x) = FieldT("17777552123799933955779906779655732241715742912184938656739573121738514868268");
-    pb.val(base_y) = FieldT("2626589144620713026669568689430873010625803728049924121243784502389097019475");
-
-    // H
-    H_x.allocate(pb, "h_x");
-    H_y.allocate(pb, "h_y");
-    pb.val(H_x) = FieldT("16540640123574156134436876038791482806971768689494387082833631921987005038935");
-    pb.val(H_y) = FieldT("20819045374670962167435360035096875258406992893633759881276124905556507972311");
-
-    lhs_x.allocate(pb, 254,  FMT("lhs x", " pedersen_commitment"));
-    lhs_y.allocate(pb, 254, FMT("lhs y", " pedersen_commitment"));
-    rhs_x.allocate(pb,254, FMT( "rhs mul x" , " pedersen_commitment" ));
-    rhs_y.allocate(pb,254, FMT( "rhs mul y ", " pedersen_commitment"));
-
-    // make sure both points are on the twisted edwards cruve
-    jubjub_isOnCurve1.reset( new isOnCurve (pb, base_x,base_y, a, d, "Confirm x, y is on the twiseted edwards curve"));
-    jubjub_isOnCurve2.reset( new isOnCurve (pb, H_x, H_y, a, d, "Confirm x, y is on the twiseted edwards curve"));
-
     // base * m
-    jubjub_pointMultiplication_lhs.reset( new pointMultiplication (pb, a, d, base_x, base_y, m, lhs_x, lhs_y, " lhs check ", 254));
+    jubjub_pointMultiplication_lhs.reset( new fixed_base_mul (pb, params, base_x, base_y, m, " lhs mul "));
     // h*r
-    jubjub_pointMultiplication_rhs.reset( new pointMultiplication (pb, a, d, H_x, H_y, r, rhs_x, rhs_y, "rhs mul ", 254));
-    jubjub_pointAddition.reset( new pointAddition (pb, a, d, rhs_x[253], rhs_y[253] , lhs_x[253] , lhs_y[253], commitment_x, commitment_y , "rhs addition"));
+    jubjub_pointMultiplication_rhs.reset( new fixed_base_mul (pb, params, H_x, H_y, r, "rhs mul "));
+    jubjub_pointAddition.reset( new pointAddition (pb, a, d, jubjub_pointMultiplication_rhs->result_x(), jubjub_pointMultiplication_rhs->result_y(), jubjub_pointMultiplication_lhs->result_x(), jubjub_pointMultiplication_lhs->result_y(), commitment_x, commitment_y , "rhs addition"));
 }
 
 void pedersen_commitment::generate_r1cs_constraints()
 {
-    // not sure if we need to check pub key and r 
-    // are on the curve. But doing it here for defense
-    // in depth
-    jubjub_isOnCurve1->generate_r1cs_constraints();
-    jubjub_isOnCurve2->generate_r1cs_constraints();
-
     jubjub_pointMultiplication_lhs->generate_r1cs_constraints();
     jubjub_pointMultiplication_rhs->generate_r1cs_constraints();
     jubjub_pointAddition->generate_r1cs_constraints();
@@ -83,8 +61,6 @@ void pedersen_commitment::generate_r1cs_constraints()
 
 void  pedersen_commitment::generate_r1cs_witness()
 {
-    jubjub_isOnCurve1->generate_r1cs_witness();
-    jubjub_isOnCurve2->generate_r1cs_witness();
     jubjub_pointMultiplication_lhs->generate_r1cs_witness();
     jubjub_pointMultiplication_rhs->generate_r1cs_witness();
     jubjub_pointAddition->generate_r1cs_witness();

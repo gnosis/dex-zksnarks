@@ -23,6 +23,7 @@
 #include <memory>
 
 #include <gadgets/jubjub/curve.hpp>
+#include <gadgets/jubjub/fixed_base_mul.hpp>
 
 namespace ethsnarks {
 
@@ -35,35 +36,21 @@ public:
 
     VariableT a;
     VariableT d;
+    jubjub::Params params;
+    FieldT base_x;
+    FieldT base_y;
+    FieldT H_x;
+    FieldT H_y;
 
     //input variables 
-    VariableT base_x;
-    VariableT base_y;
-    VariableT H_x;
-    VariableT H_y;
     VariableT commitment_x;
     VariableT commitment_y;
     VariableArrayT m;
     VariableArrayT r;
 
-    // Intermediate variables
-    VariableT r_x;
-    VariableT r_y;
-    VariableT s_x;
-    VariableT s_y;
-
-    VariableArrayT lhs_x;
-    VariableArrayT lhs_y;
-
-    VariableArrayT rhs_x;
-    VariableArrayT rhs_y;
-
-    std::shared_ptr<isOnCurve> jubjub_isOnCurve1;
-    std::shared_ptr<isOnCurve> jubjub_isOnCurve2;
-
     std::shared_ptr<pointAddition> jubjub_pointAddition;
-    std::shared_ptr<pointMultiplication> jubjub_pointMultiplication_lhs;
-    std::shared_ptr<pointMultiplication> jubjub_pointMultiplication_rhs;
+    std::shared_ptr<jubjub::fixed_base_mul> jubjub_pointMultiplication_lhs;
+    std::shared_ptr<jubjub::fixed_base_mul> jubjub_pointMultiplication_rhs;
 
 
      pedersen_commitment(ProtoboardT &pb,

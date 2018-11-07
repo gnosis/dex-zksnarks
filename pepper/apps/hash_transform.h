@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 #ifndef TEST
-#define ORDERS 2
+#define ORDERS 725
 #endif
 
 struct Private { bool orders[ORDERS][253]; };
