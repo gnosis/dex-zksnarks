@@ -61,6 +61,6 @@ void exo_compute(uint32_t** input, uint32_t* length, void* output, uint32_t exo)
     }
 }
 
-void assert_zero(uint32_t v) {
+void assert_zero(unsigned int v) {
     assert(0 == v);
 }
