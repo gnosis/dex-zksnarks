@@ -11,8 +11,6 @@ struct PedersenHash { uint32_t values[2]; }; /* [x,y] */
 void compute(struct In *input, struct Out *output){
     // Read private input
     struct Private pInput = readPrivateInput();
-    //printf("LHS of hash input %Zd and RHS of hash input %Zd ", input->shaHashL, input->shaHashR);
-
     struct ShaHash shaHash[1] = { 0 };
     struct PedersenHash pedersenHash[1] = { 0 };
 
@@ -37,8 +35,7 @@ void compute(struct In *input, struct Out *output){
     // assert final sha hash is equal with public input
     int128 resultL = sumBits(shaHash->digest, 128);
     int128 resultR = sumBits(shaHash->digest+128, 128);
-    //printf("Results: LHS %Zd and RHS %Zd ", resultL, resultR);
-
+   
     assert_zero(resultL - input->shaHashL);
     assert_zero(resultR - input->shaHashR);
 
