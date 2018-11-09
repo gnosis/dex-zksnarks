@@ -16,11 +16,12 @@ def main(numOrders):
 		x = pedersenHash.x if pedersenHash else 0
 		pedersenHash = hash_pedersen(x, order)
 		shaHash = hash_sha(shaHash, order)
-
+		
 	# output sha hash
 	# output pedersen hash
 	print(pedersenHash)
 	print(shaHash)
+	print(transform_int128(shaHash))
 
 def generateRandomOrder():
 	return (2**253)-1
@@ -30,9 +31,12 @@ def hash_pedersen(left, right):
 	H = Point.from_x(FQ(16540640123574156134436876038791482806971768689494387082833631921987005038935))
 	return G * left + H * right
 
+def transform_int128(hash):
+	s = hex(hash)
+	return str(int(s[:34],0)).zfill(39)+str("\n")+str(int(s[34:],16)).zfill(39)
+
 def hash_sha(left, right):
 	hash = sha256(left.to_bytes(32, 'big') + right.to_bytes(32, 'big'))
-	a = int(hash.hexdigest(), 16) % 2**32
 	return int(hash.hexdigest(), 16)
 
 

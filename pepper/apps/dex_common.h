@@ -23,10 +23,10 @@ void copyBits(bool* source, bool* target, uint32_t length) {
 /**
  * sums `length` bits from `bits` to its integer representation  
  */
-uint32_t sumBits(bool *bits, uint32_t length) {
-    uint32_t result = 0;
-    uint32_t pow = 1;
-    uint32_t index = 0;
+int128 sumBits(bool *bits, uint32_t length) {
+    int128 result = 0;
+    int128 pow = 1;
+    int128 index = 0;
     for (index=0; index<length; index++) {
         result += bits[length-1-index] * pow;
         pow = pow * 2;
