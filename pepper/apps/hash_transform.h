@@ -4,6 +4,9 @@
 #define ORDERS 2
 #endif
 
+#ifdef TEST
+typedef long int128;
+#endif
 
 
 struct Private { bool orders[ORDERS][253]; };
