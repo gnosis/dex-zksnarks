@@ -1,9 +1,6 @@
 #include "hash_transform.h"
 #include "dex_common.h"
 
-#ifdef TEST
-typedef long int128;
-#endif
 
 struct ShaHash { bool digest[256]; };
 struct PedersenHash { uint32_t values[2]; }; /* [x,y] */
