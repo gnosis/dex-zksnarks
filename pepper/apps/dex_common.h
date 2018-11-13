@@ -11,6 +11,10 @@ void assert_zero(uint32_t);
 typedef long int128;
 #endif
 
+#ifndef TEST
+#define ORDERS 2
+#endif
+
 /**
  * Copies `lenght` bits from source to target
  */
@@ -38,6 +42,8 @@ int128 sumBits(bool *bits, uint32_t length) {
 /**
  * Read private input from exo_compute (ID 0)
  */
+struct Private { bool orders[ORDERS][253]; };
+
 struct Private readPrivateInput() {
     struct Private p[1];
     uint32_t lens[1] = {1};
