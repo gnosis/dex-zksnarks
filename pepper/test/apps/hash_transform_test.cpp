@@ -1,5 +1,6 @@
 #include <cassert>
 #include <gtest/gtest.h>
+#include "declarations.h"
 
 #define ORDERS 2
 
