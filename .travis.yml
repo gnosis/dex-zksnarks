@@ -14,12 +14,11 @@ script:
   "cd ~/dex-zksnarks && make test"
 
 deploy:
-  provider: script
+- provider: script
   script: bash docker_push_master.sh
   on:
     branch: master
-deploy:
-  provider: script
+- provider: script
   script: bash docker_push_stress.sh
   on:
     branch: stresstest
