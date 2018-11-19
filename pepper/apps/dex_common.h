@@ -40,7 +40,7 @@ uint32_t sumBits(bool *bits, uint32_t length) {
 void isBoolVerification(bool *bits, uint32_t length) {
     uint32_t index = 0;
     for (index=0; index<length; index++) {
-        assert_zero(bits[length-1-index] * bits[length-1-index] -bits[length-1-index] );
+        assert_zero(bits[index] * (bits[index] - 1));
     }
 }
 

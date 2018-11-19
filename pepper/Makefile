@@ -43,14 +43,19 @@ link-exo: check-env
 	ln -sf ~/dex-zksnarks/exo_compute/private_input.py $(PEPPER_BIN)/exo0
 
 # Target to run all tests (e.g. used by travis)
-test: unit-tests gadget-tests e2e-tests
+test: unit-tests2 unit-tests gadget-tests e2e-tests
 
 e2e-tests: check-env
 	test/e2e/hash_transform.sh
 
 unit-tests: test/apps/hash_transform_test.cpp
-	$(CXX) -DTEST $(TEST_IFLAGS) $< -o $(TEST_BIN)/run_unit_tests $(TEST_LDFLAGS)
+	$(CXX) -DTEST $(TEST_IFLAGS) $< -o $(TEST_BIN)/run_unit_tests $(TEST_LDFLAGS) 
 	$(TEST_BIN)/run_unit_tests
+
+unit-tests2: test/apps/isBoolVerification_test.cpp
+	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/run_unit_tests $(TEST_LDFLAGS) $(LDFLAGS)
+	$(TEST_BIN)/run_unit_tests
+	
 
 gadget-tests: test/gadgets/main.cpp
 	$(CXX) $(CXXFLAGS) $(IFLAGS) -Iext_gadget/ $< ext_gadget/gadgets/*.cpp ext_gadget/gadgets/jubjub/*.cpp -o $(TEST_BIN)/run_gadget_tests $(LDFLAGS) $(TEST_LDFLAGS)
