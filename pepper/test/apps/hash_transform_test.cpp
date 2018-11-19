@@ -1,5 +1,6 @@
 #include <cassert>
 #include <gtest/gtest.h>
+#include "declarations.h"
 
 #define ORDERS 2
 
@@ -8,7 +9,7 @@
 
 TEST(HashTransformTest, TransformWithMatchingSHA) { 
     pepper_overrides::shaCount = 0;
-    struct In input = { 3 }; /* resulting SHA after two rounds will be 11 */
+    struct In input = { 0,3 }; /* resulting SHA after two rounds will be 11 */
     struct Out output;
     compute(&input, &output);
     ASSERT_EQ(output.pedersenHash[0], 2);
