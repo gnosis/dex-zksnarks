@@ -1,33 +1,26 @@
 #include <cassert>
 #include <gtest/gtest.h>
 #include "declarations.h"
-
-#define ORDERS 2
-
-struct Private { bool orders[ORDERS][253]; };
-
+#include <apps/hash_transform.h>
 
 #include <apps/dex_common.h>
 #include "util.h"
 
-struct ShaHash2 { field digest[256]; };
+struct TestStructArray { field digest[256]; };
 
-
-TEST(isBoolVerification, isBoolVerificationIsBool) { 
+TEST(isBoolVerification, isBoolVerificationWithBools) { 
     uint32_t length = 2;
-    struct ShaHash2 bits[1] = { 0 };
+    struct TestStructArray bits[1] = { 0 };
     bits->digest[1] =field("1");
     bits->digest[2] =field("0");
-
     EXPECT_NO_THROW(isBoolVerification(bits->digest, length));
 }
 
-TEST(isBoolVerification, isBoolVerificationNoBool) {
+TEST(isBoolVerification, isBoolVerificationWithNonbools) {
     uint32_t length = 2;
-    struct ShaHash2 bits[1]= {0};
+    struct TestStructArray bits[1]= {0};
     bits->digest[1] =field("2");
     bits->digest[2] =field("0");
-
     ASSERT_DEATH(isBoolVerification(bits->digest, length), "");
 }
 
