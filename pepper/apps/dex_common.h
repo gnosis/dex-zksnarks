@@ -43,7 +43,8 @@ void isBoolVerification(field *bits, uint32_t length) {
 struct Private readPrivateInput() {
     struct Private p[1];
     uint32_t lens[1] = {1};
-    field *exo0_inputs[1];
+    field ones[1]={1};
+    field *exo0_inputs[1] = {ones};
     exo_compute(exo0_inputs,lens,p,0);
     return p[0];
 }
