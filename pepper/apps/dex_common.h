@@ -22,6 +22,15 @@ field sumBits(field *bits, uint32_t length) {
     return result;
 }
 
+/**
+ * checks that all numbers in the array are of boolean type  
+ */
+void isBoolVerification(field *bits, uint32_t length) {
+    uint32_t index = 0;
+    for (index=0; index<length; index++) {
+        assert_zero(bits[index] * (bits[index] - 1));
+    }
+}
 
 /**
  * Read private input from exo_compute (ID 0)
@@ -52,13 +61,4 @@ void decomposeBits(field number, field* bits) {
 	copyBits(result->bits, bits, 254);
 }
 
-/**
- * checks that all numbers in the array are of boolean type  
- */
-void isBoolVerification(field *bits, uint32_t length) {
-    uint32_t index = 0;
-    for (index=0; index<length; index++) {
-        assert_zero(bits[index] * (bits[index] - 1));
-    }
-}
 

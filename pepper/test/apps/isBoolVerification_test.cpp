@@ -10,18 +10,19 @@ struct TestStructArray { field digest[256]; };
 
 TEST(isBoolVerification, isBoolVerificationWithBools) { 
     uint32_t length = 2;
-    struct TestStructArray bits[1] = { 0 };
-    bits->digest[1] =field("1");
-    bits->digest[2] =field("0");
-    EXPECT_NO_THROW(isBoolVerification(bits->digest, length));
+    field  digest[256] = { 0 };
+    digest[1] =field("1");
+    digest[2] =field("0");
+    EXPECT_NO_THROW(isBoolVerification(digest, length));
 }
 
 TEST(isBoolVerification, isBoolVerificationWithNonbools) {
-    uint32_t length = 2;
-    struct TestStructArray bits[1]= {0};
-    bits->digest[1] =field("2");
-    bits->digest[2] =field("0");
-    ASSERT_DEATH(isBoolVerification(bits->digest, length), "");
+    uint32_t length = 2;    
+    field  digest[256] = { 0 };
+    digest[1] =field("1");
+    digest[0] =field("2");
+    digest[0].print();
+    ASSERT_DEATH(isBoolVerification(digest, length), "");
 }
 
 int main(int argc, char **argv) {
