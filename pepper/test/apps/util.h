@@ -1,3 +1,7 @@
+#ifndef ORDERS
+#define ORDERS 1
+#endif
+
 namespace pepper_overrides
 {
     /**
@@ -35,6 +39,7 @@ namespace pepper_overrides
     }
 } // pepper_overrides
 
+#ifndef EXT_GADGET_OVERRIDE
 void ext_gadget(void* in, void* out, uint32_t gadget) {
     switch(gadget) {
         case 0:
@@ -47,7 +52,9 @@ void ext_gadget(void* in, void* out, uint32_t gadget) {
             FAIL();
     }
 }
+#endif
 
+#ifndef EXO_COMPUT_OVERRIDE
 void exo_compute(uint32_t** input, uint32_t* length, void* output, uint32_t exo) {
     switch(exo) {
         case 0:
@@ -60,7 +67,10 @@ void exo_compute(uint32_t** input, uint32_t* length, void* output, uint32_t exo)
             FAIL();
     }
 }
+#endif
 
+#ifndef ASSERT_ZERO_OVERRIDE
 void assert_zero(uint32_t v) {
     assert(0 == v);
 }
+#endif
