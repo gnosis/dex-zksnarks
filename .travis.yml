@@ -5,14 +5,15 @@ node_js:
 services:
 - docker
 install:
-- docker build -t dex_zokrates ZoKrates/
-- docker build -t dex_pepper pepper/
+- docker pull gnosispm/dex_zokrates:staging
+- docker pull gnosispm/dex_pepper:staging
+- docker build -t dex_zokrates ZoKrates/ --cache-from gnosispm/dex_zokrates:staging
+- docker build -t dex_pepper pepper/ --cache-from gnosispm/dex_pepper:staging
 script:
 - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti dex_zokrates /bin/sh -c
   "cd ZoKrates/target/release/ ; ~/dex-snark/test/ringtrade_counterexamples.sh ; ~/dex-snark/test/run_tests.sh ; ~/dex-snark/test/run_util_tests.sh"
 - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti --entrypoint /bin/sh dex_pepper -c
   "cd ~/dex-zksnarks && make test"
-
 deploy:
 - provider: script
   script: bash docker_push_master.sh
