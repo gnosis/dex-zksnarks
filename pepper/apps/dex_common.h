@@ -45,7 +45,7 @@ struct Private readPrivateInput() {
  * Afterwards verify that bits sum up to number.
  */
 struct Decomposed { bool bits[254]; };
-void decomposeBits(uint32_t number, bool bits[254]) {
+void decomposeBits(uint32_t number, bool* bits) {
     struct Decomposed result[1] = { 0 };
     uint32_t lens[1] = {1};
     uint32_t input[1] = {number};
