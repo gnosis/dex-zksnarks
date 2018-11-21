@@ -14,6 +14,7 @@ GADGET_SOURCES = ext_gadget/gadgets/common.cpp ext_gadget/gadgets/jubjub/*.cpp
 TEST_LDFLAGS = -lgtest -lpthread
 TEST_IFLAGS = -I./
 TEST_BIN = test/bin/
+FILENAMETESTS := $(shell find test/apps/ -name '*_test.cpp')
 
 # We need to use ALT_BN_128 for all ethereum related work
 change-curve: check-env
@@ -43,14 +44,14 @@ link-exo: check-env
 	ln -sf ~/dex-zksnarks/exo_compute/private_input.py $(PEPPER_BIN)/exo0
 
 # Target to run all tests (e.g. used by travis)
-test: unit-tests-iBV unit-tests gadget-tests e2e-tests
+test: $(FILENAMETESTS)%o gadget-tests e2e-tests
 
 e2e-tests: check-env
 	test/e2e/hash_transform.sh
 
-unit-tests: test/apps/hash_transform_test.cpp
-	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/run_unit_tests $(TEST_LDFLAGS) $(LDFLAGS) 
-	$(TEST_BIN)/run_unit_tests
+$(FILENAMETESTS)%o: $(FILENAMETESTS)	 
+		$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/run_unit_tests $(TEST_LDFLAGS) $(LDFLAGS) 
+		$(TEST_BIN)/run_unit_tests
 
 unit-tests-iBV: test/apps/isBoolVerification_test.cpp
 	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/run_unit_tests $(TEST_LDFLAGS) $(LDFLAGS)
