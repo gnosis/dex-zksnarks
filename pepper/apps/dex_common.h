@@ -46,7 +46,19 @@ void decomposeBits(field number, field* bits) {
     field input[1] = {number};
     field *exo1_inputs[1] = { input };
     exo_compute(exo1_inputs,lens,result,1);
+    isBoolVerification(result->bits, 254);
     field sum = sumBits(result->bits, 254);
     assert_zero(sum - number);
 	copyBits(result->bits, bits, 254);
 }
+
+/**
+ * checks that all numbers in the array are of boolean type  
+ */
+void isBoolVerification(field *bits, uint32_t length) {
+    uint32_t index = 0;
+    for (index=0; index<length; index++) {
+        assert_zero(bits[index] * (bits[index] - 1));
+    }
+}
+
