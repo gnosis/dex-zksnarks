@@ -15,8 +15,6 @@ TEST_LDFLAGS = -lgtest -lpthread
 TEST_IFLAGS = -I./
 TEST_BIN = test/bin/
 
-APP_TESTS := $(shell find test/apps/ -name '*_test.cpp')
-
 # We need to use ALT_BN_128 for all ethereum related work
 change-curve: check-env
 	sed -i 's/DCURVE_BN128/DCURVE_ALT_BN128/g' $(PEPPER)/pepper/Makefile
