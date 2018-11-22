@@ -103,12 +103,11 @@ TEST(HashSHATest, SingleChunk) {
     bool input[6] = {0, 0, 0, 1, 1, 1};
     std::vector<bool> inputV(input, input+6);
 
-    int128 result[2];
-    hashSHA(input, 6, 6, result);
+    hashSHA(input, 6, 6);
 
     ASSERT_EQ(shaCalls.size(), 1);
     auto& first = shaCalls.front();
-    ASSERT_TRUE(std::equal(first.cbegin() + PEDERSEN_HASH_SIZE -2 , first.cend(), inputV.cbegin()));
+    ASSERT_TRUE(std::equal(first.cbegin() + SHA_HASH_SIZE - 6 , first.cend(), inputV.cbegin()));
 }
 
 TEST(HashSHATest, MultipleChunks) { 
@@ -116,8 +115,7 @@ TEST(HashSHATest, MultipleChunks) {
     bool input[6] = {0, 0, 0, 1, 1, 1};
     std::vector<bool> inputV(input, input+6);
 
-    int128 result[2];
-    hashSHA(input, 6, 2, result);
+    hashSHA(input, 6, 2);
 
     ASSERT_EQ(shaCalls.size(), 3);
     auto& el = shaCalls[0];
@@ -136,8 +134,7 @@ TEST(HashSHATest, ReuseResultInNextRound) {
     shaResult.digest[255] = 1;
 
     bool input[6] = { 0 };
-    int128 result[2];
-    hashSHA(input, 6, 3, result);
+    hashSHA(input, 6, 3);
 
     ASSERT_EQ(pedersenCalls.size(), 2);
     
@@ -159,11 +156,10 @@ TEST(HashSHATest, SplitsResult) {
     shaResult.digest[255] = 1;
 
     bool input[6] = { 0 };
-    int128 result[2];
-    hashSHA(input, 6, 6, result);
+    ShaResult result = hashSHA(input, 6, 6);
 
-    ASSERT_EQ(result[0], 1);
-    ASSERT_EQ(result[1], 3);
+    ASSERT_EQ(result.left, 1);
+    ASSERT_EQ(result.right, 3);
 }
 
 int main(int argc, char **argv) {

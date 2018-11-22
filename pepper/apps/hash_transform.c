@@ -6,11 +6,10 @@ void compute(struct In *input, struct Out *output){
     // Read private input
     struct Private pInput = readPrivateInput();
    
-    int128 result[2];
-    hashSHA(pInput.orders, ORDERS*253, 253, result);
+    ShaResult result = hashSHA(pInput.orders, ORDERS*253, 253);
 
-    assert_zero(result[0] - input->shaHashL);
-    assert_zero(result[1] - input->shaHashR);
+    assert_zero(result.left - input->shaHashL);
+    assert_zero(result.right - input->shaHashR);
 
     output->pedersenHash = hashPedersen(pInput.orders, ORDERS*253, 253);
 }

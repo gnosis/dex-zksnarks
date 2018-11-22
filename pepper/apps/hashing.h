@@ -36,7 +36,8 @@ uint32_t hashPedersen(bool *in, uint32_t inputSize, uint32_t chunkSize) {
  * `chunkSize` and chaining their SHA256 hashes together. It startes with 256 0-bits
  */
 struct ShaHash { bool digest[256]; };
-void hashSHA(bool *in, uint32_t inputSize, uint32_t chunkSize, int128 result[2]) {
+struct ShaResult { int128 left; int128 right; };
+struct ShaResult hashSHA(bool *in, uint32_t inputSize, uint32_t chunkSize) {
     struct ShaHash shaOut[1] = { 0 };
 
     bool shaIn[SHA_HASH_SIZE] = { 0 };
@@ -49,6 +50,8 @@ void hashSHA(bool *in, uint32_t inputSize, uint32_t chunkSize, int128 result[2])
         ext_gadget(shaIn, shaOut, 0);
     }
 
-    result[0] = sumBits(shaOut->digest, 128);
-    result[1] = sumBits(shaOut->digest+128, 128);
+    return {
+        sumBits(shaOut->digest, 128),
+        sumBits(shaOut->digest+128, 128)
+    };
 }
