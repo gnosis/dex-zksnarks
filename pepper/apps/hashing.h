@@ -50,8 +50,9 @@ struct ShaResult hashSHA(bool *in, uint32_t inputSize, uint32_t chunkSize) {
         ext_gadget(shaIn, shaOut, 0);
     }
 
-    return {
+    struct ShaResult result = {
         sumBits(shaOut->digest, 128),
         sumBits(shaOut->digest+128, 128)
     };
+    return result;
 }
