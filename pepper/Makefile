@@ -5,6 +5,7 @@ CXXFLAGS = -m64 -std=c++11 -DCURVE_ALT_BN128 -DBN_SUPPORT_SNARK -UBINARY_OUTPUT 
 
 LIBSNARK = $(PEPPER)/thirdparty/libsnark
 PEPPER_BIN = $(PEPPER)/pepper/bin
+DEX_FOLDER = /opt/dex-zksnarks
 IFLAGS = -Iext_gadget -I$(LIBSNARK)/ -I$(LIBSNARK)/depends/libff -I$(LIBSNARK)/depends/libfqfft
 LDFLAGS = -L$(LIBSNARK)/build/libsnark -L$(LIBSNARK)/build/depends/libff/libff
 LDFLAGS += -lsnark -lff -lgmp -lgmpxx
@@ -35,12 +36,12 @@ gadget1: ext_gadget/pedersen_bridge.cpp check-env
 
 # Link source code of snark apps
 link-apps: check-env
-	ln -sf ~/dex-zksnarks/apps/* $(PEPPER)/pepper/apps/
+	ln -sf $(DEX_FOLDER)/apps/* $(PEPPER)/pepper/apps/
 
 # Link helper programs 0..n (e.g. for private input, bit decomposition, etc.)
 link-exo: check-env
-	ln -sf ~/dex-zksnarks/exo_compute/decompose_bits.py $(PEPPER_BIN)/exo1
-	ln -sf ~/dex-zksnarks/exo_compute/private_input.py $(PEPPER_BIN)/exo0
+	ln -sf $(DEX_FOLDER)/exo_compute/decompose_bits.py $(PEPPER_BIN)/exo1
+	ln -sf $(DEX_FOLDER)/exo_compute/private_input.py $(PEPPER_BIN)/exo0
 
 # Target to run all tests (e.g. used by travis)
 test: unit-tests gadget-tests e2e-tests

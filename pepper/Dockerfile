@@ -1,23 +1,16 @@
-FROM fleupold/pepper
+FROM pepper-uxio
 MAINTAINER Felix Leupold <felix@gnosis.pm>
 
-ENV PEPPER /home/docker/pequin
+ENV PEPPER /opt/pequin/
 
-USER root
 RUN apt-get install -y inotify-tools libgtest-dev time vim tmux
 RUN cd /usr/src/gtest && cmake CMakeLists.txt && make && cp *.a /usr/lib
 
-USER docker
-
-COPY --chown=docker:docker . /home/docker/dex-zksnarks
-WORKDIR /home/docker/dex-zksnarks
-
-RUN make initial
-
-WORKDIR /home/docker/pequin/pepper/
+COPY . /opt/dex-zksnarks
+RUN cd /opt/dex-zksnarks && make initial && cd $PEPPER/pepper
 
 # Watch makefile for changes in the background and start a shell
-ENTRYPOINT (cd /home/docker/dex-zksnarks && \
+ENTRYPOINT (cd /opt/dex-zksnarks && \
 	(while inotifywait -qq -e modify Makefile; do \
 	 	make -s all && tput bel; \
 	done)&) && \

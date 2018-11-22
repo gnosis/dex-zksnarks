@@ -30,16 +30,14 @@ RUN curl https://sh.rustup.rs -sSf | \
 
 ENV PATH=/home/zokrates/.cargo/bin:$PATH
 
-RUN git clone https://github.com/scipr-lab/libsnark.git $LIBSNARK_SOURCE_PATH
-RUN git clone https://github.com/fleupold/ZoKrates.git $ZOKRATES_SOURCE_PATH
-
-WORKDIR $LIBSNARK_SOURCE_PATH
-RUN git checkout $LIBSNARK_COMMIT
-RUN git submodule update --init --recursive
-
-WORKDIR $ZOKRATES_SOURCE_PATH
-RUN git checkout $ZOKRATES_COMMIT
-RUN cargo build --release
+RUN git clone https://github.com/scipr-lab/libsnark.git $LIBSNARK_SOURCE_PATH && \
+    cd $LIBSNARK_SOURCE_PATH && \
+    git checkout $LIBSNARK_COMMIT && \
+    git submodule update --init --recursive && \
+    git clone https://github.com/fleupold/ZoKrates.git $ZOKRATES_SOURCE_PATH && \
+    cd $ZOKRATES_SOURCE_PATH && \
+    git checkout $ZOKRATES_COMMIT && \
+    cargo build --release
 
 WORKDIR /home/zokrates
 COPY --chown=zokrates:zokrates . dex-snark
