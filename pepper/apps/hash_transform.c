@@ -1,33 +1,23 @@
 #include "hash_transform.h"
 #include "dex_common.h"
+#include "hashing.h"
 
 struct ShaHash { bool digest[256]; };
-struct PedersenHash { uint32_t values[2]; }; /* [x,y] */
 
 void compute(struct In *input, struct Out *output){
     // Read private input
     struct Private pInput = readPrivateInput();
     struct ShaHash shaHash[1] = { 0 };
-    struct PedersenHash pedersenHash[1] = { 0 };
 
     bool shaIn[512] = { 0 };
-    bool pedersenInput[508] = { 0 };
-
     uint32_t index;
-    for (index=0; index < ORDERS; index++) {
+    for (index=0; index < ORDERS*253; index+=253) {
         // sha hash
-        copyBits(shaHash->digest, shaIn, 256);
-        copyBits(pInput.orders[index], shaIn+259, 253);
+        copyBits(shaHash->digest, 0, shaIn, 0, 256);
+        copyBits(pInput.orders, index, shaIn, 259, 253);
         ext_gadget(shaIn, shaHash, 0);
+    }
 
-        // pedersen hash
-        bool decomposed[254] = { 0 };
-        decomposeBits(pedersenHash->values[0], decomposed);
-        copyBits(decomposed, pedersenInput, 254);
-        copyBits(pInput.orders[index], pedersenInput+255, 253);
-        ext_gadget(pedersenInput, pedersenHash, 1); 
-    };
-    
     // assert final sha hash is equal with public input
     int128 resultL = sumBits(shaHash->digest, 128);
     int128 resultR = sumBits(shaHash->digest+128, 128);
@@ -35,7 +25,5 @@ void compute(struct In *input, struct Out *output){
     assert_zero(resultL - input->shaHashL);
     assert_zero(resultR - input->shaHashR);
 
-    // Write final pederson hash to output
-    output->pedersenHash[0] = pedersenHash->values[0];
-    output->pedersenHash[1] = pedersenHash->values[1];
+    output->pedersenHash = hashPedersen(pInput.orders, ORDERS*253, 253);
 }

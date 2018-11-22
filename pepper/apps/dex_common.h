@@ -1,15 +1,17 @@
+#pragma once
+
 #ifdef PEPPER
 // Pepper (C) doesn't know bool
 typedef unsigned char bool;
 #endif
 
 /**
- * Copies `lenght` bits from source to target
+ * Copies `length` bits from source to target
  */
-void copyBits(bool* source, bool* target, uint32_t length) {
+void copyBits(bool* source, uint32_t source_offset, bool* target, uint32_t target_offset, uint32_t length) {
     uint32_t index;
     for (index = 0; index < length; index++) {
-        target[index] = source[index];
+        target[target_offset+index] = source[source_offset+index];
     }
 }
 
@@ -51,5 +53,5 @@ void decomposeBits(uint32_t number, bool* bits) {
     exo_compute(exo1_inputs,lens,result,1);
     uint32_t sum = sumBits(result->bits, 254);
     assert_zero(sum - number);
-	copyBits(result->bits, bits, 254);
+	copyBits(result->bits, 0, bits, 0, 254);
 }
