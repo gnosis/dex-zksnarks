@@ -8,7 +8,7 @@ namespace pepper_overrides
      * value will be 2**<#sha_calls>
      */
     size_t shaCount = 0;
-    void sha(bool in[512], bool out[256]) {
+    void sha(bool in[SHA_HASH_SIZE], bool out[256]) {
         out[255-shaCount] = 1;
         shaCount++;
     }
@@ -17,7 +17,7 @@ namespace pepper_overrides
      * x value will be the number of times this function has been called
      */
     size_t pedersenCount = 1;
-    void pedersen(bool in[508], uint32_t out[2]) {
+    void pedersen(bool in[PEDERSEN_HASH_SIZE], uint32_t out[2]) {
         out[0] = pedersenCount;
         pedersenCount++;
     }
