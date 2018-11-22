@@ -1,3 +1,5 @@
+#include <apps/hashing.h>
+
 #ifndef ORDERS
 #define ORDERS 1
 #endif
@@ -35,6 +37,7 @@ namespace pepper_overrides
         while (number > 0) {
             bits[253 - index] = number % 2;
             number = number >> 1;
+            index++;
         }
     }
 } // pepper_overrides
