@@ -16,7 +16,6 @@ void compute(struct In *input, struct Out *output){
         copyBits(shaHash->digest, 0, shaIn, 0, 256);
         copyBits(pInput.orders, index, shaIn, 259, 253);
         ext_gadget(shaIn, shaHash, 0);
-        uint32_t result = sumBits(shaHash->digest, 256);
     }
 
     // assert final sha hash is equal with public input
