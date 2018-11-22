@@ -3,7 +3,7 @@ MAINTAINER Felix Leupold <felix@gnosis.pm>
 
 ENV PEPPER /opt/pequin/
 
-RUN apt-get install -y inotify-tools libgtest-dev time vim tmux
+RUN apt-get update && apt-get install -y inotify-tools libgtest-dev time vim tmux
 RUN cd /usr/src/gtest && cmake CMakeLists.txt && make && cp *.a /usr/lib
 
 COPY . /opt/dex-zksnarks
