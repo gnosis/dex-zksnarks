@@ -12,7 +12,7 @@ TEST(HashTransformTest, TransformWithMatchingSHA) {
     struct In input = { 0,3 }; /* resulting SHA after two rounds will be 11 */
     struct Out output;
     compute(&input, &output);
-    ASSERT_EQ(output.pedersenHash[0], 2);
+    ASSERT_EQ(output.pedersenHash, 2);
 }
 
 TEST(HashTransformTest, TransformWithWrongSHA) {

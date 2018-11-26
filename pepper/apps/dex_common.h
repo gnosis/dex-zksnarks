@@ -1,10 +1,10 @@
 /**
- * Copies `lenght` bits from source to target
+ * Copies `length` bits from source to target
  */
-void copyBits(field254* source, field254* target, uint32_t length) {
+void copyBits(field254* source, uint32_t source_offset, field254* target, uint32_t target_offset, uint32_t length) {
     uint32_t index;
     for (index = 0; index < length; index++) {
-        target[index] = source[index];
+        target[target_offset+index] = source[source_offset+index];
     }
 }
 
@@ -48,5 +48,5 @@ void decomposeBits(field254 number, field254* bits) {
     exo_compute(exo1_inputs,lens,result,1);
     field254 sum = sumBits(result->bits, 254);
     assert_zero(sum - number);
-	copyBits(result->bits, bits, 254);
+	copyBits(result->bits, 0, bits, 0, 254);
 }

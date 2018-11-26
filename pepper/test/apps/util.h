@@ -1,10 +1,14 @@
+#ifndef ORDERS
+#define ORDERS 1
+#endif
+
 namespace pepper_overrides
 {
     /**
      * value will be 2**<#sha_calls>
      */
     size_t shaCount = 0;
-    void sha(field254 in[512], field254 out[256]) {
+    void sha(field254 in[SHA_HASH_SIZE], field254 out[256]) {
         out[255-shaCount] = 1;
         shaCount++;
     }
@@ -13,7 +17,8 @@ namespace pepper_overrides
      * x value will be the number of times this function has been called
      */
     size_t pedersenCount = 1;
-    void pedersen(field254 in[508], field254 out[2]) {
+    void pedersen(field254 in[PEDERSEN_HASH_SIZE], field254 out[2]) {
+
         out[0] = pedersenCount;
         pedersenCount++;
     }
@@ -39,6 +44,7 @@ namespace pepper_overrides
     }
 } // pepper_overrides
 
+#ifndef EXT_GADGET_OVERRIDE
 void ext_gadget(void* in, void* out, uint32_t gadget) {
     switch(gadget) {
         case 0:
@@ -51,7 +57,9 @@ void ext_gadget(void* in, void* out, uint32_t gadget) {
             FAIL();
     }
 }
+#endif
 
+#ifndef EXO_COMPUT_OVERRIDE
 void exo_compute(field254** input, uint32_t* length, void* output, uint32_t exo) {
     switch(exo) {
         case 0:
@@ -64,6 +72,7 @@ void exo_compute(field254** input, uint32_t* length, void* output, uint32_t exo)
             FAIL();
     }
 }
+#endif
 
 void assert_zero(field254 v) {
     assert(field254::zero() == v);
