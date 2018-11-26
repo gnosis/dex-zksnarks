@@ -10,9 +10,9 @@ struct Private {};
 #include "util.h"
 
 // Record of all bit vectors passed into the pedersen gadget
-std::vector< std::vector<bool> > pedersenCalls;
+std::vector< std::vector<field254> > pedersenCalls;
 // Record of all bit vectors passed into the sha gadget
-std::vector< std::vector<bool> > shaCalls;
+std::vector< std::vector<field254> > shaCalls;
 
 // Mocked result for PedersenGadget
 struct PedersenHash pedersenHashResult;
@@ -21,17 +21,17 @@ struct ShaHash shaResult;
 
 // Fake implementation of ext_gadget populating values above
 void ext_gadget(void* in, void* out, uint32_t gadget) {
-    bool *boolIn = (bool*) in;
+    field254* boolIn = (field254*) in;
     switch(gadget) {
         case 0: {
-            std::vector<bool> b(boolIn, boolIn + SHA_HASH_SIZE);
+            std::vector<field254> b(boolIn, boolIn + SHA_HASH_SIZE);
             shaCalls.push_back(b);
             struct ShaHash* shaOut = (ShaHash*)out;
             copyBits(shaResult.digest, 0, shaOut->digest, 0, SHA_HASH_SIZE);
             break;
         }
         case 1: {
-            std::vector<bool> b(boolIn, boolIn + PEDERSEN_HASH_SIZE);
+            std::vector<field254> b(boolIn, boolIn + PEDERSEN_HASH_SIZE);
             pedersenCalls.push_back(b);
             struct PedersenHash* pedersenOut = (PedersenHash*)out;
             pedersenOut->values[0] = pedersenHashResult.values[0];
@@ -48,8 +48,8 @@ void ext_gadget(void* in, void* out, uint32_t gadget) {
 
 TEST(HashPedersenTest, SingleChunk) { 
     pedersenCalls.clear();
-    bool input[6] = {0, 0, 0, 1, 1, 1};
-    std::vector<bool> inputV(input, input+6);
+    field254 input[6] = {0, 0, 0, 1, 1, 1};
+    std::vector<field254> inputV(input, input+6);
 
     hashPedersen(input, 6, 6);
 
@@ -60,8 +60,8 @@ TEST(HashPedersenTest, SingleChunk) {
 
 TEST(HashPedersenTest, MultipleChunks) {
     pedersenCalls.clear();
-    bool input[6] = {0, 0, 0, 1, 1, 1};
-    std::vector<bool> inputV(input, input+6);
+    field254 input[6] = {0, 0, 0, 1, 1, 1};
+    std::vector<field254> inputV(input, input+6);
     
     hashPedersen(input, 6, 2);
     
@@ -79,7 +79,7 @@ TEST(HashPedersenTest, MultipleChunks) {
 TEST(HashPedersenTest, ReusesXCoordinateInNextRound) {
     pedersenCalls.clear();
     pedersenHashResult = { {1, 0} };
-    bool input[6] = {0};
+    field254 input[6] = {0};
     
     auto result = hashPedersen(input, 6, 3);
     ASSERT_EQ(pedersenCalls.size(), 2);
@@ -89,7 +89,7 @@ TEST(HashPedersenTest, ReusesXCoordinateInNextRound) {
 
     // Starting point is 0
     auto& el = pedersenCalls[0];
-    ASSERT_TRUE(std::all_of(el.cbegin(), el.cbegin() + 254, [](bool i){return i==0;}));
+    ASSERT_TRUE(std::all_of(el.cbegin(), el.cbegin() + 254, [](field254 i){return i==0;}));
 
     // Next iteration uses previous x coorindate
     el = pedersenCalls[1];
@@ -100,8 +100,8 @@ TEST(HashPedersenTest, ReusesXCoordinateInNextRound) {
 
 TEST(HashSHATest, SingleChunk) { 
     shaCalls.clear();
-    bool input[6] = {0, 0, 0, 1, 1, 1};
-    std::vector<bool> inputV(input, input+6);
+    field254 input[6] = {0, 0, 0, 1, 1, 1};
+    std::vector<field254> inputV(input, input+6);
 
     hashSHA(input, 6, 6);
 
@@ -112,8 +112,8 @@ TEST(HashSHATest, SingleChunk) {
 
 TEST(HashSHATest, MultipleChunks) { 
     shaCalls.clear();
-    bool input[6] = {0, 0, 0, 1, 1, 1};
-    std::vector<bool> inputV(input, input+6);
+    field254 input[6] = {0, 0, 0, 1, 1, 1};
+    std::vector<field254> inputV(input, input+6);
 
     hashSHA(input, 6, 2);
 
@@ -133,14 +133,14 @@ TEST(HashSHATest, ReuseResultInNextRound) {
     shaResult = { { 0 } };
     shaResult.digest[255] = 1;
 
-    bool input[6] = { 0 };
+    field254 input[6] = { 0 };
     hashSHA(input, 6, 3);
 
     ASSERT_EQ(pedersenCalls.size(), 2);
     
     // Starting point is 0
     auto& el = shaCalls[0];
-    ASSERT_TRUE(std::all_of(el.cbegin(), el.cbegin() + 256, [](bool i){return i==0;}));
+    ASSERT_TRUE(std::all_of(el.cbegin(), el.cbegin() + 256, [](field254 i){return i==0;}));
 
     // Next iteration uses previous digest
     el = shaCalls[1];
@@ -155,7 +155,7 @@ TEST(HashSHATest, SplitsResult) {
     shaResult.digest[254] = 1;
     shaResult.digest[255] = 1;
 
-    bool input[6] = { 0 };
+    field254 input[6] = { 0 };
     ShaResult result = hashSHA(input, 6, 6);
 
     ASSERT_EQ(result.left, 1);

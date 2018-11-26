@@ -49,17 +49,11 @@ test: unit-tests gadget-tests e2e-tests
 e2e-tests: check-env
 	test/e2e/hash_transform.sh
 
-<<<<<<< HEAD
-unit-tests: test/apps/hash_transform_test.cpp
-	$(CXX)  $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/run_unit_tests $(TEST_LDFLAGS) $(LDFLAGS) 
-	$(TEST_BIN)/run_unit_tests
-=======
 unit-tests: $(patsubst test/apps/%.cpp, app_%, $(wildcard test/apps/*_test.cpp))
 
 app_%_test: test/apps/%_test.cpp
-	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS)
+	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS)
 	$(TEST_BIN)/$@
->>>>>>> master
 
 gadget-tests: test/gadgets/main.cpp
 	$(CXX) $(CXXFLAGS) $(IFLAGS) -Iext_gadget/ $< ext_gadget/gadgets/*.cpp ext_gadget/gadgets/jubjub/*.cpp -o $(TEST_BIN)/run_gadget_tests $(LDFLAGS) $(TEST_LDFLAGS)

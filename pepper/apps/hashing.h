@@ -12,16 +12,16 @@
  * E.g. hashPedersen([0,0,1,1], 4, 2) == hash(hash(O, [0,0]), [1,1])
  */
 struct PedersenHash { field254 values[2]; }; /* resulting Point(x,y) */
-uint32_t hashPedersen(field254 *in, uint32_t inputSize, uint32_t chunkSize) {
+field254 hashPedersen(field254 *in, uint32_t inputSize, uint32_t chunkSize) {
     struct PedersenHash result[1] = { 0 };
     uint32_t index;
     for (index = 0; index < inputSize; index += chunkSize) {
         // Decompose x-coordinate from previous result to binary
-        field decomposed[254] = { 0 };
+        field254 decomposed[254] = { 0 };
         decomposeBits(result->values[0], decomposed);
 
         // Fill pedersen input, left with previous result
-        field pedersenInput[PEDERSEN_HASH_SIZE] = { 0 };
+        field254 pedersenInput[PEDERSEN_HASH_SIZE] = { 0 };
         copyBits(decomposed, 0, pedersenInput, 0, 254);
         uint32_t padding = 254 - chunkSize;
         copyBits(in, index, pedersenInput, 254+padding, chunkSize);
@@ -40,7 +40,7 @@ struct ShaResult { field254 left; field254 right; };
 struct ShaResult hashSHA(field254 *in, uint32_t inputSize, uint32_t chunkSize) {
     struct ShaHash shaOut[1] = { 0 };
 
-    bool shaIn[SHA_HASH_SIZE] = { 0 };
+    field254 shaIn[SHA_HASH_SIZE] = { 0 };
     uint32_t index;
     for (index=0; index < inputSize; index+=chunkSize) {
         // sha hash
