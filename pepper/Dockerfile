@@ -1,4 +1,4 @@
-FROM fleupold/pepper:v2
+FROM fleupold/pepper:v3
 MAINTAINER Felix Leupold <felix@gnosis.pm>
 
 ENV PEPPER /home/docker/pequin
