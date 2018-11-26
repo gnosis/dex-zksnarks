@@ -5,6 +5,7 @@ node_js:
 services:
 - docker
 install:
+- docker pull fleupold/pepper:latest
 - docker build -t dex_zokrates ZoKrates/
 - docker build -t dex_pepper pepper/
 script:
