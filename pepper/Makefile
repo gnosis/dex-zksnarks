@@ -14,7 +14,6 @@ GADGET_SOURCES = ext_gadget/gadgets/common.cpp ext_gadget/gadgets/jubjub/*.cpp
 TEST_LDFLAGS = -lgtest -lpthread
 TEST_IFLAGS = -I./
 TEST_BIN = test/bin/
-FILENAMETESTS := $(shell find test/apps/ -name '*_test.cpp')
 
 # We need to use ALT_BN_128 for all ethereum related work
 change-curve: check-env
@@ -52,7 +51,7 @@ e2e-tests: check-env
 unit-tests: $(patsubst test/apps/%.cpp, app_%, $(wildcard test/apps/*_test.cpp))
 
 app_%_test: test/apps/%_test.cpp
-	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS) -g3 -O0 
 	$(TEST_BIN)/$@
 
 gadget-tests: test/gadgets/main.cpp

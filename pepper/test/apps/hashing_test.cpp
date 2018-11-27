@@ -102,7 +102,6 @@ TEST(HashSHATest, SingleChunk) {
     shaCalls.clear();
     field254 input[6] = {0, 0, 0, 1, 1, 1};
     std::vector<field254> inputV(input, input+6);
-
     hashSHA(input, 6, 6);
 
     ASSERT_EQ(shaCalls.size(), 1);
@@ -164,6 +163,7 @@ TEST(HashSHATest, SplitsResult) {
 
 int main(int argc, char **argv) {
     testing::FLAGS_gtest_death_test_style = "threadsafe";
+    libsnark::default_r1cs_ppzksnark_pp::init_public_params();
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
