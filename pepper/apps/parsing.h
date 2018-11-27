@@ -19,6 +19,11 @@ struct Balance {
     field254 token[TOKENS];
 };
 
+struct Volume {
+    field254 sellVolume;
+    field254 buyVolume;
+};
+
 field254 parseAccount(field254* bits) {
     return sumBits(bits, BITS_PER_ACCOUNT);
 }
@@ -67,5 +72,23 @@ void serializeBalances(struct Balance balances[ACCOUNTS], field254* serialized) 
             uint32_t offset = BITS_PER_DECIMAL * (accountIndex * TOKENS + tokenIndex);
             copyBits(serializedToken, 154, serialized, offset, BITS_PER_DECIMAL);
         }
+    }
+}
+
+void parsePrices(field254 *bits, field254 prices[TOKENS]) {
+    uint32_t tokenIndex = 0;
+    for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
+        prices[tokenIndex ] = parseDecimal(bits + (tokenIndex * BITS_PER_DECIMAL));
+    }
+}
+
+void parseVolumes(field254 *bits, struct Volume volumes[ORDERS]) {
+    uint32_t index = 0;
+    for (index = 0; index < ORDERS; index++) {
+        // For hash verification efficiency all buyVolumes are adjacent:
+        // [sellVolumeOrder1, .., sellVolumeOrderN, buyVolumeOrder1, .., buyVolumeOrderN ]
+        field254 sellVolume = parseDecimal(bits + (index * BITS_PER_DECIMAL));
+        field254 buyVolume = parseDecimal(bits + ((ORDERS + index) * BITS_PER_DECIMAL));
+        volumes[index] = { sellVolume, buyVolume };
     }
 }

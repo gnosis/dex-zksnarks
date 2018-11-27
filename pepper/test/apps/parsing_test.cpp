@@ -149,6 +149,42 @@ TEST(ParsingTest, SerializeBalances) {
     );
 }
 
+TEST(ParsingTest, ParsePrices) {
+    field254 bits[TOKENS*BITS_PER_DECIMAL] = { 0 };
+    
+    // Each token will have price 2^tokenIndex
+    bits[BITS_PER_DECIMAL - 1] = 1; //token1
+    bits[(2*BITS_PER_DECIMAL) - 2] = 1; //token2
+    bits[(3*BITS_PER_DECIMAL) - 3] = 1; //token3
+    bits[(4*BITS_PER_DECIMAL) - 4] = 1; //token4
+
+    field254 prices[TOKENS] = { 0 };
+    parsePrices(bits, prices);
+
+    ASSERT_EQ(prices[0], 1);
+    ASSERT_EQ(prices[1], 2);
+    ASSERT_EQ(prices[2], 4);
+    ASSERT_EQ(prices[3], 8);
+}
+
+TEST(ParsingTest, ParseVolumes) {
+    field254 bits[2*ORDERS*BITS_PER_DECIMAL] = { 0 };
+    
+    // Buy and sell volume will be the same for each order (2^^orderIndex)
+    bits[BITS_PER_DECIMAL - 1] = 1; //sellVolume order1
+    bits[(ORDERS*BITS_PER_DECIMAL) + BITS_PER_DECIMAL - 1] = 1; //buyVolume order1
+    bits[(2*BITS_PER_DECIMAL) - 2] = 1; //sellVolume order2
+    bits[(ORDERS*BITS_PER_DECIMAL) + (2 * BITS_PER_DECIMAL) - 2] = 1; //sellVolume order2
+
+    struct Volume volumes[ORDERS] = { 0 };
+    parseVolumes(bits, volumes);
+
+    ASSERT_EQ(volumes[0].sellVolume, 1);
+    ASSERT_EQ(volumes[0].buyVolume, 1);
+    ASSERT_EQ(volumes[1].sellVolume, 2);
+    ASSERT_EQ(volumes[1].buyVolume, 2);
+}
+
 int main(int argc, char **argv) {
     testing::FLAGS_gtest_death_test_style = "threadsafe";
     libsnark::default_r1cs_ppzksnark_pp::init_public_params();
