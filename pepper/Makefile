@@ -51,7 +51,7 @@ e2e-tests: check-env
 unit-tests: $(patsubst test/apps/%.cpp, app_%, $(wildcard test/apps/*_test.cpp))
 
 app_%_test: test/apps/%_test.cpp
-	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS) -g3 -O0 
+	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS) 
 	$(TEST_BIN)/$@
 
 gadget-tests: test/gadgets/main.cpp
