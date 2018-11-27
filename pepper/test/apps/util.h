@@ -74,6 +74,8 @@ void exo_compute(field254** input, uint32_t* length, void* output, uint32_t exo)
 }
 #endif
 
+#ifndef ASSERT_ZERO_OVERRIDE
 void assert_zero(field254 v) {
     assert(field254::zero() == v);
 }
+#endif
