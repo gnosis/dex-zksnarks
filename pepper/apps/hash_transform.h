@@ -2,8 +2,9 @@
 
 #define ORDERS 2
 
-struct Private { bool orders[ORDERS * 253]; };
-struct In { int128 shaHashL; int128 shaHashR; };
-struct Out { uint32_t pedersenHash; };
+struct Private { field254 orders[ORDERS*253]; };
+struct In { field254 shaHashL; field254 shaHashR; };
+struct Out { field254 pedersenHash; };
 
-void compute(struct In *input, struct Out *output);
+void compute(struct In
+ *input, struct Out *output);

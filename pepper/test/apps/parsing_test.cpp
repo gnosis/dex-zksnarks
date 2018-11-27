@@ -11,7 +11,7 @@ struct Private {};
 #include "util.h"
 
 TEST(ParsingTest, ParseAccount) {
-    bool bits[BITS_PER_ACCOUNT] = { 0 };
+    field254 bits[BITS_PER_ACCOUNT] = { 0 };
     auto account = parseAccount(bits);
     ASSERT_EQ(account, 0);
 
@@ -27,7 +27,7 @@ TEST(ParsingTest, ParseAccount) {
 }
 
 TEST(ParsingTest, ParseToken) {
-    bool bits[BITS_PER_TOKEN] = { 0 };
+    field254 bits[BITS_PER_TOKEN] = { 0 };
     auto token = parseToken(bits);
     ASSERT_EQ(token, 0);
 
@@ -43,7 +43,7 @@ TEST(ParsingTest, ParseToken) {
 }
 
 TEST(ParsingTest, ParseDecimal) {
-    bool bits[BITS_PER_DECIMAL] = { 0 };
+    field254 bits[BITS_PER_DECIMAL] = { 0 };
     auto decimal = parseDecimal(bits);
     ASSERT_EQ(decimal, 0);
 
@@ -53,7 +53,7 @@ TEST(ParsingTest, ParseDecimal) {
 }
 
 TEST(ParsingTest, ParseOrders) {
-    bool bits[BITS_PER_ORDER*ORDERS] = { 0 };
+    field254 bits[BITS_PER_ORDER*ORDERS] = { 0 };
     
     /**
      * First order: {
@@ -96,7 +96,7 @@ TEST(ParsingTest, ParseOrders) {
 }
 
 TEST(ParsingTest, ParseBalances) {
-    bool bits[ACCOUNTS*TOKENS*BITS_PER_DECIMAL] = { 0 };
+    field254 bits[ACCOUNTS*TOKENS*BITS_PER_DECIMAL] = { 0 };
     
     // Each account will have balance in a single token 
     // (same ID as their account)
@@ -130,7 +130,7 @@ TEST(ParsingTest, ParseBalances) {
 }
 
 TEST(ParsingTest, SerializeBalances) {
-    bool original[ACCOUNTS*TOKENS*BITS_PER_DECIMAL] = { 0 };
+    field254 original[ACCOUNTS*TOKENS*BITS_PER_DECIMAL] = { 0 };
     original[BITS_PER_DECIMAL - 1] = 1;
     original[(TOKENS*BITS_PER_DECIMAL) + (2*BITS_PER_DECIMAL) - 1] = 1;
     original[(2*TOKENS*BITS_PER_DECIMAL) + (3*BITS_PER_DECIMAL) - 1] = 1;
@@ -140,17 +140,18 @@ TEST(ParsingTest, SerializeBalances) {
     parseBalances(original, balances);
 
     // serialize back and expect to match original
-    bool serialized[ACCOUNTS*TOKENS*BITS_PER_DECIMAL] = { 0 };
+    field254 serialized[ACCOUNTS*TOKENS*BITS_PER_DECIMAL] = { 0 };
     serializeBalances(balances, serialized);
 
     ASSERT_EQ(
-        std::vector<bool>(original, original+(ACCOUNTS*TOKENS*BITS_PER_DECIMAL)),
-        std::vector<bool>(serialized, serialized+(ACCOUNTS*TOKENS*BITS_PER_DECIMAL))
+        std::vector<field254>(original, original+(ACCOUNTS*TOKENS*BITS_PER_DECIMAL)),
+        std::vector<field254>(serialized, serialized+(ACCOUNTS*TOKENS*BITS_PER_DECIMAL))
     );
 }
 
 int main(int argc, char **argv) {
     testing::FLAGS_gtest_death_test_style = "threadsafe";
+    libsnark::default_r1cs_ppzksnark_pp::init_public_params();
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

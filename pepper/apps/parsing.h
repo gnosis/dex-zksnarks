@@ -8,30 +8,30 @@
 #define BITS_PER_ORDER (BITS_PER_ACCOUNT + (2 * BITS_PER_TOKEN) + (2 * BITS_PER_DECIMAL))
 
 struct Order {
-    uint32_t account;
-    uint32_t sellToken;
-    uint32_t buyToken;
-    uint32_t limitPrice;
-    uint32_t sellAmount;
+    field254 account;
+    field254 sellToken;
+    field254 buyToken;
+    field254 limitPrice;
+    field254 sellAmount;
 };
 
 struct Balance {
-    uint16_t token[TOKENS];
+    field254 token[TOKENS];
 };
 
-uint32_t parseAccount(bool* bits) {
+field254 parseAccount(field254* bits) {
     return sumBits(bits, BITS_PER_ACCOUNT);
 }
 
-uint32_t parseToken(bool* bits) {
+field254 parseToken(field254* bits) {
     return sumBits(bits, BITS_PER_TOKEN);
 }
 
-uint32_t parseDecimal(bool* bits) {
+field254 parseDecimal(field254* bits) {
     return sumBits(bits, BITS_PER_DECIMAL);
 }
 
-struct Order parseOrder(bool *bits) {
+struct Order parseOrder(field254 *bits) {
     return {
         parseAccount(bits),
         parseToken(bits + BITS_PER_ACCOUNT),
@@ -41,14 +41,14 @@ struct Order parseOrder(bool *bits) {
     };
 }
 
-void parseOrders(bool *bits, struct Order orders[ORDERS]) {
+void parseOrders(field254 *bits, struct Order orders[ORDERS]) {
     uint32_t index = 0;
     for (index = 0; index < ORDERS; index++) {
         orders[index] = parseOrder(bits + (index * BITS_PER_ORDER));
     }
 }
 
-void parseBalances(bool *bits, struct Balance balances[ACCOUNTS]) {
+void parseBalances(field254 *bits, struct Balance balances[ACCOUNTS]) {
     uint32_t accountIndex, tokenIndex = 0;
     for (accountIndex = 0; accountIndex < ACCOUNTS; accountIndex++) {
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
@@ -58,11 +58,11 @@ void parseBalances(bool *bits, struct Balance balances[ACCOUNTS]) {
     }
 }
 
-void serializeBalances(struct Balance balances[ACCOUNTS], bool* serialized) {
+void serializeBalances(struct Balance balances[ACCOUNTS], field254* serialized) {
     uint32_t accountIndex, tokenIndex = 0;
     for (accountIndex = 0; accountIndex < ACCOUNTS; accountIndex++) {
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
-            bool serializedToken[254] = { 0 };
+            field254 serializedToken[254] = { 0 };
             decomposeBits(balances[accountIndex].token[tokenIndex], serializedToken);
             uint32_t offset = BITS_PER_DECIMAL * (accountIndex * TOKENS + tokenIndex);
             copyBits(serializedToken, 154, serialized, offset, BITS_PER_DECIMAL);

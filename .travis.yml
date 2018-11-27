@@ -1,17 +1,20 @@
 sudo: required
-language: node_js
-node_js:
-- '7'
 services:
 - docker
 install:
-- docker build -t dex_zokrates ZoKrates/
-- docker build -t dex_pepper pepper/
+- docker pull gnosispm/dex_zokrates:staging
+- docker pull gnosispm/dex_pepper:staging
+- docker build -t dex_zokrates ZoKrates/ --cache-from gnosispm/dex_zokrates:staging
+- docker build -t dex_pepper pepper/ --cache-from gnosispm/dex_pepper:staging
 script:
-- docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti dex_zokrates /bin/sh -c
-  "cd ZoKrates/target/release/ ; ~/dex-snark/test/ringtrade_counterexamples.sh ; ~/dex-snark/test/run_tests.sh ; ~/dex-snark/test/run_util_tests.sh"
-- docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti --entrypoint /bin/sh dex_pepper -c
-  "cd ~/dex-zksnarks && make test"
+- if git diff --name-only $TRAVIS_COMMIT_RANGE | grep ZoKrates/; then
+    docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti dex_zokrates /bin/sh -c
+    "cd ZoKrates/target/release/ ; ~/dex-snark/test/ringtrade_counterexamples.sh ; ~/dex-snark/test/run_tests.sh ; ~/dex-snark/test/run_util_tests.sh";
+  fi
+- if git diff --name-only $TRAVIS_COMMIT_RANGE | grep pepper/; then
+    docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti --entrypoint /bin/sh dex_pepper -c
+    "cd ~/dex-zksnarks && make test";
+  fi
 
 deploy:
 - provider: script
