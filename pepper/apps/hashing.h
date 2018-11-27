@@ -11,17 +11,17 @@
  *
  * E.g. hashPedersen([0,0,1,1], 4, 2) == hash(hash(O, [0,0]), [1,1])
  */
-struct PedersenHash { uint32_t values[2]; }; /* resulting Point(x,y) */
-uint32_t hashPedersen(bool *in, uint32_t inputSize, uint32_t chunkSize) {
+struct PedersenHash { field254 values[2]; }; /* resulting Point(x,y) */
+field254 hashPedersen(field254 *in, uint32_t inputSize, uint32_t chunkSize) {
     struct PedersenHash result[1] = { 0 };
     uint32_t index;
     for (index = 0; index < inputSize; index += chunkSize) {
         // Decompose x-coordinate from previous result to binary
-        bool decomposed[254] = { 0 };
+        field254 decomposed[254] = { 0 };
         decomposeBits(result->values[0], decomposed);
 
         // Fill pedersen input, left with previous result
-        bool pedersenInput[PEDERSEN_HASH_SIZE] = { 0 };
+        field254 pedersenInput[PEDERSEN_HASH_SIZE] = { 0 };
         copyBits(decomposed, 0, pedersenInput, 0, 254);
         uint32_t padding = 254 - chunkSize;
         copyBits(in, index, pedersenInput, 254+padding, chunkSize);
@@ -35,12 +35,12 @@ uint32_t hashPedersen(bool *in, uint32_t inputSize, uint32_t chunkSize) {
  * Hashes the given input of size `inputSize` by dividing it into windows of size 
  * `chunkSize` and chaining their SHA256 hashes together. It startes with 256 0-bits
  */
-struct ShaHash { bool digest[256]; };
-struct ShaResult { int128 left; int128 right; };
-struct ShaResult hashSHA(bool *in, uint32_t inputSize, uint32_t chunkSize) {
+struct ShaHash { field254 digest[256]; };
+struct ShaResult { field254 left; field254 right; };
+struct ShaResult hashSHA(field254 *in, uint32_t inputSize, uint32_t chunkSize) {
     struct ShaHash shaOut[1] = { 0 };
 
-    bool shaIn[SHA_HASH_SIZE] = { 0 };
+    field254 shaIn[SHA_HASH_SIZE] = { 0 };
     uint32_t index;
     for (index=0; index < inputSize; index+=chunkSize) {
         // sha hash

@@ -1,6 +1,11 @@
 #include <stdint.h>
+#include <libsnark/common/default_types/r1cs_ppzksnark_pp.hpp>
+
+typedef libff::alt_bn128_pp ppT;
+typedef libff::Fr<ppT> field254;
+
+
 //Declaration of internal pepper methods (to make compiler happy)
-void exo_compute(uint32_t**, uint32_t*, void*, uint32_t);
+void exo_compute(field254**, uint32_t*, void*, uint32_t);
 void ext_gadget(void*, void*, uint32_t);
-void assert_zero(uint32_t);
-typedef long int128;
+void assert_zero(field254);
