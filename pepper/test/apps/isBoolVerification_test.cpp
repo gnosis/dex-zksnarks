@@ -5,8 +5,8 @@
 
 struct Private {};
 
-#include <apps/dex_common.h>
-//#include "util.h"
+#include <apps/hashing.h>
+#include "util.h"
 
 
 TEST(isBoolVerification, isBoolVerificationWithBools) { 
