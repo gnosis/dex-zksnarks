@@ -38,6 +38,16 @@ struct Private readPrivateInput() {
 }
 
 /**
+ * checks that all numbers in the array are of boolean type  
+ */
+void isBoolVerification(field254 *bits, uint32_t length) {
+    uint32_t index = 0;
+    for (index=0; index<length; index++) {
+        assert_zero(bits[index] * (bits[index] - 1));
+    }
+}
+
+/**
  * Calling into external program to decompose bits.
  * Afterwards verify that bits sum up to number.
  */
@@ -48,6 +58,7 @@ void decomposeBits(field254 number, field254* bits) {
     field254 input[1] = {number};
     field254 *exo1_inputs[1] = { input };
     exo_compute(exo1_inputs,lens,result,1);
+    isBoolVerification(result->bits, 254);
     field254 sum = sumBits(result->bits, 254);
     assert_zero(sum - number);
 	copyBits(result->bits, 0, bits, 0, 254);
