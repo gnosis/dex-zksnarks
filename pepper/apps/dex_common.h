@@ -52,3 +52,11 @@ void decomposeBits(field254 number, field254* bits) {
     assert_zero(sum - number);
 	copyBits(result->bits, 0, bits, 0, 254);
 }
+
+uint32_t fieldToInt(field254 field) {
+#ifndef TEST
+    return field;
+#else
+    return field.as_ulong();
+#endif
+}
