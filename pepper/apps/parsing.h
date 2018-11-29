@@ -2,16 +2,16 @@
 #include "dex_common.h"
 #include "macros.h"
 
-#define BITS_PER_ACCOUNT BITS_TO_REPRESENT(ACCOUNTS)
-#define BITS_PER_TOKEN BITS_TO_REPRESENT(TOKENS)
+#define BITS_PER_ACCOUNT 4 //BITS_TO_REPRESENT(ACCOUNTS)
+#define BITS_PER_TOKEN 3 //BITS_TO_REPRESENT(TOKENS)
 #define BITS_PER_DECIMAL 100
-#define BITS_PER_ORDER (BITS_PER_ACCOUNT + (2 * BITS_PER_TOKEN) + (2 * BITS_PER_DECIMAL))
+#define BITS_PER_ORDER 210 //(BITS_PER_ACCOUNT + (2 * BITS_PER_TOKEN) + (2 * BITS_PER_DECIMAL))
 
 struct Order {
     field254 account;
     field254 sellToken;
     field254 buyToken;
-    field254 limitPrice;
+    field254 buyAmount;
     field254 sellAmount;
 };
 
@@ -37,13 +37,14 @@ field254 parseDecimal(field254* bits) {
 }
 
 struct Order parseOrder(field254 *bits) {
-    return {
+    struct Order order = {
         parseAccount(bits),
         parseToken(bits + BITS_PER_ACCOUNT),
         parseToken(bits + BITS_PER_ACCOUNT + BITS_PER_TOKEN),
         parseDecimal(bits + BITS_PER_ACCOUNT + BITS_PER_TOKEN + BITS_PER_TOKEN),
         parseDecimal(bits + BITS_PER_ACCOUNT + BITS_PER_TOKEN + BITS_PER_TOKEN + BITS_PER_DECIMAL)
     };
+    return order;
 }
 
 void parseOrders(field254 *bits, struct Order orders[ORDERS]) {
@@ -89,6 +90,7 @@ void parseVolumes(field254 *bits, struct Volume volumes[ORDERS]) {
         // [sellVolumeOrder1, .., sellVolumeOrderN, buyVolumeOrder1, .., buyVolumeOrderN ]
         field254 sellVolume = parseDecimal(bits + (index * BITS_PER_DECIMAL));
         field254 buyVolume = parseDecimal(bits + ((ORDERS + index) * BITS_PER_DECIMAL));
-        volumes[index] = { sellVolume, buyVolume };
+        volumes[index].sellVolume = sellVolume;
+        volumes[index].buyVolume = buyVolume;
     }
 }

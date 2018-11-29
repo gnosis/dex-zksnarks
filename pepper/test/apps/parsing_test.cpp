@@ -60,7 +60,7 @@ TEST(ParsingTest, ParseOrders) {
      *   account: 1,
      *   sellToken: 1
      *   buyToken: 2
-     *   limitPrice: 4
+     *   buyAmount: 4
      *   sellAmount: 8
      * }
      */
@@ -75,7 +75,7 @@ TEST(ParsingTest, ParseOrders) {
      *   account: 2,
      *   sellToken: 2
      *   buyToken: 1
-     *   limitPrice: 16
+     *   buyAmount: 16
      *   sellAmount: 32
      * }
      */
@@ -91,7 +91,7 @@ TEST(ParsingTest, ParseOrders) {
     ASSERT_EQ(result[1].account, 2);
     ASSERT_EQ(result[1].sellToken, 2);
     ASSERT_EQ(result[1].buyToken, 1);
-    ASSERT_EQ(result[1].limitPrice, 16);
+    ASSERT_EQ(result[1].buyAmount, 16);
     ASSERT_EQ(result[1].sellAmount, 32);
 }
 
