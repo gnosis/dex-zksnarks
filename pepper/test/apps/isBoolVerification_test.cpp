@@ -1,22 +1,26 @@
 #include <cassert>
 #include <gtest/gtest.h>
+#include <algorithm>
 #include "declarations.h"
-#include <apps/hash_transform.h>
+struct Private {};
 
-#include <apps/dex_common.h>
+#include <apps/hashing.h>
 #include "util.h"
 
+
 TEST(isBoolVerification, isBoolVerificationWithBools) { 
+    uint32_t length = 2;
     field254 bits[1] = { 0 };
-    bits = field("2");
-    bits = field("0");
+    bits[0] = field254("1");
+    bits[1] = field254("0");
     EXPECT_NO_THROW(isBoolVerification(bits, length));
 }
 
 TEST(isBoolVerification, isBoolVerificationWithNonbools) {
+    uint32_t length = 2;
     field254 bits[1] = { 0 };
-    bits = field("2");
-    bits = field("0");
+    bits[0] = field254("2");
+    bits[1] = field254("0");
     ASSERT_DEATH(isBoolVerification(bits, length), "");
 }
 
