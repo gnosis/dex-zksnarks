@@ -11,7 +11,7 @@ struct Private {};
 
 TEST(isBoolVerification, isBoolVerificationWithBools) { 
     uint32_t length = 2;
-    field254 bits[1] = { 0 };
+    field254 bits[2] = { 0 };
     bits[0] = field254("1");
     bits[1] = field254("0");
     EXPECT_NO_THROW(isBoolVerification(bits, length));
@@ -19,7 +19,7 @@ TEST(isBoolVerification, isBoolVerificationWithBools) {
 
 TEST(isBoolVerification, isBoolVerificationWithNonbools) {
     uint32_t length = 2;
-    field254 bits[1] = { 0 };
+    field254 bits[2] = { 0 };
     bits[0] = field254("2");
     bits[1] = field254("0");
     ASSERT_DEATH(isBoolVerification(bits, length), "");
