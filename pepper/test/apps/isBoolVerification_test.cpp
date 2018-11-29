@@ -2,10 +2,11 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include "declarations.h"
+
 struct Private {};
 
-#include <apps/hashing.h>
-#include "util.h"
+#include <apps/dex_common.h>
+//#include "util.h"
 
 
 TEST(isBoolVerification, isBoolVerificationWithBools) { 
