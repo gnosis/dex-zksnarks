@@ -1,0 +1,6 @@
+[submodule "pepper/depends/--force"]
+	path = pepper/depends/--force
+	url = git@github.com:HarryR/ethsnarks.git
+[submodule "pepper/depends/ethsnarks"]
+	path = pepper/depends/ethsnarks
+	url = git@github.com:HarryR/ethsnarks.git

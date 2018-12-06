@@ -9,11 +9,12 @@ IFLAGS = -Iext_gadget -I$(LIBSNARK)/ -I$(LIBSNARK)/depends/libff -I$(LIBSNARK)/d
 LDFLAGS = -L$(LIBSNARK)/build/libsnark -L$(LIBSNARK)/build/depends/libff/libff
 LDFLAGS += -lsnark -lff -lgmp -lgmpxx
 
-GADGET_SOURCES = ext_gadget/gadgets/common.cpp ext_gadget/gadgets/jubjub/*.cpp
-
 TEST_LDFLAGS = -lgtest -lpthread
 TEST_IFLAGS = -I./
 TEST_BIN = test/bin/
+
+ETHSNARK_IFLAGS = -Idepends/ethsnarks/src
+ETHSNARK_SRC = depends/ethsnarks/src/jubjub/*.cpp depends/ethsnarks/src/gadgets/*.cpp  depends/ethsnarks/src/utils.cpp
 
 # We need to use ALT_BN_128 for all ethereum related work
 change-curve: check-env
@@ -28,10 +29,10 @@ make-bin: check-env
 gadgets: gadget0 gadget1
 
 gadget0: ext_gadget/sha256_bridge.cpp check-env
-	$(CXX) $(CXXFLAGS) $(IFLAGS) $<  $(GADGET_SOURCES) ext_gadget/common.cpp -o $(PEPPER_BIN)/gadget0 $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(IFLAGS) $(ETHSNARK_IFLAGS) $< ext_gadget/common.cpp -o $(PEPPER_BIN)/gadget0 $(LDFLAGS) -lssl -lcrypto
 
 gadget1: ext_gadget/pedersen_bridge.cpp check-env
-	$(CXX) $(CXXFLAGS) $(IFLAGS) $< $(GADGET_SOURCES) ext_gadget/common.cpp -o $(PEPPER_BIN)/gadget1 $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(IFLAGS) $(ETHSNARK_IFLAGS) $< ext_gadget/common.cpp $(ETHSNARK_SRC) -o $(PEPPER_BIN)/gadget1 $(LDFLAGS) -lssl -lcrypto
 
 # Link source code of snark apps
 link-apps: check-env
@@ -43,7 +44,7 @@ link-exo: check-env
 	ln -sf ~/dex-zksnarks/exo_compute/private_input.py $(PEPPER_BIN)/exo0
 
 # Target to run all tests (e.g. used by travis)
-test: unit-tests gadget-tests e2e-tests
+test: unit-tests e2e-tests
 
 e2e-tests: check-env
 	test/e2e/hash_transform.sh
@@ -53,10 +54,6 @@ unit-tests: $(patsubst test/apps/%.cpp, app_%, $(wildcard test/apps/*_test.cpp))
 app_%_test: test/apps/%_test.cpp
 	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS) -g3 -O0 
 	$(TEST_BIN)/$@
-
-gadget-tests: test/gadgets/main.cpp
-	$(CXX) $(CXXFLAGS) $(IFLAGS) -Iext_gadget/ $< ext_gadget/gadgets/*.cpp ext_gadget/gadgets/jubjub/*.cpp -o $(TEST_BIN)/run_gadget_tests $(LDFLAGS) $(TEST_LDFLAGS)
-	$(TEST_BIN)/run_gadget_tests
 
 # Make sure we have the environment set up
 check-env:
