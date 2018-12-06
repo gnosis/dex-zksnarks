@@ -11,7 +11,7 @@ USER docker
 
 COPY --chown=docker:docker . /home/docker/dex-zksnarks
 WORKDIR /home/docker/dex-zksnarks
-
+RUN git submodule update --init --recursive
 RUN make initial
 
 WORKDIR /home/docker/pequin/pepper/
