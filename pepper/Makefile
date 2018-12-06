@@ -57,6 +57,9 @@ app_%_test: test/apps/%_test.cpp
 gadget-tests: test/gadgets/main.cpp
 	$(CXX) $(CXXFLAGS) $(IFLAGS) -Iext_gadget/ $< ext_gadget/gadgets/*.cpp ext_gadget/gadgets/jubjub/*.cpp -o $(TEST_BIN)/run_gadget_tests $(LDFLAGS) $(TEST_LDFLAGS)
 	$(TEST_BIN)/run_gadget_tests
+	
+scripts: scripts/pepper_binary_format_reader.cpp
+	$(CXX) $(CXXFLAGS) -DBINARY_OUTPUT $(IFLAGS) $< -o scripts/bin/pepper_binary_format_reader $(LDFLAGS)
 
 # Make sure we have the environment set up
 check-env:
