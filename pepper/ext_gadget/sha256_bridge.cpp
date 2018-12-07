@@ -1,5 +1,6 @@
 #include "common.h"
-#include <gadgets/sha256_full.cpp>
+#include "gadgets/sha256_full.cpp"
+#include "utils.cpp"
 
 using namespace libsnark;
 using namespace libff;
