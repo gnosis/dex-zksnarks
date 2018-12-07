@@ -69,6 +69,6 @@ ifndef PEPPER
   $(error $$PEPPER is undefined)
 endif
 
-initial: make-bin change-curve all
+initial: scripts make-bin change-curve all
 
 all: link-apps link-exo gadgets
