@@ -24,6 +24,7 @@ make-bin: check-env
 	mkdir -p $(PEPPER_BIN)
 	mkdir -p $(PEPPER)/pepper/prover_verifier_shared
 	mkdir -p $(TEST_BIN)
+	mkdir -p scripts/bin
 
 # Convenience target to compile gadgets 0..n
 gadgets: gadget0 gadget1
@@ -59,7 +60,7 @@ gadget-tests: test/gadgets/main.cpp
 	$(CXX) $(CXXFLAGS) $(IFLAGS) -Iext_gadget/ $< ext_gadget/gadgets/*.cpp ext_gadget/gadgets/jubjub/*.cpp -o $(TEST_BIN)/run_gadget_tests $(LDFLAGS) $(TEST_LDFLAGS)
 	$(TEST_BIN)/run_gadget_tests
 	
-scripts: scripts/pepper_binary_format_reader.cpp
+scripts: scripts/pepper_binary_format_reader.cpp make-bin
 	$(CXX) $(CXXFLAGS) -DBINARY_OUTPUT $(IFLAGS) $< -o scripts/bin/pepper_binary_format_reader $(LDFLAGS)
 
 # Make sure we have the environment set up
