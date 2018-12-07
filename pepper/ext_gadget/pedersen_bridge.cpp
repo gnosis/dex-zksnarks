@@ -1,5 +1,6 @@
 #include "common.h"
-#include "gadgets/jubjub/pedersen_commitment.hpp"
+#include "jubjub/pedersen_hash.hpp"
+#include "jubjub/params.hpp"
 
 using namespace libsnark;
 using namespace libff;
@@ -11,47 +12,42 @@ using namespace libff;
 #define OUTPUT_SIZE 2
 
 uint64_t inputSize() {
-	return LEFT_INPUT_SIZE + RIGHT_INPUT_SIZE;
+    return LEFT_INPUT_SIZE + RIGHT_INPUT_SIZE;
 }
 
 uint64_t outputSize() {
-	return OUTPUT_SIZE;
+    return OUTPUT_SIZE;
 }
 
 protoboard<FieldT> getProtoboard(const char* assignment)
 {
-    libsnark::default_r1cs_ppzksnark_pp::init_public_params();
+    ethsnarks::ppT::init_public_params();
+    const ethsnarks::jubjub::Params params;
     protoboard<FieldT> pb;
 
-	pb_variable_array<FieldT> left;
-    left.allocate(pb, LEFT_INPUT_SIZE, FMT("annotation_prefix", " scaler to multiply by"));
-    
-	pb_variable_array<FieldT> right;
-    right.allocate(pb, RIGHT_INPUT_SIZE, FMT("annotation_prefix", " scaler to multiply by"));
+    ethsnarks::VariableArrayT in;
+    // The gadget expects input that is a multiple of three. Thus, we pad with 0s.
+    size_t padding  = (3 - (inputSize() % 3)) % 3;
+    size_t scalar_size = inputSize() + padding;
+    in.allocate(pb, scalar_size, FMT("annotation_prefix", " scaler to multiply by"));
 
-	pb_variable<FieldT> commitment_x;
-    pb_variable<FieldT> commitment_y;
-    commitment_x.allocate(pb, "r_x");
-    commitment_y.allocate(pb, "r_y");
-
-    ethsnarks::pedersen_commitment f(pb,left,right,commitment_x,commitment_y);
+    ethsnarks::jubjub::PedersenHash f(pb, params, "dex.pedersen-hash", in, "gadget");
     f.generate_r1cs_constraints();
 
-	if (assignment) {
-		libff::bit_vector left_bv;
-		libff::bit_vector right_bv;
-     	for (int i = 0; i < LEFT_INPUT_SIZE; i++) {
-        	left_bv.push_back(assignment[2*i] - '0');
+    if (assignment) {
+	libff::bit_vector in_bv;
+     	for (int i = 0; i < scalar_size; i++) {
+            if (i < inputSize()) {
+                in_bv.push_back(assignment[2*i] - '0');
+            } else {
+                in_bv.push_back(false);
+            }
     	}
-		left.fill_with_bits(pb, left_bv);
 
-		for (int i = LEFT_INPUT_SIZE; i < LEFT_INPUT_SIZE + RIGHT_INPUT_SIZE; i++) {
-        	right_bv.push_back(assignment[2*i] - '0');
-    	}
-		right.fill_with_bits(pb, right_bv);
+	in.fill_with_bits(pb, in_bv);
      	f.generate_r1cs_witness();
-		assert(pb.is_satisfied());
-	}
+	assert(pb.is_satisfied());
+    }
     
     return pb;
 }
