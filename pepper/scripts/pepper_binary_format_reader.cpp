@@ -2,6 +2,9 @@
 #include <iostream>
 #include <libsnark/common/default_types/r1cs_ppzksnark_pp.hpp>
 
+#define PROGRESS_INTERVAL 100000
+#define PROGRESS_UNIT "M"
+
 using namespace std;
 
 typedef libff::Fr<libsnark::default_r1cs_ppzksnark_pp> FieldT;
@@ -18,6 +21,7 @@ int main(int argc, char **argv)
     FILE *target = fopen(argv[2], "w");
     FieldT current;
     mpz_t r; mpz_init(r);
+    size_t index = 0;
 
     // Field elements are seperated by space. 
     // Read a single element, then get one character (space) until EOF
@@ -25,8 +29,15 @@ int main(int argc, char **argv)
         source >> current;
         current.as_bigint().to_mpz(r);
         gmp_fprintf(target, "%Zd ", r);
+        index++;
+        if (index % PROGRESS_INTERVAL == 0) {
+            std::cout << index / PROGRESS_INTERVAL << PROGRESS_UNIT << " constraints \n";
+        }
+
     } while (source.get() > 0);
 
     source.close();
     fclose(target);
+
+    std::cout << index << " total constraints \n";
 }
