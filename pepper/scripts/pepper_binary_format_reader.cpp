@@ -2,7 +2,7 @@
 #include <iostream>
 #include <libsnark/common/default_types/r1cs_ppzksnark_pp.hpp>
 
-#define PROGRESS_INTERVAL 100000
+#define PROGRESS_INTERVAL 1000000
 #define PROGRESS_UNIT "M"
 
 using namespace std;
