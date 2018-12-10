@@ -34,7 +34,7 @@ int main(int argc, char **argv)
             std::cout << index / PROGRESS_INTERVAL << PROGRESS_UNIT << " constraints \n";
         }
 
-    } while (source.get() > 0);
+    } while (source.get() > 0 && (source.peek() != EOF));
 
     source.close();
     fclose(target);
