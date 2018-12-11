@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "dex_common.h"
 
-#define PEDERSEN_HASH_SIZE 508
+#define PEDERSEN_HASH_SIZE 510 //PH gadget requires len % 3 = 0
 #define SHA_HASH_SIZE 512
 
 /**

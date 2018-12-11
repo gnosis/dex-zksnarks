@@ -46,6 +46,7 @@ void ext_gadget(void* in, void* out, uint32_t gadget) {
 
 #pragma mark - Pedersen
 
+#define PADDING 2
 TEST(HashPedersenTest, SingleChunk) { 
     pedersenCalls.clear();
     field254 input[6] = {0, 0, 0, 1, 1, 1};
@@ -55,7 +56,7 @@ TEST(HashPedersenTest, SingleChunk) {
 
     ASSERT_EQ(pedersenCalls.size(), 1);
     auto& first = pedersenCalls.front();
-    ASSERT_TRUE(std::equal(first.cbegin() + PEDERSEN_HASH_SIZE - 6, first.cend(), inputV.cbegin()));
+    ASSERT_TRUE(std::equal(first.cbegin() + PEDERSEN_HASH_SIZE - 6 - PADDING, first.cend() - PADDING, inputV.cbegin()));
 }
 
 TEST(HashPedersenTest, MultipleChunks) {
@@ -67,13 +68,13 @@ TEST(HashPedersenTest, MultipleChunks) {
     
     ASSERT_EQ(pedersenCalls.size(), 3);
     auto& el = pedersenCalls[0];
-    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2, el.cend(), inputV.cbegin()));
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin()));
 
     el = pedersenCalls[1];
-    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 , el.cend(), inputV.cbegin() + 2));
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin() + 2));
 
     el = pedersenCalls[2];
-    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2, el.cend(), inputV.cbegin() + 4));
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin() + 4));
 }
 
 TEST(HashPedersenTest, ReusesXCoordinateInNextRound) {
