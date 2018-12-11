@@ -39,8 +39,8 @@ fn empty_line<E:Engine>(index: usize) -> ParsedLine<E> {
 
 fn parse_line<E: Engine>(line: &String, variables: &mut Vec<Assignment<E>>, negate: bool) -> ParsedLine<E> {
     let parts: Vec<&str> = line.split_whitespace().collect();
-    let row: usize = parts[0].parse().unwrap();
-    let column: usize = parts[1].parse().unwrap();
+    let variable: usize = parts[0].parse().unwrap();
+    let index: usize = parts[1].parse().unwrap();
 
     // Bellman doesn't support parsing negative values.
     let mut coefficient = E::Fr::from_str(parts[2].trim_left_matches("-")).unwrap();
@@ -50,17 +50,17 @@ fn parse_line<E: Engine>(line: &String, variables: &mut Vec<Assignment<E>>, nega
     if parts[2].starts_with("-") { 
         coefficient.negate();
     }
-    variables[row] = Assignment::<E>{
-        variable: variables[row].variable, 
+    variables[variable] = Assignment::<E>{
+        variable: variables[variable].variable, 
         constrained: true, 
-        value: variables[row].value
+        value: variables[variable].value
     };
     let mut result = coefficient;
-    result.mul_assign(&(variables[row].value));
+    result.mul_assign(&(variables[variable].value));
     ParsedLine::<E> {
-        index: column,
-        lc: LinearCombination::zero() + (coefficient, variables[row].variable),
-        debug: format!("({}*{:?})", coefficient, variables[row].value),
+        index: index,
+        lc: LinearCombination::zero() + (coefficient, variables[variable].variable),
+        debug: format!("({}*{:?})", coefficient, variables[variable].value),
         result: result,
     }
 }
@@ -260,9 +260,9 @@ It requires the R1CS (A, B, C matrices) as well as assignments for primary and a
 
 The witnesses are consumed from a space separated list of field elements.
 The matrices are consumed as files where each line corresponds to a nonzero entry in the corresponding QAP matrix. 
-E.g. a line `96 5 2` means the entry at 96th row, 5th column is 2.
+E.g. a line `96 5 2` means the 5th constraint contains the LinearTerm (witness_96 * 2).
 
-The index (row) of a primary input i_n is |aux| + n. The entire witness is prepended with 1 in 0th position.
+The index of a primary input i_n is |aux| + n. The entire witness is prepended with 1 in 0th position.
 
 By applying the witness, the matrices are expected to satisfy (A * B) + C = 0
 
