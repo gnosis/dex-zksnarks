@@ -46,16 +46,17 @@ void ext_gadget(void* in, void* out, uint32_t gadget) {
 
 #pragma mark - Pedersen
 
+#define PADDING 2
 TEST(HashPedersenTest, SingleChunk) { 
     pedersenCalls.clear();
     field254 input[6] = {0, 0, 0, 1, 1, 1};
     std::vector<field254> inputV(input, input+6);
 
-    hashPedersen(input, 6, 6);
+    hashPedersen(input, 0, 6, 6);
 
     ASSERT_EQ(pedersenCalls.size(), 1);
     auto& first = pedersenCalls.front();
-    ASSERT_TRUE(std::equal(first.cbegin() + PEDERSEN_HASH_SIZE - 6, first.cend(), inputV.cbegin()));
+    ASSERT_TRUE(std::equal(first.cbegin() + PEDERSEN_HASH_SIZE - 6 - PADDING, first.cend() - PADDING, inputV.cbegin()));
 }
 
 TEST(HashPedersenTest, MultipleChunks) {
@@ -63,17 +64,35 @@ TEST(HashPedersenTest, MultipleChunks) {
     field254 input[6] = {0, 0, 0, 1, 1, 1};
     std::vector<field254> inputV(input, input+6);
     
-    hashPedersen(input, 6, 2);
+    hashPedersen(input, 0, 6, 2);
     
     ASSERT_EQ(pedersenCalls.size(), 3);
     auto& el = pedersenCalls[0];
-    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2, el.cend(), inputV.cbegin()));
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin()));
 
     el = pedersenCalls[1];
-    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 , el.cend(), inputV.cbegin() + 2));
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin() + 2));
 
     el = pedersenCalls[2];
-    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2, el.cend(), inputV.cbegin() + 4));
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin() + 4));
+}
+
+TEST(HashPedersenTest, MultipleChunksOffset) {
+    pedersenCalls.clear();
+    field254 input[7] = {42, 0, 0, 0, 1, 1, 1};
+    std::vector<field254> inputV(input+1, input+7);
+    
+    hashPedersen(input, 1, 6, 2);
+    
+    ASSERT_EQ(pedersenCalls.size(), 3);
+    auto& el = pedersenCalls[0];
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin()));
+
+    el = pedersenCalls[1];
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin() + 2));
+
+    el = pedersenCalls[2];
+    ASSERT_TRUE(std::equal(el.cbegin() + PEDERSEN_HASH_SIZE - 2 - PADDING, el.cend() - PADDING, inputV.cbegin() + 4));
 }
 
 TEST(HashPedersenTest, ReusesXCoordinateInNextRound) {
@@ -81,7 +100,7 @@ TEST(HashPedersenTest, ReusesXCoordinateInNextRound) {
     pedersenHashResult = { {1, 0} };
     field254 input[6] = {0};
     
-    auto result = hashPedersen(input, 6, 3);
+    auto result = hashPedersen(input, 0, 6, 3);
     ASSERT_EQ(pedersenCalls.size(), 2);
 
     // Result is X Coordinate
@@ -102,7 +121,7 @@ TEST(HashSHATest, SingleChunk) {
     shaCalls.clear();
     field254 input[6] = {0, 0, 0, 1, 1, 1};
     std::vector<field254> inputV(input, input+6);
-    hashSHA(input, 6, 6);
+    hashSHA(input, 0, 6, 6);
 
     ASSERT_EQ(shaCalls.size(), 1);
     auto& first = shaCalls.front();
@@ -114,7 +133,25 @@ TEST(HashSHATest, MultipleChunks) {
     field254 input[6] = {0, 0, 0, 1, 1, 1};
     std::vector<field254> inputV(input, input+6);
 
-    hashSHA(input, 6, 2);
+    hashSHA(input, 0, 6, 2);
+
+    ASSERT_EQ(shaCalls.size(), 3);
+    auto& el = shaCalls[0];
+    ASSERT_TRUE(std::equal(el.cbegin() + SHA_HASH_SIZE - 2, el.cend(), inputV.cbegin()));
+
+    el = shaCalls[1];
+    ASSERT_TRUE(std::equal(el.cbegin() + SHA_HASH_SIZE - 2, el.cend(), inputV.cbegin() + 2));
+
+    el = shaCalls[2];
+    ASSERT_TRUE(std::equal(el.cbegin() + SHA_HASH_SIZE - 2, el.cend(), inputV.cbegin() + 4));
+}
+
+TEST(HashSHATest, MultipleChunksOffset) { 
+    shaCalls.clear();
+    field254 input[7] = {42, 0, 0, 0, 1, 1, 1};
+    std::vector<field254> inputV(input+1, input+7);
+
+    hashSHA(input, 1, 6, 2);
 
     ASSERT_EQ(shaCalls.size(), 3);
     auto& el = shaCalls[0];
@@ -133,7 +170,7 @@ TEST(HashSHATest, ReuseResultInNextRound) {
     shaResult.digest[255] = 1;
 
     field254 input[6] = { 0 };
-    hashSHA(input, 6, 3);
+    hashSHA(input, 0, 6, 3);
 
     ASSERT_EQ(pedersenCalls.size(), 2);
     
@@ -155,7 +192,7 @@ TEST(HashSHATest, SplitsResult) {
     shaResult.digest[255] = 1;
 
     field254 input[6] = { 0 };
-    ShaResult result = hashSHA(input, 6, 6);
+    ShaResult result = hashSHA(input, 0, 6, 6);
 
     ASSERT_EQ(result.left, 1);
     ASSERT_EQ(result.right, 3);
