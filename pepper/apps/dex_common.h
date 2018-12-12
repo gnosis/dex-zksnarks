@@ -61,5 +61,5 @@ void decomposeBits(field254 number, field254* bits, uint32_t offset) {
     isBoolVerification(result->bits, 254);
     field254 sum = sumBits(result->bits, 0, 254);
     assert_zero(sum - number);
-	copyBits(result->bits, 0, bits, offset, 254);
+    copyBits(result->bits, 0, bits, offset, 254);
 }
