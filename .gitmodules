@@ -1,0 +1,3 @@
+[submodule "pepper/depends/ethsnarks"]
+	path = pepper/depends/ethsnarks
+	url = https://github.com/HarryR/ethsnarks.git

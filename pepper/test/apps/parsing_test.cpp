@@ -12,43 +12,43 @@ struct Private {};
 
 TEST(ParsingTest, ParseAccount) {
     field254 bits[BITS_PER_ACCOUNT] = { 0 };
-    auto account = parseAccount(bits);
+    auto account = parseAccount(bits, 0);
     ASSERT_EQ(account, 0);
 
     bits[BITS_PER_ACCOUNT-1] = 1;
-    account = parseAccount(bits);
+    account = parseAccount(bits, 0);
     ASSERT_EQ(account, 1);
 
     for (size_t i = 0; i < BITS_PER_ACCOUNT; i++) {
         bits[i] = 1;
     }
-    account = parseAccount(bits);
+    account = parseAccount(bits, 0);
     ASSERT_EQ(account, ACCOUNTS - 1);
 }
 
 TEST(ParsingTest, ParseToken) {
     field254 bits[BITS_PER_TOKEN] = { 0 };
-    auto token = parseToken(bits);
+    auto token = parseToken(bits, 0);
     ASSERT_EQ(token, 0);
 
     bits[BITS_PER_TOKEN-1] = 1;
-    token = parseToken(bits);
+    token = parseToken(bits, 0);
     ASSERT_EQ(token, 1);
 
     for (size_t i = 0; i < BITS_PER_TOKEN; i++) {
         bits[i] = 1;
     }
-    token = parseToken(bits);
+    token = parseToken(bits, 0);
     ASSERT_EQ(token, ACCOUNTS - 1);
 }
 
 TEST(ParsingTest, ParseDecimal) {
     field254 bits[BITS_PER_DECIMAL] = { 0 };
-    auto decimal = parseDecimal(bits);
+    auto decimal = parseDecimal(bits, 0);
     ASSERT_EQ(decimal, 0);
 
     bits[BITS_PER_DECIMAL-1] = 1;
-    decimal = parseDecimal(bits);
+    decimal = parseDecimal(bits, 0);
     ASSERT_EQ(decimal, 1);
 }
 
@@ -86,7 +86,13 @@ TEST(ParsingTest, ParseOrders) {
     bits[BITS_PER_ORDER + BITS_PER_ACCOUNT + (2*BITS_PER_TOKEN) + (2*BITS_PER_DECIMAL) - 6] = 1;
 
     struct Order result[ORDERS];
-    parseOrders(bits, result);
+    parseOrders(bits, 0, result);
+
+    ASSERT_EQ(result[0].account, 1);
+    ASSERT_EQ(result[0].sellToken, 1);
+    ASSERT_EQ(result[0].buyToken, 2);
+    ASSERT_EQ(result[0].buyAmount, 4);
+    ASSERT_EQ(result[0].sellAmount, 8);
 
     ASSERT_EQ(result[1].account, 2);
     ASSERT_EQ(result[1].sellToken, 2);
@@ -106,7 +112,7 @@ TEST(ParsingTest, ParseBalances) {
     bits[(3*TOKENS*BITS_PER_DECIMAL) + (4*BITS_PER_DECIMAL) - 1] = 1; //acc4
 
     struct Balance balances[ACCOUNTS] = { 0 };
-    parseBalances(bits, balances);
+    parseBalances(bits, 0, balances);
 
     ASSERT_EQ(balances[0].token[0], 1);
     ASSERT_EQ(balances[0].token[1], 0);
@@ -137,11 +143,11 @@ TEST(ParsingTest, SerializeBalances) {
     original[(3*TOKENS*BITS_PER_DECIMAL) + (4*BITS_PER_DECIMAL) - 1] = 1;
 
     struct Balance balances[ACCOUNTS] = { 0 };
-    parseBalances(original, balances);
+    parseBalances(original, 0, balances);
 
     // serialize back and expect to match original
     field254 serialized[ACCOUNTS*TOKENS*BITS_PER_DECIMAL] = { 0 };
-    serializeBalances(balances, serialized);
+    serializeBalances(balances, serialized, 0);
 
     ASSERT_EQ(
         std::vector<field254>(original, original+(ACCOUNTS*TOKENS*BITS_PER_DECIMAL)),
@@ -159,7 +165,7 @@ TEST(ParsingTest, ParsePrices) {
     bits[(4*BITS_PER_DECIMAL) - 4] = 1; //token4
 
     field254 prices[TOKENS] = { 0 };
-    parsePrices(bits, prices);
+    parsePrices(bits, 0, prices);
 
     ASSERT_EQ(prices[0], 1);
     ASSERT_EQ(prices[1], 2);
@@ -177,7 +183,7 @@ TEST(ParsingTest, ParseVolumes) {
     bits[(ORDERS*BITS_PER_DECIMAL) + (2 * BITS_PER_DECIMAL) - 2] = 1; //sellVolume order2
 
     struct Volume volumes[ORDERS] = { 0 };
-    parseVolumes(bits, volumes);
+    parseVolumes(bits, 0, volumes);
 
     ASSERT_EQ(volumes[0].sellVolume, 1);
     ASSERT_EQ(volumes[0].buyVolume, 1);
