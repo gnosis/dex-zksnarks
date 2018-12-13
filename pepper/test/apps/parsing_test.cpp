@@ -60,8 +60,8 @@ TEST(ParsingTest, ParseOrders) {
      *   account: 1,
      *   sellToken: 1
      *   buyToken: 2
-     *   buyAmount: 4
-     *   sellAmount: 8
+     *   sellAmount: 4
+     *   buyAmount: 8
      * }
      */
     bits[BITS_PER_ACCOUNT-1] = 1;
@@ -75,8 +75,8 @@ TEST(ParsingTest, ParseOrders) {
      *   account: 2,
      *   sellToken: 2
      *   buyToken: 1
-     *   buyAmount: 16
-     *   sellAmount: 32
+     *   sellAmount: 16
+     *   buyAmount: 32
      * }
      */
     bits[BITS_PER_ORDER + BITS_PER_ACCOUNT - 2] = 1;
@@ -91,14 +91,40 @@ TEST(ParsingTest, ParseOrders) {
     ASSERT_EQ(result[0].account, 1);
     ASSERT_EQ(result[0].sellToken, 1);
     ASSERT_EQ(result[0].buyToken, 2);
-    ASSERT_EQ(result[0].buyAmount, 4);
-    ASSERT_EQ(result[0].sellAmount, 8);
+    ASSERT_EQ(result[0].sellAmount, 4);
+    ASSERT_EQ(result[0].buyAmount, 8);
 
     ASSERT_EQ(result[1].account, 2);
     ASSERT_EQ(result[1].sellToken, 2);
     ASSERT_EQ(result[1].buyToken, 1);
-    ASSERT_EQ(result[1].buyAmount, 16);
-    ASSERT_EQ(result[1].sellAmount, 32);
+    ASSERT_EQ(result[1].sellAmount, 16);
+    ASSERT_EQ(result[1].buyAmount, 32);
+}
+
+TEST(ParsingTest, SerializeOrders) {
+    field254 original[BITS_PER_ORDER*ORDERS] = { 0 };
+    original[BITS_PER_ACCOUNT-1] = 1;
+    original[BITS_PER_ACCOUNT + BITS_PER_TOKEN - 1] = 1;
+    original[BITS_PER_ACCOUNT + (2*BITS_PER_TOKEN) - 2] = 1;
+    original[BITS_PER_ACCOUNT + (2*BITS_PER_TOKEN) + BITS_PER_DECIMAL - 3] = 1;
+    original[BITS_PER_ACCOUNT + (2*BITS_PER_TOKEN) + (2*BITS_PER_DECIMAL) - 4] = 1;
+    original[BITS_PER_ORDER + BITS_PER_ACCOUNT - 2] = 1;
+    original[BITS_PER_ORDER + BITS_PER_ACCOUNT + BITS_PER_TOKEN - 2] = 1;
+    original[BITS_PER_ORDER + BITS_PER_ACCOUNT + (2*BITS_PER_TOKEN) - 1] = 1;
+    original[BITS_PER_ORDER + BITS_PER_ACCOUNT + (2*BITS_PER_TOKEN) + BITS_PER_DECIMAL - 5] = 1;
+    original[BITS_PER_ORDER + BITS_PER_ACCOUNT + (2*BITS_PER_TOKEN) + (2*BITS_PER_DECIMAL) - 6] = 1;
+
+    struct Order result[ORDERS];
+    parseOrders(original, 0, result);
+
+    // serialize back and expect to match original
+    field254 serialized[ORDERS*BITS_PER_ORDER] = { 0 };
+    serializeOrders(result, serialized, 0);
+
+    ASSERT_EQ(
+        std::vector<field254>(original, original+(ORDERS*BITS_PER_ORDER)),
+        std::vector<field254>(serialized, serialized+(ORDERS*BITS_PER_ORDER))
+    );
 }
 
 TEST(ParsingTest, ParseBalances) {
