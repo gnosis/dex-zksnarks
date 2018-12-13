@@ -22,7 +22,10 @@ TEST(isBoolVerification, isBoolVerificationWithNonbools) {
     field254 bits[2] = { 0 };
     bits[0] = field254("2");
     bits[1] = field254("0");
+
+    DISABLE_STACKTRACE = true;
     ASSERT_DEATH(isBoolVerification(bits, length), "");
+    DISABLE_STACKTRACE = false;
 }
 
 int main(int argc, char **argv) {

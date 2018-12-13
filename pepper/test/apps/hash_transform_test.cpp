@@ -8,17 +8,23 @@
 #include "util.h"
 
 TEST(HashTransformTest, TransformWithMatchingSHA) { 
-    pepper_overrides::shaCount = 0;
-    struct In input = { 0,3 }; /* resulting SHA after two rounds will be 11 */
+    privateInput = { {0} };
+    ShaResult shaHash = hashSHA(privateInput.orders, 0, ORDERS*253, 253);
+    field254 pedersenHash = hashPedersen(privateInput.orders, 0, ORDERS*253, 253);
+
+    struct In input = { shaHash.left, shaHash.right };
     struct Out output;
     compute(&input, &output);
-    ASSERT_EQ(output.pedersenHash, 2);
+    ASSERT_EQ(output.pedersenHash, pedersenHash);
 }
 
 TEST(HashTransformTest, TransformWithWrongSHA) {
     struct In input = { 5 };
     struct Out output;
+
+    DISABLE_STACKTRACE = true;
     ASSERT_DEATH(compute(&input, &output), "");
+    DISABLE_STACKTRACE = false;
 }
  
 int main(int argc, char **argv) {

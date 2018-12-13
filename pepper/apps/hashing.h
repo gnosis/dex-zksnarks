@@ -19,12 +19,9 @@ field254 hashPedersen(field254 *in, uint32_t offset, uint32_t inputSize, uint32_
     uint32_t index;
     for (index = 0; index < inputSize; index += chunkSize) {
         // Decompose x-coordinate from previous result to binary
-        field254 decomposed[254] = { 0 };
-        decomposeBits(result->values[0], decomposed, offset);
-
         // Fill pedersen input, left with previous result
         field254 pedersenInput[PEDERSEN_HASH_SIZE] = { 0 };
-        copyBits(decomposed, 0, pedersenInput, 0, 254);
+        decomposeBits(result->values[0], pedersenInput, 0, 254);
         uint32_t padding = 254 - chunkSize;
         copyBits(in, offset + index, pedersenInput, 254+padding, chunkSize);
 
