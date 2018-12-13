@@ -24,27 +24,27 @@ void compute(struct In *input, struct Out *output) {
 
     // Assert that private input matches public
     // Step 1: Balances (PedersenHash)
-    field254 balanceHashPedersen = hashPedersen(pInput.balances, ACCOUNTS*TOKENS*100, 100);
+    field254 balanceHashPedersen = hashPedersen(pInput.balances, 0, ACCOUNTS*TOKENS*100, 100);
     assert_zero(input->state - balanceHashPedersen);
     
     // Step 2: Orders (PedersenHash)
-    field254 orderHashPedersen = hashPedersen(pInput.orders, ORDERS*253, 253);
+    field254 orderHashPedersen = hashPedersen(pInput.orders, 0, ORDERS*253, 253);
     assert_zero(input->orderHash - orderHashPedersen);
     
     // Step 3: Prices/Volumes (SHA Hash)
-    struct ShaResult hashBatchInfo = hashSHA(pInput.pricesAndVolumes, (TOKENS*100)+(ORDERS*100), 256);
+    struct ShaResult hashBatchInfo = hashSHA(pInput.pricesAndVolumes, 0, (TOKENS*100)+(ORDERS*100), 256);
     assert_zero(input->hashBatchInfo - hashBatchInfo.left);
     assert_zero(input->hashBatchInfo - hashBatchInfo.right);
 
     // Parse all private input
     struct Order orders[ORDERS] = {0};
-    parseOrders(pInput.orders, orders);
+    parseOrders(pInput.orders, 0, orders);
     struct Balance balances[ACCOUNTS] = {0};
-    parseBalances(pInput.balances, balances);
+    parseBalances(pInput.balances, 0, balances);
     field254 prices[TOKENS] = {0};
-    parsePrices(pInput.pricesAndVolumes, prices);
+    parsePrices(pInput.pricesAndVolumes, 0, prices);
     struct Volume volumes[ORDERS] = {0};
-    parseVolumes(pInput.pricesAndVolumes + (TOKENS*100), volumes);
+    parseVolumes(pInput.pricesAndVolumes, (TOKENS*100), volumes);
 
     // Accumulator variables
     field254 buyVolumes[TOKENS]= {0};
@@ -61,7 +61,8 @@ void compute(struct In *input, struct Out *output) {
         //field254 surplus = computeSurplus(order, prices);
         if (fieldToInt(surplus) > 0) {
             // Make sure volume has same ratio as prices
-            validateVolume(volume, order, prices);
+            //validateVolume(volume, order, prices);
+            assert_zero((volume.sellVolume * prices[fieldToInt(order.buyToken)]) - (volume.buyVolume * prices[fieldToInt(order.buyToken)]));
             totalSurplus += surplus * volume.sellVolume;
         } else {
             // Order should not be touched
@@ -81,9 +82,18 @@ void compute(struct In *input, struct Out *output) {
         assert_zero(buyVolumes[index] - sellVolumes[index]);
     }
     assert_zero(totalSurplus - input->welfare);
-    
+
+    for (index = 0; index < ACCOUNTS; index++) {
+        uint32_t tokenIndex;
+        for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
+            if (balances[index].token[tokenIndex] < 0) {
+                assert_zero(input->one); // HACK we need a wait to fail here.
+            }
+        }
+    }
+
     // decompose and rehash updated balances to output
     field254 updatedBalances[ACCOUNTS*TOKENS*100];
-    serializeBalances(balances, updatedBalances);
-    output->state = hashPedersen(updatedBalances, ACCOUNTS*TOKENS*100, 100);
+    serializeBalances(balances, updatedBalances, 0);
+    output->state = hashPedersen(updatedBalances, 0, ACCOUNTS*TOKENS*100, 100);
 }

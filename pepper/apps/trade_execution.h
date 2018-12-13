@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 #ifndef TEST
-#define ORDERS 30
+#define ORDERS 15
 #define ACCOUNTS 10
 #define TOKENS 5
 #endif
@@ -17,6 +17,7 @@ struct In {
     field254 welfare;
     field254 hashBatchInfo;
     field254 orderHash;
+    field254 one;
 };
 
 struct Out { field254 state; };
