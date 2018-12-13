@@ -61,13 +61,5 @@ void decomposeBits(field254 number, field254* bits, uint32_t offset, uint32_t si
     isBoolVerification(result->bits, 254);
     field254 sum = sumBits(result->bits, 0, 254);
     assert_zero(sum - number);
-	copyBits(result->bits, 254-size, bits, offset, size);
-}
-
-uint32_t fieldToInt(field254 field) {
-#ifndef TEST
-    return field;
-#else
-    return field.as_ulong();
-#endif
+    copyBits(result->bits, 254-size, bits, offset, size);
 }

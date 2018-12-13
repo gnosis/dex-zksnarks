@@ -7,7 +7,7 @@
 namespace pepper_overrides
 {
     /**
-     * Dummy pedersen implementation: xor pairs
+     * Dummy pedersen implementation: XOR lhs and rhs bits
      */
     void sha(field254 in[SHA_HASH_SIZE], field254 out[256]) {
         for (size_t index = 0; index < 256; index++) {
@@ -16,7 +16,7 @@ namespace pepper_overrides
     }
 
     /**
-     * Dummy pedersen implementation: sum of all inputs
+     * Dummy pedersen implementation: Sum of all inputs
      */
     void pedersen(field254 in[PEDERSEN_HASH_SIZE], field254 out[2]) {
         for (size_t index = 0; index < PEDERSEN_HASH_SIZE; index++) {
