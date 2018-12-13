@@ -52,7 +52,7 @@ void isBoolVerification(field254 *bits, uint32_t length) {
  * Afterwards verify that bits sum up to number.
  */
 struct Decomposed { field254 bits[254]; };
-void decomposeBits(field254 number, field254* bits, uint32_t offset) {
+void decomposeBits(field254 number, field254* bits, uint32_t offset, uint32_t size) {
     struct Decomposed result[1] = { 0 };
     uint32_t lens[1] = {1};
     field254 input[1] = {number};
@@ -61,7 +61,7 @@ void decomposeBits(field254 number, field254* bits, uint32_t offset) {
     isBoolVerification(result->bits, 254);
     field254 sum = sumBits(result->bits, 0, 254);
     assert_zero(sum - number);
-	copyBits(result->bits, 0, bits, offset, 254);
+    copyBits(result->bits, 254-size, bits, offset, size);
 }
 
 uint32_t fieldToInt(field254 field) {

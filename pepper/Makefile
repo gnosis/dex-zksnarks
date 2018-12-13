@@ -9,7 +9,7 @@ IFLAGS = -Iext_gadget -I$(LIBSNARK)/ -I$(LIBSNARK)/depends/libff -I$(LIBSNARK)/d
 LDFLAGS = -L$(LIBSNARK)/build/libsnark -L$(LIBSNARK)/build/depends/libff/libff
 LDFLAGS += -lsnark -lff -lgmp -lgmpxx
 
-TEST_LDFLAGS = -lgtest -lpthread
+TEST_LDFLAGS = -lgtest -lpthread -lboost_stacktrace_backtrace -DBOOST_STACKTRACE_USE_BACKTRACE -ldl
 TEST_IFLAGS = -I./
 TEST_BIN = test/bin/
 
@@ -53,7 +53,7 @@ e2e-tests: check-env
 unit-tests: $(patsubst test/apps/%.cpp, app_%, $(wildcard test/apps/*_test.cpp))
 
 app_%_test: test/apps/%_test.cpp
-	$(CXX) $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS) 
+	$(CXX) -g $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS) 
 	$(TEST_BIN)/$@
 
 gadget-tests: test/gadgets/main.cpp

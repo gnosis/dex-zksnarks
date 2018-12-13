@@ -6,6 +6,8 @@ install:
 - docker pull gnosispm/dex_pepper:staging
 - docker build -t dex_zokrates ZoKrates/ --cache-from gnosispm/dex_zokrates:staging
 - docker build -t dex_pepper pepper/ --cache-from gnosispm/dex_pepper:staging
+# Don't cache if image does not exist
+- (docker pull gnosispm/dex_bellman:staging && docker build -t dex_bellman bellman/ --cache-from gnosispm/dex_bellman:staging) || docker build -t dex_bellman bellman/
 script:
 - if git diff --name-only $TRAVIS_COMMIT_RANGE | grep ZoKrates/; then
     docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -ti dex_zokrates /bin/sh -c
