@@ -1,3 +1,5 @@
+#include <boost/stacktrace.hpp>
+
 #ifndef ORDERS
 #define ORDERS 1
 #endif
@@ -5,29 +7,20 @@
 namespace pepper_overrides
 {
     /**
-     * value will be 2**<#sha_calls>
+     * Dummy pedersen implementation: xor pairs
      */
-    size_t shaCount = 0;
     void sha(field254 in[SHA_HASH_SIZE], field254 out[256]) {
-        out[255-shaCount] = 1;
-        shaCount++;
+        for (size_t index = 0; index < 256; index++) {
+            out[index] += in[index].is_zero() ^ in[index+256].is_zero();
+        }
     }
 
     /**
-     * x value will be the number of times this function has been called
+     * Dummy pedersen implementation: sum of all inputs
      */
-    size_t pedersenCount = 1;
     void pedersen(field254 in[PEDERSEN_HASH_SIZE], field254 out[2]) {
-
-        out[0] = pedersenCount;
-        pedersenCount++;
-    }
-
-    void privateInput(void* privateInput) {
-        for (size_t order = 0; order < ORDERS; order++) {
-            for (size_t bit = 0; bit < 253; bit ++) {
-                ((field254*)privateInput)[(order*253) + bit] = field254::one();
-            }
+        for (size_t index = 0; index < PEDERSEN_HASH_SIZE; index++) {
+            out[0] += in[index];
         }
     }
 
@@ -40,6 +33,7 @@ namespace pepper_overrides
             else
                 bits[offset + 253 - index] = field254::one();
             nr = nr/2;
+            index++;
         }
     }
 } // pepper_overrides
@@ -60,10 +54,11 @@ void ext_gadget(void* in, void* out, uint32_t gadget) {
 #endif
 
 #ifndef EXO_COMPUT_OVERRIDE
+struct Private privateInput;
 void exo_compute(field254** input, uint32_t* length, void* output, uint32_t exo) {
     switch(exo) {
         case 0:
-            pepper_overrides::privateInput(output);
+            ((Private*)output)[0] = privateInput;
             break;
         case 1:
             pepper_overrides::decomposeBits(input[0][0],((Decomposed*) output)->bits, 0);
@@ -75,7 +70,11 @@ void exo_compute(field254** input, uint32_t* length, void* output, uint32_t exo)
 #endif
 
 #ifndef ASSERT_ZERO_OVERRIDE
+bool DISABLE_STACKTRACE = false;
 void assert_zero(field254 v) {
+    if (field254::zero() != v && !DISABLE_STACKTRACE) {
+        std::cout << boost::stacktrace::stacktrace();
+    }
     assert(field254::zero() == v);
 }
 #endif
