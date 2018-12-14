@@ -62,6 +62,15 @@ TEST(TradeExecutionTest, ValidSingleOrderTrade) {
     };
     struct Out output;
     compute(&input, &output);
+
+    // Execute trade and check that output matches
+    balances[0].token[1] = 0;
+    balances[0].token[2] = 100;
+    balances[1].token[1] = 100;
+    balances[1].token[2] = 0;
+    field254* updatedBalances = serializePrivateInput(balances, orders, volumes, prices).balances;
+    field254 updatedHash = hashPedersen(updatedBalances, 0, ACCOUNTS*TOKENS*BITS_PER_DECIMAL, BITS_PER_DECIMAL);
+    ASSERT_EQ(output.state, updatedHash);
 }
 
 int main(int argc, char **argv) {

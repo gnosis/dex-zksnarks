@@ -3,24 +3,11 @@
 #include "parsing.h"
 #include "hashing.h"
 
-field254 computeSurplus(struct Order order, field254 prices[TOKENS]) {
-    // buyAmount/sellAmount >= price(buyToken->sellToken)
-    // buyAmount/sellAmount - surplus == price(buyToken->sellToken)
-    // buyAmount/sellAmount - surplus == price(buyToken->ref)/price(sellToken->ref)
-    // buyAmount * price(sellToken->ref) - surplus * price(sellToken->ref) * sellAmount = price(buyToken->ref) * sellVolume
-    // buyAmount * price(sellToken->ref) - price(buyToken->ref) * sellAmount = surplus * price(sellToken->ref) * sellAmount
-    return (order.buyAmount * prices[fieldToInt(order.sellToken)]) - (order.sellAmount * prices[fieldToInt(order.buyToken)]);
-}
-
-void validateVolume(struct Volume volume, struct Order order, field254 prices[TOKENS]) {
-    //     buyVolume / sellVolume == price(buyToken->sellToken)
-    // <=> buyVolume / sellVolume == price(buyToken->ref) / price(sellToken->ref)
-    // <=> buyVolume * price(sellToken->ref) == price(buyToken->ref) * sellVolume
-    assert_zero((volume.sellVolume * prices[fieldToInt(order.buyToken)]) - (volume.buyVolume * prices[fieldToInt(order.buyToken)]));
-}
-
 void compute(struct In *input, struct Out *output) {
     struct Private pInput = readPrivateInput();
+    // We need a way of faling an assert (e.g. assert_zero(1)).
+    // Hardcoding the one in code doesn't compile, so we have to pass and verify it.
+    assert_zero(input->one - 1);
 
     // Assert that private input matches public
     // Step 1: Balances (PedersenHash)
@@ -56,17 +43,18 @@ void compute(struct In *input, struct Out *output) {
         struct Order order = orders[index];
         struct Volume volume = volumes[index];
         
-        field254 surplus = volume.surplus;
-        //field254 surplus = computeSurplus(order, prices);
-        if (fieldToInt(surplus) > 0) {
-            // Make sure volume has same ratio as prices
-            //validateVolume(volume, order, prices);
-//            assert_zero((volume.sellVolume * prices[fieldToInt(order.buyToken)]) - (volume.buyVolume * prices[fieldToInt(order.buyToken)]));
-            totalSurplus += surplus;
-        } else {
-            // Order should not be touched
-            assert_zero(volume.sellVolume);
-            assert_zero(volume.buyVolume);
+        if (fieldToInt(volume.sellVolume) > 0) {
+            // Verify volume has same ratio as prices
+            assert_zero((volume.buyVolume * prices[fieldToInt(order.buyToken)]) - (volume.sellVolume * prices[fieldToInt(order.sellToken)]));
+
+            // Limit price compliance
+            if (fieldToInt(volume.buyVolume * order.sellAmount) < fieldToInt(volume.sellVolume * order.buyAmount)) {
+                assert_zero(input->one);
+            }
+
+            // Verify surplus
+            assert_zero((((volume.buyVolume * order.sellAmount) - (volume.sellVolume * order.buyAmount)) * prices[fieldToInt(order.buyToken)]) - (volume.surplus * order.sellAmount));
+            totalSurplus += volume.surplus;
         }
         
         balances[fieldToInt(order.account)].token[fieldToInt(order.sellToken)] -= volume.sellVolume;
@@ -86,7 +74,7 @@ void compute(struct In *input, struct Out *output) {
         uint32_t tokenIndex;
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
             if (fieldToInt(balances[index].token[tokenIndex]) < 0) {
-                assert_zero(input->one); // HACK we need a wait to fail here.
+                assert_zero(input->one);
             }
         }
     }
