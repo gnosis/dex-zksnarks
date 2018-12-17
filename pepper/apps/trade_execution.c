@@ -48,7 +48,7 @@ void compute(struct In *input, struct Out *output) {
             assert_zero((volume.buyVolume * prices[fieldToInt(order.buyToken)]) - (volume.sellVolume * prices[fieldToInt(order.sellToken)]));
 
             // Limit price compliance
-            if (fieldToInt(volume.buyVolume * order.sellAmount) < fieldToInt(volume.sellVolume * order.buyAmount)) {
+            if (fieldToInt(volume.buyVolume * order.sellAmount) < fieldToInt(volume.sellVolume * order.buyAmount) || isNegative(order.sellAmount - volume.sellVolume)) {
                 assert_zero(input->one);
             }
 
@@ -73,7 +73,7 @@ void compute(struct In *input, struct Out *output) {
     for (index = 0; index < ACCOUNTS; index++) {
         uint32_t tokenIndex;
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
-            if (fieldToInt(balances[index].token[tokenIndex]) < 0) {
+            if (isNegative(balances[index].token[tokenIndex])) {
                 assert_zero(input->one);
             }
         }

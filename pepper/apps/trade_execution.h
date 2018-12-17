@@ -1,9 +1,9 @@
 #include <stdint.h>
 
 #ifndef TEST
-#define ORDERS 15
-#define ACCOUNTS 10
-#define TOKENS 5
+#define ORDERS 100
+#define ACCOUNTS 100
+#define TOKENS 30
 #endif
 
 #include "macros.h"
