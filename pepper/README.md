@@ -44,8 +44,8 @@ The script outputs the Pedersen hash (an EC Point), as well as the matching `sha
 Write the `sha3` hash into the file pepper will read as public input by calling:
 
 ```sh
-echo <sha_hash> > prover_verifier_shared/transform.inputs
-
+echo <sha_hash[0]> > prover_verifier_shared/transform.inputs
+echo <sha_hash[1]> >> prover_verifier_shared/transform.inputs
 ```
 
 inside the Docker container.
