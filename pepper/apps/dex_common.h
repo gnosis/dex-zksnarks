@@ -63,3 +63,22 @@ void decomposeBits(field254 number, field254* bits, uint32_t offset, uint32_t si
     assert_zero(sum - number);
     copyBits(result->bits, 254-size, bits, offset, size);
 }
+
+uint32_t fieldToInt(field254 field) {
+#ifndef TEST
+    return field;
+#else
+    return field.as_ulong();
+#endif
+}
+
+bool isNegative(field254 field) {
+#ifndef TEST
+    return field < 0; //TODO verify this work in pepper
+#else
+    mpz_t max_signed, r;
+    mpz_init(r); mpz_init_set_str(max_signed, "10944121435919637611123202872628637544274182200208017171849102093287904247808", 10);
+    field.as_bigint().to_mpz(r);
+    return mpz_cmp(r, max_signed) > 0;
+#endif
+}
