@@ -73,9 +73,7 @@ void compute(struct In *input, struct Out *output) {
     for (index = 0; index < ACCOUNTS; index++) {
         uint32_t tokenIndex;
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
-            if (isNegative(balances[index].token[tokenIndex])) {
-                assert_zero(input->one);
-            }
+            assert_zero(isNegative(balances[index].token[tokenIndex]));
         }
     }
 
