@@ -3,6 +3,8 @@
 #include "parsing.h"
 #include "hashing.h"
 
+static const field254 EPSILON = 100;
+
 void compute(struct In *input, struct Out *output) {
     struct Private pInput = readPrivateInput();
     // We need a way of faling an assert (e.g. assert_zero(1)).
@@ -64,9 +66,12 @@ void compute(struct In *input, struct Out *output) {
         sellVolumes[fieldToInt(order.sellToken)] += volume.sellVolume;
     }
 
-    // check that buyVolume == sellVolume for each token
+    // check that buyVolume ≈≈ sellVolume for each token, sellVolume cannot be smaller
     for (index=0; index < TOKENS; index++) {
-        assert_zero(buyVolumes[index] - sellVolumes[index]);
+        if (isNegative(sellVolumes[index] - buyVolumes[index]) 
+            || isNegative(EPSILON + buyVolumes[index] - sellVolumes[index])) {
+            assert_zero(input->one);
+        }
     }
     assert_zero(totalSurplus - input->surplus);
 
