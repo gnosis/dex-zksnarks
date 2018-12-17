@@ -1,3 +1,4 @@
+#include <apps/hashing.h>
 #include <boost/stacktrace.hpp>
 
 #ifndef ORDERS
