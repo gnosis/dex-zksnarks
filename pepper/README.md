@@ -40,8 +40,9 @@ For now, this value can be computed by calling:
 python3 order_transform/generate.py <num_orders>
 ```
 
-The script outputs the Pedersen hash (an EC Point), as well as the matching `sha3` hash for the provided number of orders.
-Write the `sha3` hash into the file pepper will read as public input by calling:
+The script outputs the Pedersen hash (an EC Point), as well as the matching `sha3` hash for the provided number of orders (as a tuple with two entries, since 256bit is larger than a single field element).
+
+Write the `sha3` hash into the file that pepper will read as public input by calling:
 
 ```sh
 echo <sha_hash[0]> > prover_verifier_shared/transform.inputs
