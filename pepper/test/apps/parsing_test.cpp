@@ -137,28 +137,28 @@ TEST(ParsingTest, ParseBalances) {
     bits[(2*TOKENS*BITS_PER_DECIMAL) + (3*BITS_PER_DECIMAL) - 1] = 1; //acc3
     bits[(3*TOKENS*BITS_PER_DECIMAL) + (4*BITS_PER_DECIMAL) - 1] = 1; //acc4
 
-    struct Balance balances[ACCOUNTS] = { 0 };
+    field254 balances[TOKENS * ACCOUNTS] = { 0 };
     parseBalances(bits, 0, balances);
 
-    ASSERT_EQ(balances[0].token[0], 1);
-    ASSERT_EQ(balances[0].token[1], 0);
-    ASSERT_EQ(balances[0].token[2], 0);
-    ASSERT_EQ(balances[0].token[3], 0);
+    ASSERT_EQ(balances[0], 1);
+    ASSERT_EQ(balances[1], 0);
+    ASSERT_EQ(balances[2], 0);
+    ASSERT_EQ(balances[3], 0);
 
-    ASSERT_EQ(balances[1].token[0], 0);
-    ASSERT_EQ(balances[1].token[1], 1);
-    ASSERT_EQ(balances[1].token[2], 0);
-    ASSERT_EQ(balances[1].token[3], 0);
+    ASSERT_EQ(balances[4], 0);
+    ASSERT_EQ(balances[5], 1);
+    ASSERT_EQ(balances[6], 0);
+    ASSERT_EQ(balances[7], 0);
 
-    ASSERT_EQ(balances[2].token[0], 0);
-    ASSERT_EQ(balances[2].token[1], 0);
-    ASSERT_EQ(balances[2].token[2], 1);
-    ASSERT_EQ(balances[2].token[3], 0);
+    ASSERT_EQ(balances[8], 0);
+    ASSERT_EQ(balances[9], 0);
+    ASSERT_EQ(balances[10], 1);
+    ASSERT_EQ(balances[11], 0);
 
-    ASSERT_EQ(balances[3].token[0], 0);
-    ASSERT_EQ(balances[3].token[1], 0);
-    ASSERT_EQ(balances[3].token[2], 0);
-    ASSERT_EQ(balances[3].token[3], 1);
+    ASSERT_EQ(balances[12], 0);
+    ASSERT_EQ(balances[13], 0);
+    ASSERT_EQ(balances[14], 0);
+    ASSERT_EQ(balances[15], 1);
 }
 
 TEST(ParsingTest, SerializeBalances) {
@@ -168,7 +168,7 @@ TEST(ParsingTest, SerializeBalances) {
     original[(2*TOKENS*BITS_PER_DECIMAL) + (3*BITS_PER_DECIMAL) - 1] = 1;
     original[(3*TOKENS*BITS_PER_DECIMAL) + (4*BITS_PER_DECIMAL) - 1] = 1;
 
-    struct Balance balances[ACCOUNTS] = { 0 };
+    field254 balances[TOKENS*ACCOUNTS] = { 0 };
     parseBalances(original, 0, balances);
 
     // serialize back and expect to match original

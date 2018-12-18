@@ -10,10 +10,6 @@ struct Order {
     field254 buyAmount;
 };
 
-struct Balance {
-    field254 token[TOKENS];
-};
-
 struct Volume {
     field254 sellVolume;
     field254 buyVolume;
@@ -66,22 +62,22 @@ void serializeOrders(struct Order orders[ORDERS], field254 *serialized, uint32_t
     }
 }
 
-void parseBalances(field254 *bits, uint32_t offset, struct Balance balances[ACCOUNTS]) {
+void parseBalances(field254 *bits, uint32_t offset, field254 balances[ACCOUNTS*TOKENS]) {
     uint32_t accountIndex, tokenIndex = 0;
     for (accountIndex = 0; accountIndex < ACCOUNTS; accountIndex++) {
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
             uint32_t balanceOffset = offset + (BITS_PER_DECIMAL * (accountIndex * TOKENS + tokenIndex));
-            balances[accountIndex].token[tokenIndex] = parseDecimal(bits, balanceOffset);
+            balances[(accountIndex*TOKENS) + tokenIndex] = parseDecimal(bits, balanceOffset);
         }
     }
 }
 
-void serializeBalances(struct Balance balances[ACCOUNTS], field254* serialized, uint32_t offset) {
+void serializeBalances(field254 balances[TOKENS*ACCOUNTS], field254* serialized, uint32_t offset) {
     uint32_t accountIndex, tokenIndex = 0;
     for (accountIndex = 0; accountIndex < ACCOUNTS; accountIndex++) {
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
             uint32_t balanceOffset = offset + (BITS_PER_DECIMAL * (accountIndex * TOKENS + tokenIndex));
-            decomposeBits(balances[accountIndex].token[tokenIndex], serialized, balanceOffset, BITS_PER_DECIMAL);
+            decomposeBits(balances[(accountIndex * TOKENS) + tokenIndex], serialized, balanceOffset, BITS_PER_DECIMAL);
         }
     }
 }
