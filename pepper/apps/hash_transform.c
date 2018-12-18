@@ -3,7 +3,7 @@
 
 void compute(struct In *input, struct Out *output){
     // Read private input
-    struct Private pInput = readPrivateInput();   
+    struct Private pInput = readPrivateInput(0);
     struct ShaResult result = hashSHA(pInput.orders, 0, ORDERS*253, 253);
 
     assert_zero(result.left - input->shaHashL);

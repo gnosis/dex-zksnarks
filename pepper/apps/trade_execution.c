@@ -4,8 +4,8 @@
 #include "hashing.h"
 
 void compute(struct In *input, struct Out *output) {
-    static const field254 EPSILON = 100;
-    struct Private pInput = readPrivateInput();
+    field254 EPSILON = 100*1000*1000*1000*1000;
+    struct Private pInput = readPrivateInput(2);
 
     // Assert that private input matches public
     // Step 1: Balances (PedersenHash)

@@ -28,12 +28,12 @@ field254 sumBits(field254 *bits, uint32_t offset, uint32_t length) {
 /**
  * Read private input from exo_compute (ID 0)
  */
-struct Private readPrivateInput() {
+struct Private readPrivateInput(uint32_t id) {
     struct Private p[1];
     uint32_t lens[1] = {1};
     field254 ones[1] = {1};
     field254 *exo0_inputs[1] = {ones};
-    exo_compute(exo0_inputs,lens,p,0);
+    exo_compute(exo0_inputs,lens,p,id);
     return p[0];
 }
 

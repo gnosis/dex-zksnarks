@@ -26,15 +26,8 @@ namespace pepper_overrides
     }
 
     void decomposeBits(field254 number, field254* bits, uint32_t offset) {
-        int index = 0;
-        unsigned long nr = number.as_ulong();
-        while (nr > 0) {
-            if(nr%2==0)
-                bits[offset + 253 - index] = field254::zero();
-            else
-                bits[offset + 253 - index] = field254::one();
-            nr = nr/2;
-            index++;
+        for (size_t index = 0; index < number.as_bigint().num_bits(); index++) {
+            bits[offset + 253 - index] = number.as_bigint().test_bit(index);
         }
     }
 } // pepper_overrides
@@ -49,7 +42,7 @@ void ext_gadget(void* in, void* out, uint32_t gadget) {
             pepper_overrides::pedersen((field254*) in, (field254 *) out);
             break;
         default:
-            FAIL();
+            assert(false);
     }
 }
 #endif
@@ -65,7 +58,7 @@ void exo_compute(field254** input, uint32_t* length, void* output, uint32_t exo)
             pepper_overrides::decomposeBits(input[0][0],((Decomposed*) output)->bits, 0);
             break;
         default:
-            FAIL();
+            assert(false);
     }
 }
 #endif

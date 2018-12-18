@@ -25,6 +25,7 @@ make-bin: check-env
 	mkdir -p $(PEPPER)/pepper/prover_verifier_shared
 	mkdir -p $(TEST_BIN)
 	mkdir -p scripts/bin
+	mkdir -p exo_compute/bin
 
 # Convenience target to compile gadgets 0..n
 gadgets: gadget0 gadget1
@@ -62,6 +63,9 @@ gadget-tests: test/gadgets/main.cpp
 	
 scripts: scripts/pepper_binary_format_reader.cpp make-bin
 	$(CXX) $(CXXFLAGS) -DBINARY_OUTPUT $(IFLAGS) $< -o scripts/bin/pepper_binary_format_reader $(LDFLAGS)
+
+private_input_trade_execution: exo_compute/private_input_trade_execution.cpp make-bin
+	$(CXX) $(CXXFLAGS) $(TEST_IFLAGS) $(IFLAGS) $< -o exo_compute/bin/$@ $(LDFLAGS) $(TEST_LDFLAGS) -ljsoncpp
 
 # Make sure we have the environment set up
 check-env:
