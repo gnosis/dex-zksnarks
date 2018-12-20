@@ -533,7 +533,7 @@ TEST(TradeExecutionTest, PriceDoesntMatchVolume) {
     DISABLE_STACKTRACE = false;
 }
 
-TEST(TradeExecutionTest, BuyVolumeSlightlyGreateSellVolume) {
+TEST(TradeExecutionTest, BuyVolumeSlightlyGreaterSellVolume) {
     struct Balance balances[ACCOUNTS] = {0};
     struct Order orders[ORDERS] = {0};
     struct Volume volumes[ORDERS] = {0};
