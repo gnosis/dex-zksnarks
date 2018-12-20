@@ -19,7 +19,6 @@ struct In {
     field254 surplus;
     field254 hashBatchInfo[2];
     field254 orderHash;
-    field254 one;
 };
 
 struct Out { field254 state; };

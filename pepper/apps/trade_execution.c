@@ -4,10 +4,8 @@
 #include "hashing.h"
 
 void compute(struct In *input, struct Out *output) {
+    static const field254 EPSILON = 100;
     struct Private pInput = readPrivateInput();
-    // We need a way of faling an assert (e.g. assert_zero(1)).
-    // Hardcoding the one in code doesn't compile, so we have to pass and verify it.
-    assert_zero(input->one - 1);
 
     // Assert that private input matches public
     // Step 1: Balances (PedersenHash)
@@ -44,16 +42,18 @@ void compute(struct In *input, struct Out *output) {
         struct Volume volume = volumes[index];
         
         if (fieldToInt(volume.sellVolume) > 0) {
-            // Verify volume has same ratio as prices
-            assert_zero((volume.buyVolume * prices[fieldToInt(order.buyToken)]) - (volume.sellVolume * prices[fieldToInt(order.sellToken)]));
+            // Verify volume has roughly same ratio as prices
+            field254 priceVolumeDelta = (volume.buyVolume * prices[fieldToInt(order.buyToken)]) - (volume.sellVolume * prices[fieldToInt(order.sellToken)]);
+            // Make sure |delta| < epsilon
+            assert_zero(isNegative(EPSILON - priceVolumeDelta) || isNegative(EPSILON + priceVolumeDelta));
 
             // Limit price compliance
-            if (fieldToInt(volume.buyVolume * order.sellAmount) < fieldToInt(volume.sellVolume * order.buyAmount) || isNegative(order.sellAmount - volume.sellVolume)) {
-                assert_zero(input->one);
-            }
+            assert_zero(isNegative(fieldToInt(volume.sellVolume * order.buyAmount) - fieldToInt(volume.buyVolume * order.sellAmount)));
+            // Limit amount compliance
+            assert_zero(isNegative(order.sellAmount - volume.sellVolume));
 
             // Verify surplus
-            assert_zero((((volume.buyVolume * order.sellAmount) - (volume.sellVolume * order.buyAmount)) * prices[fieldToInt(order.buyToken)]) - (volume.surplus * order.sellAmount));
+            assert_zero(isNegative((((volume.buyVolume * order.sellAmount) - (volume.sellVolume * order.buyAmount)) * prices[fieldToInt(order.buyToken)]) - (volume.surplus * order.sellAmount)));
             totalSurplus += volume.surplus;
         }
         
@@ -64,9 +64,10 @@ void compute(struct In *input, struct Out *output) {
         sellVolumes[fieldToInt(order.sellToken)] += volume.sellVolume;
     }
 
-    // check that buyVolume == sellVolume for each token
+    // check that buyVolume ≈≈ sellVolume for each token, sellVolume cannot be smaller
     for (index=0; index < TOKENS; index++) {
-        assert_zero(buyVolumes[index] - sellVolumes[index]);
+        assert_zero(isNegative(sellVolumes[index] - buyVolumes[index])); 
+        assert_zero(isNegative(EPSILON + buyVolumes[index] - sellVolumes[index]));
     }
     assert_zero(totalSurplus - input->surplus);
 
