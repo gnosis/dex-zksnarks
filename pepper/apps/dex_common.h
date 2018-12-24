@@ -65,7 +65,7 @@ void decomposeBits(field254 number, field254* bits, uint32_t offset, uint32_t si
 }
 
 uint32_t fieldToInt(field254 field) {
-#ifndef TEST
+#ifndef BIGINT
     return field;
 #else
     return field.as_ulong();
@@ -73,7 +73,7 @@ uint32_t fieldToInt(field254 field) {
 }
 
 bool isNegative(field254 field) {
-#ifndef TEST
+#ifndef BIGINT
     return field < 0; //TODO verify this work in pepper
 #else
     mpz_t max_signed, r;

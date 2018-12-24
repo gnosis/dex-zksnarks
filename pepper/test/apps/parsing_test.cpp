@@ -200,7 +200,7 @@ TEST(ParsingTest, ParsePrices) {
 }
 
 TEST(ParsingTest, ParseVolumes) {
-    field254 bits[3*ORDERS*BITS_PER_DECIMAL] = { 0 };
+    field254 bits[4*ORDERS*BITS_PER_DECIMAL] = { 0 };
     
     // Buy and sell volume will be the same for each order (2^^orderIndex)
     bits[BITS_PER_DECIMAL - 1] = 1; //sellVolume order1
