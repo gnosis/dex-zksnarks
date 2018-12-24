@@ -9,7 +9,7 @@ IFLAGS = -Iext_gadget -I$(LIBSNARK)/ -I$(LIBSNARK)/depends/libff -I$(LIBSNARK)/d
 LDFLAGS = -L$(LIBSNARK)/build/libsnark -L$(LIBSNARK)/build/depends/libff/libff
 LDFLAGS += -lsnark -lff -lgmp -lgmpxx
 
-TEST_LDFLAGS = -lgtest -lpthread -lboost_stacktrace_backtrace -DBOOST_STACKTRACE_USE_BACKTRACE -ldl
+TEST_LDFLAGS = -lgtest -lpthread -lboost_stacktrace_backtrace -DBOOST_STACKTRACE_USE_BACKTRACE -ldl -lssl -lcrypto
 TEST_IFLAGS = -I./
 TEST_BIN = test/bin/
 
@@ -25,6 +25,7 @@ make-bin: check-env
 	mkdir -p $(PEPPER)/pepper/prover_verifier_shared
 	mkdir -p $(TEST_BIN)
 	mkdir -p scripts/bin
+	mkdir -p exo_compute/bin
 
 # Convenience target to compile gadgets 0..n
 gadgets: gadget0 gadget1
@@ -53,11 +54,11 @@ e2e-tests: check-env
 unit-tests: $(patsubst test/apps/%.cpp, app_%, $(wildcard test/apps/*_test.cpp))
 
 app_%_test: test/apps/%_test.cpp
-	$(CXX) -g $(CXXFLAGS) -DTEST $(TEST_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(TEST_LDFLAGS) $(LDFLAGS) 
+	$(CXX) -g $(CXXFLAGS) -DBIGINT $(TEST_IFLAGS) $(ETHSNARK_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(ETHSNARK_SRC) $(TEST_LDFLAGS) $(LDFLAGS) 
 	$(TEST_BIN)/$@
 
 gadget-tests: test/gadgets/main.cpp
-	$(CXX) $(CXXFLAGS) $(IFLAGS) -Iext_gadget/ $< ext_gadget/gadgets/*.cpp ext_gadget/gadgets/jubjub/*.cpp -o $(TEST_BIN)/run_gadget_tests $(LDFLAGS) $(TEST_LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(IFLAGS) -Iext_gadget/ $< -o $(TEST_BIN)/run_gadget_tests $(LDFLAGS) $(TEST_LDFLAGS)
 	$(TEST_BIN)/run_gadget_tests
 	
 scripts: scripts/pepper_binary_format_reader.cpp make-bin
