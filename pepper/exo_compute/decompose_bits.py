@@ -13,7 +13,7 @@ fraction = line.split()[1] # format "numerator%denominator"
 
 # Assuming denominator is always 1
 number = int(fraction.split('%')[0])
-assert(number < 2**254)
+number %= 21888242871839275222246405745257275088548364400416034343698204186575808495617
 
 # Output for pepper
 print " " + " ".join([i for i in "{:0254b}".format(number)])
