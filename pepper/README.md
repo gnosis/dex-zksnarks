@@ -1,9 +1,12 @@
 # Running pepper with snarks from this repo
 
 We will run our snarks inside a Docker container with a pre-installed version of pepper. 
-From inside this folder run the following commands to build and launch the docker container:
+
+From inside this folder run the following commands to get submodules, build and launch the docker container:
 
 ```sh
+git submodule init
+git submodule update
 docker build -t dex_pepper .
 docker run -v $PWD:/home/docker/dex-zksnarks -ti dex_pepper
 ```
