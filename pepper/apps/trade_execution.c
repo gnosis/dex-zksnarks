@@ -23,7 +23,7 @@ void compute(struct In *input, struct Out *output) {
     // Parse all private input
     struct Order orders[ORDERS] = {0};
     parseOrders(pInput.orders, 0, orders);
-    struct Balance balances[ACCOUNTS] = {0};
+    field254 balances[ACCOUNTS*TOKENS] = {0};
     parseBalances(pInput.balances, 0, balances);
     field254 prices[TOKENS] = {0};
     parsePrices(pInput.pricesAndVolumes, 0, prices);
@@ -41,24 +41,24 @@ void compute(struct In *input, struct Out *output) {
         struct Order order = orders[index];
         struct Volume volume = volumes[index];
         
-        if (fieldToInt(volume.sellVolume) > 0) {
-            // Verify volume has roughly same ratio as prices
-            field254 priceVolumeDelta = (volume.buyVolume * prices[fieldToInt(order.buyToken)]) - (volume.sellVolume * prices[fieldToInt(order.sellToken)]);
-            // Make sure |delta| < epsilon
-            assert_zero(isNegative(EPSILON - priceVolumeDelta) || isNegative(EPSILON + priceVolumeDelta));
+        // Verify volume has roughly same ratio as prices
+        field254 lhs = volume.buyVolume * prices[fieldToInt(order.buyToken)];
+        field254 rhs = volume.sellVolume * prices[fieldToInt(order.sellToken)];
+        field254 delta = lhs - rhs;
+        // Make sure |delta| < epsilon
+        assert_zero(isNegative((EPSILON*EPSILON) - delta) || isNegative((EPSILON*EPSILON) + delta));
 
-            // Limit price compliance
-            assert_zero(isNegative(fieldToInt(volume.sellVolume * order.buyAmount) - fieldToInt(volume.buyVolume * order.sellAmount)));
-            // Limit amount compliance
-            assert_zero(isNegative(order.sellAmount - volume.sellVolume));
+        // Limit price compliance
+        assert_zero(isNegative(fieldToInt(volume.sellVolume * order.buyAmount) - fieldToInt(volume.buyVolume * order.sellAmount)));
+        // Limit amount compliance
+        assert_zero(isNegative(order.sellAmount - volume.sellVolume));
 
-            // Verify surplus
-            assert_zero(isNegative((((volume.buyVolume * order.sellAmount) - (volume.sellVolume * order.buyAmount)) * prices[fieldToInt(order.buyToken)]) - (volume.surplus * order.sellAmount)));
-            totalSurplus += volume.surplus;
-        }
+        // Verify surplus
+        assert_zero(isNegative((((volume.buyVolume * order.sellAmount) - (volume.sellVolume * order.buyAmount)) * prices[fieldToInt(order.buyToken)]) - (volume.surplus * order.sellAmount)));
+        totalSurplus += volume.surplus;
         
-        balances[fieldToInt(order.account)].token[fieldToInt(order.sellToken)] -= volume.sellVolume;
-        balances[fieldToInt(order.account)].token[fieldToInt(order.buyToken)] += volume.buyVolume;
+        balances[(fieldToInt(order.account) * TOKENS) + fieldToInt(order.sellToken)] -= volume.sellVolume;
+        balances[(fieldToInt(order.account) * TOKENS) + fieldToInt(order.buyToken)] += volume.buyVolume;
 
         buyVolumes[fieldToInt(order.buyToken)] += volume.buyVolume;
         sellVolumes[fieldToInt(order.sellToken)] += volume.sellVolume;
@@ -74,7 +74,7 @@ void compute(struct In *input, struct Out *output) {
     for (index = 0; index < ACCOUNTS; index++) {
         uint32_t tokenIndex;
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
-            assert_zero(isNegative(balances[index].token[tokenIndex]));
+            assert_zero(isNegative(balances[(index * TOKENS) + tokenIndex]));
         }
     }
 
