@@ -22,7 +22,6 @@ uint64_t outputSize() {
 
 ethsnarks::jubjub::PedersenHash makeGadget(const char* assignment, protoboard<FieldT>& pb)
 {
-    ethsnarks::ppT::init_public_params();
     const ethsnarks::jubjub::Params params;
 
     ethsnarks::VariableArrayT in;
@@ -59,6 +58,7 @@ ethsnarks::jubjub::PedersenHash makeGadget(const char* assignment, protoboard<Fi
 }
 
 protoboard<FieldT> getProtoboard(const char* assignment) {
+    ethsnarks::ppT::init_public_params();
     protoboard<FieldT> pb;
     makeGadget(assignment, pb);
     return pb;
