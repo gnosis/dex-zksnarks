@@ -582,7 +582,7 @@ TEST(TradeExecutionTest, BuyVolumeSlightlyGreateSellVolume) {
 }
 
 TEST(TradeExecutionTest, BuyVolumeSlightlyGreaterSellVolume) {
-    struct Balance balances[ACCOUNTS] = {0};
+    field254 balances[TOKENS * ACCOUNTS] = {0};
     struct Order orders[ORDERS] = {0};
     struct Volume volumes[ORDERS] = {0};
     field254 prices[TOKENS] = {1, 1, 1, 1};
@@ -610,8 +610,8 @@ TEST(TradeExecutionTest, BuyVolumeSlightlyGreaterSellVolume) {
     volumes[1].surplus = 1;
 
     //Make sure there is balance
-    balances[0].token[1] = orders[0].sellAmount;
-    balances[1].token[2] = orders[1].sellAmount;
+    balances[1] = orders[0].sellAmount;
+    balances[TOKENS + 2] = orders[1].sellAmount;
 
     //Provide private input
     privateInput = serializePrivateInput(balances, orders, volumes, prices);
