@@ -47,15 +47,8 @@ namespace pepper_overrides
     }
 
     void decomposeBits(field254 number, field254* bits, uint32_t offset) {
-        int index = 0;
-        unsigned long nr = number.as_ulong();
-        while (nr > 0) {
-            if(nr%2==0)
-                bits[offset + 253 - index] = field254::zero();
-            else
-                bits[offset + 253 - index] = field254::one();
-            nr = nr/2;
-            index++;
+        for (size_t index = 0; index < number.as_bigint().num_bits(); index++) {
+            bits[offset + 253 - index] = number.as_bigint().test_bit(index);
         }
     }
 } // pepper_overrides
