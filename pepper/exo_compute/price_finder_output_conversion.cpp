@@ -98,5 +98,5 @@ int main(int argc, char **argv) {
     publicInputFile << "10000000000000"; //epsilon
     publicInputFile.close();
 
-    return 1;
+    return 0;
 }
