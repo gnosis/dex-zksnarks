@@ -64,7 +64,7 @@ gadget-tests: test/gadgets/main.cpp
 scripts: scripts/pepper_binary_format_reader.cpp make-bin
 	$(CXX) $(CXXFLAGS) -DBINARY_OUTPUT $(IFLAGS) $< -o scripts/bin/pepper_binary_format_reader $(LDFLAGS)
 
-private_input_trade_execution: exo_compute/private_input_trade_execution.cpp make-bin
+price_finder_output_conversion: exo_compute/price_finder_output_conversion.cpp make-bin
 	$(CXX) -g $(CXXFLAGS) -DBIGINT $(TEST_IFLAGS) $(IFLAGS) $< -o exo_compute/bin/$@ $(ETHSNARK_SRC) $(LDFLAGS) $(TEST_LDFLAGS) -ljsoncpp
 
 # Make sure we have the environment set up
