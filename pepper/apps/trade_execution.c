@@ -63,6 +63,7 @@ void compute(struct In *input, struct Out *output) {
         buyVolumes[fieldToInt(order.buyToken)] += volume.buyVolume;
         sellVolumes[fieldToInt(order.sellToken)] += volume.sellVolume;
     }
+
     // check that buyVolume ≈≈ sellVolume for each token, sellVolume cannot be smaller
     for (index=0; index < TOKENS; index++) {
         assert_zero(isNegative(sellVolumes[index] - buyVolumes[index])); 
