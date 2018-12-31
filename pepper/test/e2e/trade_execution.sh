@@ -10,6 +10,7 @@ make link-apps
 
 echo "Converting json to private/public input:"
 ./exo_compute/bin/price_finder_output_conversion ./test/e2e/trade_execution.json $PEPPER/pepper/prover_verifier_shared/trade_execution.inputs $PEPPER/pepper/bin/exo2
+chmod +x $PEPPER/pepper/bin/exo2
 
 runApp trade_execution
 
