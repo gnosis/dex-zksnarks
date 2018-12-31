@@ -4,7 +4,7 @@ MAINTAINER Felix Leupold <felix@gnosis.pm>
 ENV PEPPER /home/docker/pequin
 
 USER root
-RUN apt-get install -y inotify-tools libgtest-dev time vim tmux software-properties-common
+RUN apt-get install -y inotify-tools libgtest-dev time vim tmux software-properties-common libjsoncpp-dev
 
 # Upgrade Boost
 RUN apt-get remove -y libboost1.54-dev
