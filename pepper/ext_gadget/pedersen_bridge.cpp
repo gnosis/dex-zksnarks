@@ -20,11 +20,9 @@ uint64_t outputSize() {
     return OUTPUT_SIZE;
 }
 
-protoboard<FieldT> getProtoboard(const char* assignment)
+ethsnarks::jubjub::PedersenHash makeGadget(const char* assignment, protoboard<FieldT>& pb)
 {
-    ethsnarks::ppT::init_public_params();
     const ethsnarks::jubjub::Params params;
-    protoboard<FieldT> pb;
 
     ethsnarks::VariableArrayT in;
     // The gadget expects input that is a multiple of three. Thus, we pad with 0s.
@@ -56,5 +54,12 @@ protoboard<FieldT> getProtoboard(const char* assignment)
         assert(pb.is_satisfied());
     }
     
+    return f;
+}
+
+protoboard<FieldT> getProtoboard(const char* assignment) {
+    ethsnarks::ppT::init_public_params();
+    protoboard<FieldT> pb;
+    makeGadget(assignment, pb);
     return pb;
 }

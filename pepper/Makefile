@@ -57,10 +57,6 @@ unit-tests: $(patsubst test/apps/%.cpp, app_%, $(wildcard test/apps/*_test.cpp))
 app_%_test: test/apps/%_test.cpp
 	$(CXX) -g $(CXXFLAGS) -DBIGINT $(TEST_IFLAGS) $(ETHSNARK_IFLAGS) $(IFLAGS) $< -o $(TEST_BIN)/$@ $(ETHSNARK_SRC) $(TEST_LDFLAGS) $(LDFLAGS) 
 	$(TEST_BIN)/$@
-
-gadget-tests: test/gadgets/main.cpp
-	$(CXX) $(CXXFLAGS) $(IFLAGS) -Iext_gadget/ $< -o $(TEST_BIN)/run_gadget_tests $(LDFLAGS) $(TEST_LDFLAGS)
-	$(TEST_BIN)/run_gadget_tests
 	
 scripts: scripts/pepper_binary_format_reader.cpp make-bin
 	$(CXX) $(CXXFLAGS) -DBINARY_OUTPUT $(IFLAGS) $< -o scripts/bin/pepper_binary_format_reader $(LDFLAGS)
