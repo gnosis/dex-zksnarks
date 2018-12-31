@@ -44,8 +44,10 @@ void compute(struct In *input, struct Out *output) {
         field254 lhs = volume.buyVolume * prices[fieldToInt(order.buyToken)];
         field254 rhs = volume.sellVolume * prices[fieldToInt(order.sellToken)];
         field254 delta = lhs - rhs;
+
         // Make sure |delta| < epsilon
-        assert_zero(isNegative((input->epsilon*input->epsilon) - delta) || isNegative((input->epsilon*input->epsilon) + delta));
+        assert_zero(isNegative((input->epsilon*input->epsilon) - delta));
+        assert_zero(isNegative((input->epsilon*input->epsilon) + delta));
 
         // Limit price compliance
         assert_zero(isNegative(fieldToInt(volume.sellVolume * order.buyAmount) - fieldToInt(volume.buyVolume * order.sellAmount)));

@@ -72,9 +72,27 @@ uint32_t fieldToInt(field254 field) {
 #endif
 }
 
+field254 maxPositiveFieldBits[254] = {0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 bool isNegative(field254 field) {
 #ifndef BIGINT
-    return field < 0; //TODO verify this work in pepper
+    field254 fieldBits[254] = {0};
+    decomposeBits(field, fieldBits, 0, 254);
+    uint32_t index;
+    bool result, found = 0;
+    for(index = 0; index < 254; index++) {
+        if (found == 1) {
+            // we have found the different bit
+        } else if(maxPositiveFieldBits[index] - fieldBits[index] == 1) {
+            // maxPositiveField > field -> not negative
+            found = 1;
+        } else if (maxPositiveFieldBits[index] - fieldBits[index] != 0) {
+            // maxPositiveField < field -> negative
+            result = 1;
+            found = 1;
+        }
+    }
+    //maxPositiveField == field -> not negative
+    return result;
 #else
     mpz_t max_signed, r;
     mpz_init(r); mpz_init_set_str(max_signed, "10944121435919637611123202872628637544274182200208017171849102093287904247808", 10);
