@@ -8,16 +8,13 @@ void compute(struct In *input, struct Out *output) {
 
     // Assert that private input matches public
     // Step 1: Balances (PedersenHash)
-    printf("Balance Hash");
     field254 balanceHashPedersen = hashPedersen(pInput.balances, 0, ACCOUNTS*TOKENS*BITS_PER_DECIMAL, BITS_PER_DECIMAL);
     assert_zero(input->state - balanceHashPedersen);
     // Step 2: Orders (PedersenHash)
-    printf("Order Hash");
     field254 orderHashPedersen = hashPedersen(pInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER);
     assert_zero(input->orderHash - orderHashPedersen);
     
     // Step 3: Prices/Volumes (SHA Hash)
-    printf("Sha Hash");
     struct ShaResult hashBatchInfo = hashSHA(pInput.pricesAndVolumes, 0, (TOKENS*BITS_PER_DECIMAL)+(ORDERS*BITS_PER_DECIMAL), 256);
     assert_zero(input->hashBatchInfo[0] - hashBatchInfo.left);
     assert_zero(input->hashBatchInfo[1] - hashBatchInfo.right);
@@ -48,18 +45,14 @@ void compute(struct In *input, struct Out *output) {
         field254 rhs = volume.sellVolume * prices[fieldToInt(order.sellToken)];
         field254 delta = lhs - rhs;
         // Make sure |delta| < epsilon
-        printf("Volumen == Price");
         assert_zero(isNegative((input->epsilon*input->epsilon) - delta) || isNegative((input->epsilon*input->epsilon) + delta));
 
         // Limit price compliance
-        printf("Limit Price");
         assert_zero(isNegative(fieldToInt(volume.sellVolume * order.buyAmount) - fieldToInt(volume.buyVolume * order.sellAmount)));
         // Limit amount compliance
-        printf("Limit amount");
         assert_zero(isNegative(order.sellAmount - volume.sellVolume));
 
         // Verify surplus
-        printf("surplus");
         assert_zero(isNegative((((volume.buyVolume * order.sellAmount) - (volume.sellVolume * order.buyAmount)) * prices[fieldToInt(order.buyToken)]) - (volume.surplus * order.sellAmount)));
         totalSurplus += volume.surplus;
         
@@ -70,15 +63,12 @@ void compute(struct In *input, struct Out *output) {
         sellVolumes[fieldToInt(order.sellToken)] += volume.sellVolume;
     }
     // check that buyVolume ≈≈ sellVolume for each token, sellVolume cannot be smaller
-    printf("Buy == Sell");
     for (index=0; index < TOKENS; index++) {
         assert_zero(isNegative(sellVolumes[index] - buyVolumes[index])); 
         assert_zero(isNegative(input->epsilon + buyVolumes[index] - sellVolumes[index]));
     }
-    printf("Total Surplus");
     assert_zero(totalSurplus - input->surplus);
 
-    printf("Final");
     for (index = 0; index < ACCOUNTS; index++) {
         uint32_t tokenIndex;
         for (tokenIndex = 0; tokenIndex < TOKENS; tokenIndex++) {
