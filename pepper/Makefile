@@ -49,6 +49,7 @@ link-exo: check-env
 test: unit-tests e2e-tests
 
 e2e-tests: check-env
+	test/e2e/trade_execution.sh
 	test/e2e/hash_transform.sh
 
 unit-tests: $(patsubst test/apps/%.cpp, app_%, $(wildcard test/apps/*_test.cpp))
@@ -60,6 +61,9 @@ app_%_test: test/apps/%_test.cpp
 scripts: scripts/pepper_binary_format_reader.cpp make-bin
 	$(CXX) $(CXXFLAGS) -DBINARY_OUTPUT $(IFLAGS) $< -o scripts/bin/pepper_binary_format_reader $(LDFLAGS)
 
+price_finder_output_conversion: exo_compute/price_finder_output_conversion.cpp make-bin
+	$(CXX) -g $(CXXFLAGS) -DBIGINT $(TEST_IFLAGS) $(IFLAGS) $(ETHSNARK_IFLAGS) $< -o exo_compute/bin/$@ $(ETHSNARK_SRC) $(LDFLAGS) $(TEST_LDFLAGS) -ljsoncpp
+
 # Make sure we have the environment set up
 check-env:
 ifndef PEPPER
@@ -68,4 +72,4 @@ endif
 
 initial: scripts make-bin change-curve all
 
-all: link-apps link-exo gadgets
+all: link-apps link-exo gadgets price_finder_output_conversion

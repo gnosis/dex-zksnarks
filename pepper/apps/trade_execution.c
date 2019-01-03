@@ -4,8 +4,7 @@
 #include "hashing.h"
 
 void compute(struct In *input, struct Out *output) {
-    static const field254 EPSILON = 100;
-    struct Private pInput = readPrivateInput();
+    struct Private pInput = readPrivateInput(2);
 
     // Assert that private input matches public
     // Step 1: Balances (PedersenHash)
@@ -46,7 +45,7 @@ void compute(struct In *input, struct Out *output) {
         field254 rhs = volume.sellVolume * prices[fieldToInt(order.sellToken)];
         field254 delta = lhs - rhs;
         // Make sure |delta| < epsilon
-        assert_zero(isNegative((EPSILON*EPSILON) - delta) || isNegative((EPSILON*EPSILON) + delta));
+        assert_zero(isNegative((input->epsilon*input->epsilon) - delta) || isNegative((input->epsilon*input->epsilon) + delta));
 
         // Limit price compliance
         assert_zero(isNegative(fieldToInt(volume.sellVolume * order.buyAmount) - fieldToInt(volume.buyVolume * order.sellAmount)));
@@ -63,11 +62,10 @@ void compute(struct In *input, struct Out *output) {
         buyVolumes[fieldToInt(order.buyToken)] += volume.buyVolume;
         sellVolumes[fieldToInt(order.sellToken)] += volume.sellVolume;
     }
-
     // check that buyVolume ≈≈ sellVolume for each token, sellVolume cannot be smaller
     for (index=0; index < TOKENS; index++) {
         assert_zero(isNegative(sellVolumes[index] - buyVolumes[index])); 
-        assert_zero(isNegative(EPSILON + buyVolumes[index] - sellVolumes[index]));
+        assert_zero(isNegative(input->epsilon + buyVolumes[index] - sellVolumes[index]));
     }
     assert_zero(totalSurplus - input->surplus);
 

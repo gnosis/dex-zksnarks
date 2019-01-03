@@ -63,7 +63,7 @@ void ext_gadget(void* in, void* out, uint32_t gadget) {
             pepper_overrides::pedersen((field254*) in, (field254 *) out);
             break;
         default:
-            FAIL();
+            assert(false);
     }
 }
 #endif

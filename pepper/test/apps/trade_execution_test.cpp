@@ -32,7 +32,8 @@ TEST(TradeExecutionTest, ValidEmptyBatch) {
         state,
         0, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
-        hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER)
+        hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
 
@@ -81,6 +82,7 @@ TEST(TradeExecutionTest, ValidSingleOrderTrade) {
         2, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     compute(&input, &output);
@@ -137,7 +139,8 @@ TEST(TradeExecutionTest, ValidSingleOrderRoundedTrade) {
         hashPedersen(privateInput.balances, 0, ACCOUNTS*TOKENS*BITS_PER_DECIMAL, BITS_PER_DECIMAL), // state
         0, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
-        hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER)
+        hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     compute(&input, &output);
@@ -191,6 +194,7 @@ TEST(TradeExecutionTest, InvalidOrderHash) {
         0, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         orderHash + 1,
+        100 //epsilon
     };
     struct Out output;
 
@@ -214,6 +218,7 @@ TEST(TradeExecutionTest, InvalidBatchInfoHash) {
         0, //surplus
         {hashBatchInfo.left - 1, hashBatchInfo.right}, //hashBatchInfo
         orderHash,
+        100 //epsilon
     };
     struct Out output;
 
@@ -237,6 +242,7 @@ TEST(TradeExecutionTest, InvalidTotalSurplus) {
         100, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         orderHash,
+        100 //epsilon
     };
     struct Out output;
 
@@ -286,6 +292,7 @@ TEST(TradeExecutionTest, InvalidVolumeSurplus) {
         2, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     DISABLE_STACKTRACE = true;
@@ -334,6 +341,7 @@ TEST(TradeExecutionTest, NotEnoughBalance) {
         2, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     DISABLE_STACKTRACE = true;
@@ -382,6 +390,7 @@ TEST(TradeExecutionTest, LimitPriceIgnored) {
         2, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     DISABLE_STACKTRACE = true;
@@ -430,6 +439,7 @@ TEST(TradeExecutionTest, TotalBoughtAndSoldDontMatch) {
         150, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     DISABLE_STACKTRACE = true;
@@ -478,6 +488,7 @@ TEST(TradeExecutionTest, MoreVolumeThanAuthorized) {
         3, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     DISABLE_STACKTRACE = true;
@@ -525,7 +536,8 @@ TEST(TradeExecutionTest, PriceDoesntMatchVolume) {
         hashPedersen(privateInput.balances, 0, ACCOUNTS*TOKENS*BITS_PER_DECIMAL, BITS_PER_DECIMAL), // state
         1001, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
-        hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER)
+        hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     DISABLE_STACKTRACE = true;
@@ -573,55 +585,8 @@ TEST(TradeExecutionTest, BuyVolumeSlightlyGreateSellVolume) {
         hashPedersen(privateInput.balances, 0, ACCOUNTS*TOKENS*BITS_PER_DECIMAL, BITS_PER_DECIMAL), // state
         2, //surplus
         {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
-        hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER)
-    };
-    struct Out output;
-    DISABLE_STACKTRACE = true;
-    ASSERT_DEATH(compute(&input, &output), "");
-    DISABLE_STACKTRACE = false;
-}
-
-TEST(TradeExecutionTest, BuyVolumeSlightlyGreaterSellVolume) {
-    field254 balances[TOKENS * ACCOUNTS] = {0};
-    struct Order orders[ORDERS] = {0};
-    struct Volume volumes[ORDERS] = {0};
-    field254 prices[TOKENS] = {1, 1, 1, 1};
-
-    // First order
-    orders[0].account = 0;
-    orders[0].sellToken = 1;
-    orders[0].buyToken = 2;
-    orders[0].sellAmount = 100;
-    orders[0].buyAmount = 99;
-
-    // second order
-    orders[1].account = 1;
-    orders[1].sellToken = 2;
-    orders[1].buyToken = 1;
-    orders[1].sellAmount = 100;
-    orders[1].buyAmount = 99;
-
-    // Buy volume is slightly higher than sellVolume
-    volumes[0].sellVolume = 100;
-    volumes[0].buyVolume = 101;
-    volumes[0].surplus = 1;
-    volumes[1].sellVolume = 100;
-    volumes[1].buyVolume = 100;
-    volumes[1].surplus = 1;
-
-    //Make sure there is balance
-    balances[1] = orders[0].sellAmount;
-    balances[TOKENS + 2] = orders[1].sellAmount;
-
-    //Provide private input
-    privateInput = serializePrivateInput(balances, orders, volumes, prices);
-
-    ShaResult hashBatchInfo = hashSHA(privateInput.pricesAndVolumes, 0, (TOKENS*BITS_PER_DECIMAL)+(ORDERS*BITS_PER_DECIMAL), 256);
-    struct In input {
-        hashPedersen(privateInput.balances, 0, ACCOUNTS*TOKENS*BITS_PER_DECIMAL, BITS_PER_DECIMAL), // state
-        2, //surplus
-        {hashBatchInfo.left, hashBatchInfo.right}, //hashBatchInfo
         hashPedersen(privateInput.orders, 0, ORDERS*BITS_PER_ORDER, BITS_PER_ORDER),
+        100 //epsilon
     };
     struct Out output;
     DISABLE_STACKTRACE = true;

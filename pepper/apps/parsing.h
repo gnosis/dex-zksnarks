@@ -28,6 +28,10 @@ field254 parseDecimal(field254* bits, uint32_t offset) {
     return sumBits(bits, offset, BITS_PER_DECIMAL);
 }
 
+field254 parseSurplus(field254* bits, uint32_t offset) {
+    return sumBits(bits, offset, 2*BITS_PER_DECIMAL);
+}
+
 struct Order parseOrder(field254 *bits, uint32_t offset) {
     struct Order order = {
         parseAccount(bits, offset),
@@ -96,7 +100,7 @@ void parseVolumes(field254 *bits, uint32_t offset, struct Volume volumes[ORDERS]
         // [sellVolumeOrder1, .., sellVolumeOrderN, buyVolumeOrder1, .., buyVolumeOrderN, surpleVolumeOrder1, .., suprlusVolumeOrderN ]
         field254 sellVolume = parseDecimal(bits, offset + (index * BITS_PER_DECIMAL));
         field254 buyVolume = parseDecimal(bits, offset + ((ORDERS + index) * BITS_PER_DECIMAL));
-        field254 surplus = parseDecimal(bits, offset + ((2 * ORDERS + index) * BITS_PER_DECIMAL));
+        field254 surplus = parseSurplus(bits, offset + (((2 * ORDERS) + (2 * index)) * BITS_PER_DECIMAL));
         volumes[index].sellVolume = sellVolume;
         volumes[index].buyVolume = buyVolume;
         volumes[index].surplus = surplus;
@@ -112,7 +116,7 @@ void serializePricesAndVolumes(field254 prices[TOKENS], struct Volume volumes[OR
     for (index = 0; index < ORDERS; index++) {
         decomposeBits(volumes[index].sellVolume, bits, offset, BITS_PER_DECIMAL);
         decomposeBits(volumes[index].buyVolume, bits, offset + (ORDERS * BITS_PER_DECIMAL), BITS_PER_DECIMAL);
-        decomposeBits(volumes[index].surplus, bits, offset + (2 * ORDERS * BITS_PER_DECIMAL), BITS_PER_DECIMAL);
+        decomposeBits(volumes[index].surplus, bits, offset + (index * BITS_PER_DECIMAL) + (2 * ORDERS * BITS_PER_DECIMAL), 2*BITS_PER_DECIMAL);
         offset += BITS_PER_DECIMAL;
     }
 }
