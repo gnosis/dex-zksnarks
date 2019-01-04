@@ -8,9 +8,17 @@
         "T01": "1000", 
         "T02": "2000", 
         "T03": "10000"
-    }, 
+    },
+    "accounts": {
+        "0x01": {
+            "T03": "10000", 
+            "T02": "10000", 
+            "T01": "10000"
+        }
+    },
     "orders": [
         {
+            "accountID": "0x01",
             "execSellAmount": "1000", 
             "sellAmount": "1000", 
             "execBuyAmount": "2000", 
@@ -21,6 +29,7 @@
             "buyToken": "T02"
         }, 
         {
+            "accountID": "0x01",
             "execSellAmount": "2000", 
             "sellAmount": "2000", 
             "execBuyAmount": "10000", 
@@ -31,6 +40,7 @@
             "buyToken": "T03"
         }, 
         {
+            "accountID": "0x01",
             "execSellAmount": "10000", 
             "sellAmount": "20000", 
             "execBuyAmount": "1000", 

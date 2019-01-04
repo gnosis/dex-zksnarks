@@ -58,8 +58,9 @@ void compute(struct In *input, struct Out *output) {
         assert_zero(isNegative((((volume.buyVolume * order.sellAmount) - (volume.sellVolume * order.buyAmount)) * prices[fieldToInt(order.buyToken)]) - (volume.surplus * order.sellAmount)));
         totalSurplus += volume.surplus;
         
-        balances[(fieldToInt(order.account) * TOKENS) + fieldToInt(order.sellToken)] -= volume.sellVolume;
-        balances[(fieldToInt(order.account) * TOKENS) + fieldToInt(order.buyToken)] += volume.buyVolume;
+        uint32_t accountOffset = fieldToInt(order.account) * TOKENS;
+        balances[accountOffset + fieldToInt(order.sellToken)] -= volume.sellVolume;
+        balances[accountOffset + fieldToInt(order.buyToken)] += volume.buyVolume;
 
         buyVolumes[fieldToInt(order.buyToken)] += volume.buyVolume;
         sellVolumes[fieldToInt(order.sellToken)] += volume.sellVolume;
