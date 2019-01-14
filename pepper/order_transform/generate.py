@@ -1,21 +1,19 @@
 #!/usr/bin/python3
 
 import sys
-from ethsnarks.jubjub import Point
-from ethsnarks.field import FQ
 from sha256.pypy_sha256 import sha256
-
-prime = 21888242871839275222246405745257275088548364400416034343698204186575808495617
+sys.path.append('./scripts/')
+import dex_hash_pedersen
 
 def main(numOrders):
 	a = 0
 	shaHash = 0
-	pedersenHash = None
+	orders = []
 	for i in range(numOrders):
 		order = generateRandomOrder()
-		x = pedersenHash.x if pedersenHash else 0
-		pedersenHash = hash_pedersen(x, order)
+		orders.append(order)
 		shaHash = hash_sha(shaHash, order)
+	pedersenHash = dex_hash_pedersen.hash(orders)
 		
 	# output pedersen hash
 	# output sha hash transformed to two int128
@@ -24,11 +22,6 @@ def main(numOrders):
 
 def generateRandomOrder():
 	return (2**253)-1
-
-def hash_pedersen(left, right):
-	G = Point.from_y(FQ(2626589144620713026669568689430873010625803728049924121243784502389097019475))
-	H = Point.from_x(FQ(16540640123574156134436876038791482806971768689494387082833631921987005038935))
-	return G * left + H * right
 
 #transform_int128 transform a 256 bit value into two 128 bit values by cutting the hash 
 # into two substrings and representing these substrings as ints with 39 digits 
@@ -42,4 +35,4 @@ def hash_sha(left, right):
 
 
 if __name__ == "__main__":
-    main(int(sys.argv[1]))
+	main(int(sys.argv[1]))
