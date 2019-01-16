@@ -8,3 +8,5 @@ bellman = { git = 'https://github.com/matterinc/bellman' }
 rand = "0.4"
 pairing = { git = 'https://github.com/matterinc/pairing' }
 ff = { version = "0.4", features = ["derive"] }
+rayon = "1.0"
+multimap = "0.4.0"
